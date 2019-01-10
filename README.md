@@ -4,7 +4,7 @@ This is a public place for all sample projects related to the TT application
 
 ## Hierarchy
 
-The directories are organized by sample application.  Within each sample application, the folders are broken up by source code language. Each sample application has its own README, describing its itention and usage.
+The directories are organized by product and then by sample application.  Within each sample application, the folders are broken up by source code language. Each sample application has its own README, describing its itention and usage.
 
 ## Contributing
 Contributions to this repository are only done by employees of Trading Technologies International.
