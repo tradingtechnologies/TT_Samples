@@ -1,5 +1,5 @@
 ########################################################################################
-#            Copyright © 2019 Trading Technologies International, Inc.                 #
+#            Copyright (c) 2019 Trading Technologies International, Inc.                 #
 #                       All Rights Reserved Worldwide                                  #
 #                                                                                      #
 #          # # #   S T R I C T L Y   P R O P R I E T A R Y   # # #                     #
@@ -109,7 +109,7 @@ def initialize_logger(log_dir=None, stdout=False):
 
     if log_dir:
         today = datetime.now()
-        file_name = 'tt_fill_recapper_{}.log'.format(today.strftime("%Y_%m_%d"))
+        file_name = 'tt_fill_downloader_{}.log'.format(today.strftime("%Y_%m_%d"))
         full_file_path = os.path.join(log_dir, file_name)
         handler = logging.FileHandler(full_file_path)
         handler.setFormatter(formatter)
@@ -769,7 +769,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description='',
         formatter_class=argparse.RawTextHelpFormatter,
-        epilog="Example:\n"
+        epilog="Example:\n\t"
+"python tt_fill_downloader.py -e ext_uat_cert -st 08:00 -et 14:30 -r 1 -o -l /tmp"
     )
 
     parser.add_argument('-e', '--env', dest='tt_env', action='store',
