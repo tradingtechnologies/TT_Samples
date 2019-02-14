@@ -110,7 +110,9 @@ namespace FillDownload
             }
 
             clbColumns.Enabled = false;
-            btnStart.Enabled = false;
+            btnStart.Text = "Stop Downloading";
+            btnStart.Click -= btnStart_Click;
+            btnStart.Click += btnStart_Close;
             btnBrowse.Enabled = false;
 
             m_fillThread = new FillDownloadThread(start_time, end_time, new TimeSpan(0, interval, 0), days_to_run, start_date);
@@ -124,7 +126,12 @@ namespace FillDownload
             this.OnError(this, error_message);
         }
 
-        private void fillThread_OnFillDownload(object sender, List<TT_Fill> fills)
+        private void btnStart_Close(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+            private void fillThread_OnFillDownload(object sender, List<TT_Fill> fills)
         {
             bool errors = false;
             foreach (TT_Fill fill in fills)
