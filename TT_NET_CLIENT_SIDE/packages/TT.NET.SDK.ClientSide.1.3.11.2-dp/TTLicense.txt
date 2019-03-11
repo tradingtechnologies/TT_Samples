@@ -1,0 +1,670 @@
+
+CUSTOMER SERVICE AGREEMENT
+
+IMPORTANT NOTICE: 
+
+To the extent TT has acknowledged that you (either an individual or a legal entity) are a Client-User as defined in Section 1.5, 
+then these Service Terms and Conditions do not apply to you, but you still must agree to the applicable subscriber agreement(s), 
+which TT will provide to you.
+
+To the extent you are a current user of Trading Technologies' X_TRADER(r) suite of products, including X_TRADER(r), 
+X_TRADER(r) Pro, X_TRADER(r) API, Gateway Server products, X_RISK(r), TT API, X_FILE, TT Trainer, FIX Adapter and 
+other ancillary software, those products and related services are provided under separate agreements. Your use of those products 
+and services are governed by an agreement between Trading Technologies and you or the entity that signed on your behalf and is 
+responsible for your use of the software and services or an End User License Agreement.
+
+Any EULA or agreement that may appear upon installation or use of the Software or Service and may be assented to by the User 
+does not supersede this Agreement to the extent it would otherwise apply because the User is an employee, agent, contractor or 
+authorized User of a customer who has already taken responsibility for such person or entity under the terms of this Agreement 
+or a similar agreement.
+
+This Customer Service Agreement ("Agreement") forms a binding legal contract between you (either an individual or a legal 
+entity, in which case you represent and warrant that you have the legal authority to bind such entity to the terms of this 
+Agreement) ("Customer") and Trading Technologies International, Inc., a Delaware corporation, with its principal place of 
+business at 222 South Riverside Plaza, Suite 1100, Chicago, Illinois 60606 ("TT"). By signing or otherwise accepting this 
+agreement or by downloading, installing, accessing or using the Service (as defined below) Customer will be bound by the terms 
+of this Agreement and Customer's acceptance will be deemed binding between the parties. If Customer does not agree to the 
+terms of this Agreement, TT is not willing to grant to Customer any right to use or access any Service. In such event, Customer 
+may not download, install, access, use or copy any aspect of the Service. In using this Service, Customer acknowledges that it 
+understands and accepts the risks involved in electronic trading. By making a Service available to Customer, TT is not 
+recommending, promoting or endorsing any particular investment, market data, or trading strategies.
+
+To the extent the Service is used for trading on the Hong Kong Exchange or any of its designated affiliated entities, then to the 
+extent necessary, TT's wholly-owned subsidiary, TTHK, LLC, an Illinois limited liability company ("TTHK") shall be a party to 
+this Agreement in order to grant the necessary rights for trading on the Hong Kong Exchange or any of its designated affiliated 
+entities.
+
+To the extent the Service is used to trade securities and TT charges a transaction-based fee for such use, then TT's wholly-owned 
+subsidiary, TTBD, LLC, an Illinois limited liability company ("TTBD") shall be a party to this Agreement in order to grant the 
+necessary rights for such use.
+
+Our Privacy Policy located at https://www.tradingtechnologies.com/privacy/, is incorporated into and forms an integral part of 
+this Agreement with you. You acknowledge that you have reviewed and agree with the terms of such Privacy Policy. The Privacy 
+Policy describes, among other things, how TT collects, uses, shares, transmits, processes, transfers, stores, and secures 
+information obtained when you access and use the Services.
+
+1.	Definitions
+
+1.1.	"Affiliate" means a business entity controlling, controlled by or under common control with a party to this agreement.
+1.2.	"API Software" means each Software product identified by TT as an application program interface.
+1.3.	"Beta Service" means each version of Service, Software or Enhancement that TT designates as a "Beta Service." Each 
+Beta Service is a Service.
+1.4.	"Client" means a person or entity who is a client of Customer and not an employee, agent or Affiliate of Customer. 
+1.5.	"Client-User" means a User that a Responsible Company has identified as its Client-User and for which Responsible 
+Company accepts the terms and conditions of this Agreement on its behalf and accepts full responsibility for 
+performance of all obligations under this Agreement by such Client-User. 
+1.6.	"Customer Data" means all data, content, material, and other information provided by or on behalf of Customer to TT 
+or otherwise transmitted or uploaded into the Service or as may be generated based upon Customer's usage of the 
+Services. 
+1.7.	"Customer Development" means software developed by or for Customer utilizing API Software for use with and to 
+enhance the Services.
+1.8.	"Customer Information" means any Customer or its Client's nonpublic information, as applicable, provided to TT via 
+Customer's use of the Services or as contained in any order placed via use of the Services.
+1.9.	"Documentation" means the then current user documentation generally made available by TT to its licensees.
+1.10.	"Eligible Mobile Device" means a wireless web-enabled device that is compatible with the software applications or 
+mobile enhanced web services that is able to access the Services.
+1.11.	"Enhancement" means any update, bug fix or new version of the Service or portion of the Service provided by TT. 
+Each Enhancement is also a part of the Service.
+1.12.	"Exchange" means a market or other similar organization, business or service where tradable instruments such as 
+securities, commodities, foreign exchange, futures, or options contracts are bought and sold.
+1.13.	"Excluded Claims" means : (i) the use or combination of any Service with any third party hardware, software, 
+products, data or other materials, including Customer's own systems and data; (ii) modification or alteration of a 
+Service by anyone other than TT; (iii) Customer's use of the Service in excess of the rights granted in this Agreement; 
+(iv) use of a superseded or altered release of the Service if the infringement would have been avoided by the use of a 
+current unaltered release of the Service; (v) any Third Party Software; (vi) a business method or process that is inherent 
+to Customer's business; (vii) any content, data, or specifications provided by, on behalf of or for Customer's benefit or 
+that of any Customer Affiliate, Client or Client-User; (viii) Customer's trading activities; (ix) any Customer 
+Development; or (x) Customer's violation of any applicable laws, rules or regulations.
+1.14.	"Feedback" means suggestions, comments, or other feedback related to the Services that Customer provides to TT.
+1.15.	"Market Access Provider" or "MAP" is a Customer that (i) is authorized by an Exchange to access and permit access 
+to the one or more Exchange(s) for the purpose of placing orders or utilizing market data on the Exchange and (ii) uses 
+the Services to permit such access to Users.
+1.16.	"Market Data" means the market prices, volumes and other information transmitted from an Exchange through the 
+Service. By way of example and not limitation, Market Data may include opening and closing range prices, high-low 
+prices, settlement prices, current bid and ask prices, last sale prices, price limits, requests for quotations, estimated and 
+actual contract volume data, other market activity information and contract specifications. Market Data also includes 
+any element of Market Data as stored, processed and/or distributed by TT or third parties under license from an 
+Exchange.
+1.17.	"Personal Information" means personal or personally identifiable information and records of or regarding Customer's 
+employees, investors, customers and prospective customers.
+1.18.	"Privacy Laws" means applicable laws and regulations governing the use of Personal Information.
+1.19.	"Responsible Company" is an individual or entity that has assented to this Agreement. A Responsible Company must 
+register with TT and designate a User to be the administrator who has authority to order services on behalf of the 
+Responsible Company and permission others to order services on behalf of the Responsible Company. Responsible 
+Company permissions its Users to use the Services and is responsible for their usage.
+1.20.	"Service" means the products and related services and software that TT provides pursuant to this Agreement to 
+Customer and its Users, including the software application that is for use on a mobile or smart device in order to access 
+the Service. The Service provides access to market data from Exchanges and the ability to enter orders to buy and sell 
+tradable instruments on such Exchanges. The Service consists of system administration, system management, and 
+system monitoring activities performed by or on behalf of TT. As part of the Services, TT also grants Customer and its 
+Users the right to use the Software and related program documentation, and support services for such Software. 
+1.21.	"Service Fee" means the fee charged by TT for Services pursuant to this agreement. The current Service Fee schedule 
+is set forth at the following url:  https://www.tradingtechnologies.com/platforms/pricing/ttcontractpricing/
+1.22.	"Software" means the software programs owned or licensed by TT, in object code form only, to which TT grants 
+Customer access as part of the Services, including related Enhancements provided as part of the Service. 
+1.23.	"Taxes" means taxes, duties, levies, deductions or similar governmental charges, however designated, which may be 
+imposed by any jurisdiction, including, without limitation, withholding, customs, privilege, excise, sales, use, value 
+added and property taxes levied based on gross revenue, or the sale, license, possession or operation of any Service or 
+this Agreement.
+1.24.	"Term" means the time period when this Agreement is in force, from the Execution Date until the date it is terminated 
+in accordance with Section 8.
+1.25.	"Termination for Convenience" means termination of the Agreement for any reason or for no reason.
+1.26.	"Third Party Software" means software licensed by TT from third parties, including open source software that is used 
+in the Software. 
+1.27.	"Usage Data" means statistical and other aggregated data derived from Customer's use of Services and related services. 
+1.28.	"User"  means a single person, system, or program that utilizes the Service. 
+1.29.	"UserID" means a unique number or code that identifies each User of the Service. UserIDs are generated and issued by 
+TT.
+
+2.	Right to Use.
+
+2.1.	Service. Customer and each Affiliate of the Customer and each employee, agent, or contractor of Customer and any 
+Affiliate may operate and use the Service pursuant to and during the term of this Agreement. Customer agrees not to 
+violate TT's rights or the rights of any third party who may contribute data or information to the Service. Customer 
+agrees that the Service and the data and information contained therein will not be used for any unlawful purpose. The 
+method and means of providing the Service and related services shall be under the exclusive control, management and 
+supervision of TT giving due consideration to the requests of Customer. TT shall provide administrator privileges to [a] 
+named individual[s] identified by Customer. The Customer administrator shall be responsible for all user permissioning 
+and identification management.  Responsible Companies may also enable access to the Services to Users, who shall 
+have the limited right to use the same in accordance with this Agreement. Customer accepts the terms and conditions of 
+this Agreement on behalf of and accepts full responsibility for performance of all obligations under this Agreement by 
+all of its employees, agents and contractors as well as each of its Client Users. With respect to this Agreement, 
+Customer shall ensure that each of Customer's Affiliates, Users and Client-Users follow the terms of this Agreement as 
+if each was Customer and Customer is always responsible for all acts or omissions of each of its Affiliates and Users. 
+Except for the limited license and rights granted above, TT and its licensors retain all right, title and interest in the 
+Service, all copies thereof, and all intellectual property and proprietary rights in the Service, including copyrights, 
+patents, trademarks and trade secret rights.	
+2.2.	Software. With respect to any Software available as part of the Service, TT grants Customer, Affiliates and all of their 
+Users a revocable, nontransferable, personal, nonexclusive license to use and install the object code version of the 
+Software and any accompanying documentation for Customer's and its Affiliates internal use only. The Software is 
+licensed to Customer and its Affiliates, not sold. Except for the limited license granted above, TT and its licensors retain 
+all right, title and interest in the Software, all copies thereof, and all intellectual property and proprietary rights in the 
+Software, including copyrights, patents, trademarks and trade secret rights.
+2.3.	Market Data. Customer may, solely for the purposes and on the conditions set forth in this Agreement, receive the 
+Market Data through the Service and it may only be used with the Service. The Market Data may be used solely and 
+exclusively by Users for Customer's internal business purposes on authorized devices, and may not be used for resale or 
+other transfer or disposition to, or use by or for the benefit of, any other person or entity. The Service and data and 
+information, including Market Data, contained therein are protected by copyright, international treaty provisions and 
+other intellectual property laws. 
+2.4.	This Agreement shall not be valid unless TT and Customer and any Client-User have executed all agreements required 
+by any Exchanges from which Customer is to receive data pursuant to this Agreement either in the form of a subscriber 
+agreement or in such other form as required by the relevant Exchange. Any such agreement shall be an addendum 
+hereto and any violation of such agreement shall constitute a default under this Agreement. Customer hereby 
+indemnifies and holds TT harmless from and against any liability to the Exchange resulting or arising from Customer or 
+its Users' violation of such agreements. 
+2.5.	Beta Service. During the Term, TT grants Customer and its Affiliates a revocable, nontransferable, personal, 
+nonexclusive license to use and/or install (as applicable) the object code version of the Beta Services and any 
+accompanying Documentation for Customer's or its Affiliates internal use only. At this early stage of development, 
+operation of the Beta Services may be unpredictable and lead to erroneous results. Customer acknowledges and agrees 
+that: (i) Beta Services are experimental and have not been fully tested; (ii) Beta Services may not meet Customer's 
+requirements; (iii) the use or operation of any Beta Service may not be uninterrupted or error free; (iv) Customer's use 
+of any Beta Service is for purposes of evaluating and testing the Beta Service and providing feedback to TT; (v) 
+Customer shall inform its employees, staff members, and other users regarding the nature of Beta Service; and (vi) 
+Customer will hold all information relating to Beta Services and Customer's use of Beta Services, including any 
+performance measurements and other data relating to Beta Services, in strict confidence and shall not disclose such 
+information to any unauthorized third parties. Customer shall promptly report any errors, defects, or other deficiencies 
+in any Beta Service to TT. NOTWITHSTANDING ANY OTHER PROVISION OF THIS AGREEMENT, ALL BETA 
+SERVICES ARE PROVIDED "AS-IS" AND "AS-AVAILABLE," WITHOUT WARRANTIES OF ANY KIND. 
+Customer hereby waives any and all claims, now known or later discovered, that Customer may have against TT and its 
+suppliers and licensors arising out of Customer's use of the Beta Services.
+2.6.	Customer Data. In the event Customer provides or otherwise makes Customer Data available to TT or the Service, 
+Customer is solely responsible for all such Customer Data. In connection with such Customer Data, Customer affirms, 
+represents, and warrants that: (i) it owns or have the necessary licenses, rights, consents, and permissions to use, 
+including any privacy and publicity rights, and authorize TT to use all intellectual property or other proprietary rights in 
+and to any and all such Customer Data to enable inclusion and use of the Customer Data in the manner contemplated by 
+the Services and this Agreement; (ii) the Customer Data does not violate any intellectual property or other right of any 
+third party; and (iii) the Customer Data does not include malicious code, which includes, without limitation, viruses, 
+Trojan horses, worms, time bombs, cancelbots, or any other computer programming routines that may damage, interfere 
+with, surreptitiously intercept, or expropriate any system, program, data, or passwords.
+2.7.	Mobile Device. Authorized Users may access the Services via an Eligible Mobile Device and a UserID that is 
+authorized to access User's accounts via the mobile software applications. Access to the Services may incur 
+telecommunication carrier charges, including fees for wireless web and wireless data charges. TT does not endorse, 
+represent, warrant, or guarantee the performance or operation of any Eligible Mobile Device or the software application 
+running thereon. Any issues with respect to the performance, operation, or costs associated with the Eligible Mobile 
+Device are between Customer and User and Customer and User's telecommunications carrier. Customer further 
+acknowledges and agrees that TT may collect, transmit, store, and see technical, location, login, and other personal data, 
+including without limitation, technical information about User's device, system, and application software, and 
+peripherals, and information regarding User's location, that is gathered periodically to facilitate the Services provided to 
+User. Some of the features and services available on the full site are not available within the mobile optimized site or 
+within the mobile software applications.
+
+3.	Restrictions. The rights granted to Customer in this Agreement are restricted as follows:
+3.1.	Use of Services. The use of Services is governed by this Agreement. If you represent an entity and are authorized to 
+agree to the terms of this Agreement on behalf of such entity, you may do so. In such case the use of the Services by 
+Customer or Affiliate and any employee, agent or contractor of such entity or Client-User shall be governed by this 
+Agreement. If you are an employee, agent, or contractor of such entity or a Client-User, then the terms agreed to by 
+your employer or Responsible Company shall apply to your use of the Service.
+3.2.	Not for Use with other Software. Services were developed for use with specific TT software and applications and may 
+not be used with or for other trading software, services or channels other than as allowed herein or in the 
+Documentation.
+3.3.	Purpose. Services may be used only to process Customer's own data and information and, with respect to Exchanges 
+that have authorized Customer, view Market Data and enter trades electronically.
+3.4.	Unique Users. Before using the Services, each User must (i) register a unique UserID with TT; (ii) register with a 
+Responsible Company; and (iii) be confirmed and approved as a member of a Responsible Company by the applicable 
+Responsible Company. Each UserID may be registered with only a single Responsible Company at any time.
+3.5.	Conformance Testing. Use of any Customer Development may be subject to conformance testing by TT prior to TT 
+allowing use of such Customer Development in a production or live trading environment. TT reserves the right to 
+require conformance testing at any time, including after any changes in or to the Service or the Customer Development 
+and may forbid the use of a previously deployed Customer Development until such conformance testing has been 
+completed satisfactorily .
+3.6.	Limitations on Copy and Distribution. Customer may not copy, rebroadcast, redistribute or redisseminate the Service or 
+the information and data contained therein, including Market Data, without previously obtaining TT's express written 
+consent. 
+3.7.	Limitations on Reverse Engineering and Modification. Except to the extent expressly permitted by applicable law or as 
+otherwise permitted hereunder, Customer may not reverse engineer, decompile, disassemble, modify or create works 
+derivative of the Services.
+3.8.	Sublicense, Rental and Third Party Use. Customer may not assign, sublicense, rent, timeshare, loan, lease or otherwise 
+transfer any the Services, or directly or indirectly permit any third party to use or copy the Services.
+3.9.	Proprietary Notices. Customer may not remove any proprietary notices (e.g., copyright and trademark notices) from the 
+Services.
+3.10.	Use in Accordance with Documentation. All use of the Services shall be in accordance with the then current 
+Documentation.
+3.11.	Compliance with Applicable Law. Customer shall be solely responsible for ensuring that Customer's use of the Service 
+is in compliance with all applicable foreign, federal, state and local laws, and rules and regulations. TT does not assume 
+to provide any legal, tax or regulatory advice to Customer. Customer further acknowledges and accepts that use of the 
+Service, and compliance with any terms herein does not constitute compliance with any law, rule, regulation, statute or 
+other requirements of or promulgated by any governmental authority, as amended or as newly adopted.
+3.12.	Backup of Customer Data. Customer is solely responsible for and ensuring it has adequate backups of its own data. TT 
+does not provide backup services for Customer's data.
+3.13.	Technical Requirements. Customer's systems and networks must meet the minimum technical requirements and 
+specifications required in accordance with the Documentation. A connection to the Internet may be required for certain 
+features of the Services. Customer is solely responsible for the hardware, software or other technology Customer uses to 
+access the Service. TT is not responsible for any service difficulties resulting from Customer's failure to possess 
+technology adequate to use the Services to Customer's satisfaction. Additional requirements may apply as governed by 
+an Exchange. TT undertakes no responsibility for Customer's compliance with any Exchange requirements. 
+3.14.	TT may, but is not required to: (i) verify with an applicable Exchange Customer's membership status, Customer's right 
+to process transactions through such Exchange, and any other information regarding such Exchange provided by 
+Customer; and (ii) terminate, modify, limit or suspend Customer's access to any Exchange if requested by such 
+Exchange or applicable regulatory entity. Customer warrants that it will not use the Services or seek to process orders 
+using the Services that it does not have the right to do so.
+3.15.	Customer is responsible for the confidentiality and use of each UserID, password, account number, identification 
+number and any other identifier related to the use of the Service by Customer and/or each Affiliate of the Customer and 
+each User and any Affiliate (each an "ID"). Customer shall not hold TT or any third party supplier or licensor, including 
+any Exchange, liable for any damages of any kind resulting from disclosure of an ID to any third party, including 
+without limitation to persons or entities who are or claim to be acting as Customer's agent or proxy. If Customer 
+informs TT or TT has reason to believe that the security of an ID may be or has been compromised, TT has the right to 
+terminate Customer's, Affiliate's or any of Customer's or Affiliate's Users' use of the Services. Customer will be 
+responsible for all orders and messages entered through and under its IDs and any messages or orders so sent using the 
+Service will be deemed to have been sent by Customer. Customer agrees to immediately notify TT if it becomes aware 
+of: any loss or theft of an ID; or any unauthorized use of any ID or of the Service, Market Data, or in violation of 
+Section 13.1. 
+
+4.	Adding Services and Users
+
+4.1.	Responsible Companies will permission Users to use the Services using administrative tools that are part of the Service. 
+This process is described in the Documentation.
+4.2.	MAPs will access and permit access to Exchanges by providing valid credentials using administrative tools that are part 
+of the Service. This process is described in the Documentation.
+4.3.	In the event Customer or Affiliate cancels its or a User's right to use the Services, such person or entity shall have no 
+further right to use and shall destroy any Services and related materials in its possession. 
+
+5.	Fees and Costs
+
+5.1.	The Service Fees for use of the Services are based on a monthly Service Fee rate. The Service Fees shall be invoiced by 
+TT and paid by the Customer in accordance with TT's standard pricing. The Service Fees will be billed and paid in U.S. 
+Dollars.
+5.2.	Customer is obligated to pay all TT invoices in full according to the terms indicated on the TT invoices, which may be 
+sent to the Customer electronically. Customer will be deemed to be in default hereunder if payment is not received 
+within forty-five (45) days after the date of such invoice and Customer shall pay an interest rate on the outstanding 
+amount of each invoice equal to the lesser of 1.5% per month or the maximum amount permitted by law. The date of 
+each invoice shall be the date such invoice is delivered electronically by TT to Customer. TT reserves the right to any 
+other remedies it may have as well. Customer must provide written notice of any disputes over invoices or any Service 
+Fees within six (6) months of the invoice date.
+5.3.	Service Fees paid for the use of the Service include Enhancements through the period for which the applicable Service 
+Fees have been paid.
+5.4.	TT may change Service Fees by providing ninety (90) calendar days' written notice to Customer before the effective 
+date of such change.
+5.5.	Fees do not include any Taxes.  Customer shall pay all Taxes (excluding taxes based solely on the income of TT).  If 
+Customer is required to pay any withholding tax, charge or levy in respect of any payments due to TT hereunder, 
+Customer agrees to gross up payments actually made such that TT shall receive sums due hereunder in full and free of 
+any deduction for any such withholding tax, charge or levy.  Customer will also provide TT with a certificate for any 
+such withholding, acceptable to the appropriate taxing authority.
+
+6.	Service Changes. TT may make commercially reasonable changes to the Services from time to time. If TT makes a material 
+change to the Service, TT will inform Customer, provided that Customer has subscribed with TT to be informed about such change.
+
+7.	Third Party Components. To the extent any Third Party Software is provided with the Software, Customer shall comply with 
+the terms and conditions of the applicable third party licenses associated with the Third Party Software, in addition to the terms and 
+restrictions contained in this Agreement. All relevant licenses for the Third Party Software are provided at 
+https://www.tradingtechnologies.com/tps. Customer's use of the Software shall be deemed Customer's acceptance of the third party 
+licenses. TT MAKES NO WARRANTY OF ANY KIND, WHETHER EXPRESS OR IMPLIED, WITH REGARD TO ANY THIRD 
+PARTY SOFTWARE. ALL THIRD PARTY SOFTWARE IS PROVIDED "AS-IS," WITHOUT WARRANTIES OF ANY KIND. IN 
+NO EVENT WILL TT BE LIABLE TO CUSTOMER OR ANY THIRD PARTY FOR ANY DIRECT, INDIRECT, PUNITIVE, 
+EXEMPLARY, INCIDENTAL, SPECIAL, OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE THIRD PARTY 
+SOFTWARE, EVEN IF TT HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES OR LOSSES.
+
+8.	Term and Termination.
+
+8.1.	This Agreement and the license shall commence as of the date you electronically accept or otherwise agree to the terms 
+of this Agreement and will stay in effect until terminated in accordance with the terms of this Section.
+8.2.	Convenience. Either party may exercise its right to Termination for Convenience at any time by providing written 
+notice to the other party indicating its intention. When exercising its right of Termination for Convenience, Customer 
+may terminate immediately upon written notice to TT and TT may terminate upon no less than one (1) year's prior 
+written notice to Customer.
+8.3.	Insolvency. Either party may immediately terminate this Agreement if the other party becomes voluntarily or 
+involuntarily subject to bankruptcy, insolvency, liquidation or other similar proceedings. 
+8.4.	Material Breach. Either party may immediately terminate this Agreement in the event of a material breach of the 
+Agreement by the other party, provided that, in the event any non-monetary breach is capable of being remedied, such 
+termination shall not be effective unless such breach remains un-remediated ten (10) calendar days after written notice 
+specifying the nature of the breach is provided by the non-breaching party. 
+8.5.	Suspension of Service. Notwithstanding any other provision of this Agreement, TT may, in its sole discretion, suspend 
+or terminate access to the Service for any of the following reasons (a) to prevent damages or risk to, or degradation of, 
+the Service or a third party service provider's services; (b) to comply with any law, regulation, court order, or other 
+governmental, regulatory or Exchange request; (c) to otherwise protect TT from potential legal liability; (d) violation of 
+any of TT's or a third party's intellectual property rights; or (e) for which any payment is due but unpaid but only after 
+TT has provided Customer a delinquency notice, and at least ten (10) days have passed since the transmission of the 
+delinquency notice. TT will use reasonable efforts to provide notice prior to or promptly following any suspension of 
+the Service. TT will promptly restore access to the Service as soon as the event giving rise to suspension has been 
+resolved. This Section will not be construed as imposing any obligation or duty on TT to monitor use of the Service. 
+8.6.	Immediately upon any termination of this Agreement, Customer shall have no further right to use the Services and shall 
+promptly pay all fees due hereunder up to the date of termination. 
+8.7.	In the event of a suspension or termination of an account, such termination or suspension is for the entire account and 
+Customer understands that such termination or suspension would therefore include Affiliate sub-accounts, Clients and 
+Client-Users.
+8.8.	Customer agrees that TT shall not be liable to Customer or to any other party for any termination or suspension of the 
+Service pursuant to this Section 8.
+8.9.	Customer agrees that following termination of Customer's account and/or use of the Service, TT may immediately 
+deactivate Customer's account and that following a reasonable period of time, not to be less than ninety (90) days, TT 
+shall be entitled to delete Customer's account from TT's "live" site. During this ninety (90) day period and upon 
+Customer's request, TT will grant Customer limited access to the Service for up to three (3) days, which may be 
+extended one time without cost, for the sole purpose of permitting Customer to retrieve Customer Data, provided that 
+Customer has paid in full all good faith undisputed amounts owed to TT. Customer further agrees that TT shall not be 
+liable to Customer nor to any third party for any termination of Customer access to the Service or deletion of Customer 
+Data, provided that TT is in compliance with the terms of this Section 8.9. 
+8.10.	The following provisions shall survive any termination or expiration of this Agreement: Sections 1 (Definitions), 2.6 
+(Customer Data), 3 (Restrictions), 5 (Fees and Costs) to the extent Customer has not paid all amounts due under this 
+Agreement, 8 (Term and Termination), 9.2 (Disclaimer), 10 (Trade Risk Disclaimer), 11 (Indemnities), 12 (Limitation 
+of Liability), 13 (Confidentiality), 14 (Feedback), 16 (Usage Data), 17, (Applicable Laws), 18 (Governing Law), 19 
+(Headings), 20 (Severability), 21 (Relationship of the Parties), 22 (Inspection Rights), 23 (General), 25 (Notices), and 
+26 (Electronic Acceptance), as well as any other provisions that by their nature extend beyond the termination of this 
+Agreement. 
+
+9.	Limited Warranty; Disclaimer.
+ 
+9.1.	TT warrants that: (i) the Service will perform substantially in accordance with the Documentation, and (ii) such 
+functionality of the Service will not be materially decreased during the term. Customer's sole and exclusive remedy for 
+TT's breach of this warranty shall be that TT shall be required to use commercially reasonable efforts to modify the 
+Service to comply with its warranty obligations, and if TT is unable to restore such functionality, Customer shall be 
+entitled to terminate the Agreement. Such warranties shall only apply if the applicable Service has been utilized in 
+accordance with the Documentation, this Agreement and applicable law. TT further warrants that it shall use 
+commercially reasonable efforts to scan the Service for viruses, Trojan horses, and other malicious code, provided that 
+TT does not warrant against such malicious code with respect to any content and other materials originating from or 
+uploaded by a Customer. 
+9.2.	EXCEPT AS PROVIDED IN THIS SECTION, SERVICES ARE PROVIDED ON AN "AS AVAILABLE," "AS IS" 
+BASIS. TO THE MAXIMUM EXTENT PERMITTED BY LAW, TT AND ITS SUPPLIERS AND VENDORS 
+DISCLAIM ALL OTHER WARRANTIES WITH RESPECT TO THE SERVICES, INCLUDING, BUT NOT 
+LIMITED TO, THE IMPLIED WARRANTIES OF NON-INFRINGEMENT, TITLE, MERCHANTABILITY, QUIET 
+ENJOYMENT, QUALITY OF INFORMATION, AND FITNESS FOR A PARTICULAR PURPOSE. TT DOES NOT 
+WARRANT THAT THE SERVICES WILL MEET CUSTOMER'S REQUIREMENTS, THAT CUSTOMER WILL 
+BE ABLE TO PLACE ORDERS THROUGH THE SERVICES, OR THAT THE OPERATION OF THE SERVICES 
+WILL BE UNINTERRUPTED OR ERROR-FREE, OR THAT DEFECTS IN THE SERVICES WILL BE 
+CORRECTED. NO ORAL OR WRITTEN INFORMATION OR ADVICE GIVEN BY TT SHALL CREATE ANY 
+ADDITIONAL TT WARRANTIES OR IN ANY WAY INCREASE THE SCOPE OF TT'S OBLIGATIONS 
+HEREUNDER. CUSTOMER ASSUMES ALL RESPONSIBILITY FOR DETERMINING WHETHER THE 
+SERVICE OR THE INFORMATION GENERATED THEREBY IS ACCURATE OR SUFFICIENT FOR 
+CUSTOMER'S PURPOSES. 
+
+10.	Trade Risk Disclaimer. CUSTOMER AGREES THAT ANY USE OF THE SERVICES SHOULD NOT BE INTERPRETED: 
+(i) AS INVESTMENT, LEGAL OR TAX ADVICE; (ii) AS AN OFFER TO BUY OR SELL ANY SECURITIES, DERIVATIVE, 
+FUTURES OR SERVICES; OR (iii) AS A REPLACEMENT FOR CUSTOMER'S OWN PROFESSIONAL SKILL AND 
+JUDGMENT. 
+
+11.	Indemnities.
+
+11.1.	TT will indemnify, defend, and hold Customer harmless from any claim, demand, action, proceeding, judgment, or 
+liability arising out of a claim by a third-party that Customer's use of the Services in conformance with the terms of this 
+Agreement infringes a U.S. patent, copyright, or trade secret of that third party. The foregoing indemnification 
+obligation of TT is contingent upon Customer's promptly notifying TT in writing of such claim, permitting TT sole 
+authority to control the defense or settlement of such claim, and providing TT reasonable assistance in connection 
+therewith. If a claim of infringement under this Section occurs, or if TT determines a claim is likely to occur, TT will 
+have the right, in its sole discretion, to either: (i) procure for Customer the right or license to continue to use the 
+Services free of the infringement claim; or (ii) modify the Services to make it non-infringing, without loss of material 
+functionality. If either of these remedies is not reasonably available to TT, TT may, in its sole discretion, immediately 
+terminate this Agreement. Notwithstanding the foregoing, TT shall have no obligation with respect to any claim of 
+infringement that is based upon or arises out of any of the Excluded Claims. The provisions of this Section state the sole 
+and exclusive obligations and liability of TT and its licensors and suppliers for any claim of intellectual property 
+infringement arising out of or relating to the Services and/or this Agreement and are in lieu of any implied warranties of 
+non-infringement, all of which are expressly disclaimed. Customer will indemnify, defend, and hold TT harmless from 
+any claim, demand, action, proceeding, judgment, or liability from a third-party claim relating to or arising out of an 
+Excluded Claim; or Customer's breach of this Agreement. Customer's indemnification obligation is contingent upon TT 
+promptly notifying Customer in writing of such claim, permitting TT sole authority to control the defense or settlement 
+of such claim, and providing Customer reasonable assistance in connection therewith.
+11.2.	The remedies set forth in Section 11 shall be Customer's sole and exclusive remedy and TT's sole and exclusive 
+liability in the event of any claim of infringement.  Notwithstanding any other provision in this Agreement, TT's 
+indemnity obligation (for both defense and damage related expenses) shall be limited to an amount equal to the total 
+Service Fees paid by Customer in the three (3) months immediately preceding the incident giving rise to the claim plus 
+reasonable attorneys' fees and expenses. This amount is in the aggregate for the duration of this Agreement regardless 
+of the number of claims that arise ("Indemnity Cap"). TT shall not enter into any stipulated judgment or settlement that 
+purports to bind Customer without Customer's prior written authorization, which shall not be unreasonably withheld, 
+provided that TT may settle any claim without Customer's consent if Customer's binding obligations or liabilities are 
+less than or equal to the Indemnify Cap. Customer has the right, at its own expense, to retain counsel of its own 
+choosing and participate in the defense of any such Claim in order to protect its own interests.
+11.3.	Customer will indemnify, protect, and hold TT, its managing directors, partners, officers, directors, affiliates, employees 
+and agents, and its third party service providers ("TT Parties") harmless from and against any and all losses, liabilities, 
+judgments, suits, actions, proceedings, claims, damages, costs (including attorney's fees) (collectively, "Losses") 
+resulting from or arising out of: (i) the use of, or inability to use the Services, Market Data or any other information 
+contained in, produced by or disseminated through the Services, including without limitation any unauthorized use of 
+the Services or Customer's UserIDs, including any breaches of the security of the Services (including any access or 
+entry into any of TT's other systems not covered by this Agreement); (ii) any material breach by Customer of any 
+provision of this Agreement, except to the extent such Losses are due to TT's willful misconduct or gross negligence; 
+and (iii) if Customer is acting on behalf of its own customers, clients or other such third parties, including with respect 
+to any claims that a trade was not suitable for or not authorized by such customer.
+
+12.	Limitation of Liability.
+
+12.1.	EXCEPT FOR CUSTOMER'S PAYMENT OBLIGATIONS, ITS INDEMNIFICATION OBLIGATIONS, OR ITS 
+BREACH OF ITS OBLIGATIONS OF CONFIDENTIALITY OR AS A RESULT OF EITHER PARTY'S FRAUD, 
+WILLFUL OR RECKLESS MISCONDUCT, TO THE MAXIMUM EXTENT PERMITTED BY LAW: (A) IN NO 
+EVENT SHALL CUSTOMER, TT OR TT'S SUPPLIERS AND VENDORS (INCLUDING WITHOUT LIMITATION 
+EACH EXCHANGE) BE LIABLE TO EACH OTHER OR ANY THIRD PARTY FOR ANY SPECIAL, 
+INCIDENTAL, CONSEQUENTIAL, PUNITIVE, OR INDIRECT DAMAGES, WHICH SHALL INCLUDE, 
+WITHOUT LIMITATION, DAMAGES FOR PERSONAL INJURY, TRADING LOSSES, LOST PROFITS, LOST 
+DATA AND BUSINESS INTERRUPTION, ARISING OUT OF THE USE OR INABILITY TO ACCESS OR USE 
+THE SERVICES OR IN ANY WAY CONNECTED OR ARISING OUT OF THIS AGREEMENT, EVEN IF SUCH 
+PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES; AND (B) EXCEPT AS PROVIDED 
+IN SECTION 11 WITH RESPECT TO ITS INDEMNIFICATION OBLIGATIONS, THE ENTIRE LIABILITY OF TT 
+AND ITS AFFILIATES, SUPPLIERS AND VENDORS (COLLECTIVELY) UNDER THIS AGREEMENT FOR ALL 
+DAMAGES, LOSSES (INCLUDING ANY TRADING LOSSES), AND CAUSES OF ACTION (WHETHER IN 
+CONTRACT, TORT (INCLUDING NEGLIGENCE), OR OTHERWISE) SHALL BE LIMITED TO AN AMOUNT 
+EQUAL TO THE TOTAL SERVICE FEES PAID BY CUSTOMER IN THE THREE (3) MONTHS IMMEDIATELY 
+PRECEDING THE INCIDENT GIVING RISE TO THE DAMAGES. 
+12.2.	THE FOREGOING LIMITATIONS AND EXCLUSIONS OF LIABILITY SHALL NOT PRECLUDE OR LIMIT IN 
+ANY WAY EITHER PARTY FROM ENFORCING INTELLECTUAL PROPERTY RIGHTS AFFORDED THE 
+PARTY UNDER THE LAW OF ANY STATE OR COUNTRY HAVING JURISDICTION OF THE SUBJECT 
+MATTER OF THIS AGREEMENT OR FROM RECOVERING DAMAGES FOR INFRINGEMENT OF THOSE 
+INTELLECTUAL PROPERTY RIGHTS UNDER THE PROVISIONS OF THIS AGREEMENT, INCLUDING 
+CUSTOMER OR ANY AFFILIATE, EMPLOYEE AGENT OR CONTRACTOR'S BREACH OF SECTIONS 2 OR 3. 
+
+13.	Confidentiality.
+ 
+13.1.	TT agrees that it shall not disclose any Customer Information to any persons or entities other than TT Parties who have 
+an obligation to preserve the confidentiality of the Customer Information and have a need to know the Customer 
+Information in order to fulfill TT's obligations under this Agreement, maintain and enhance the operation of the 
+Services and/or comply with applicable laws; provided however, that Customer agrees that Customer Information may 
+be disclosed to the extent required in order for TT to perform the Services and to process Customer orders in the normal 
+course of business, to comply with applicable laws and/or to respond to requests of government or regulatory 
+authorities, including any self-regulatory organizations. Except as required by applicable laws, Customer will hold the 
+Services, any information associated therewith, Market Data, and any and all information, software, algorithms, user 
+manuals, technical documentation, knowledge, systems, and data relating to the business, operations, clients, finances 
+and affairs of TT in strict confidence and not disclose them to third parties or use them for any purpose not 
+contemplated by this Agreement. The restrictions set forth in this section shall not apply to information which (a) is or 
+becomes publicly known without breach of this Agreement by TT, (b) was rightfully acquired from a third party by TT 
+prior to receipt from Customer, (c) is subsequently rightfully obtained by TT from a third party, (d) is developed 
+independently by TT, without reference to Customer Information, unless such Customer or Client is also a direct 
+customer of TT, in which case their information may be subject to different terms, or (e) is generally known by persons 
+in the banking, technology, securities, or financial services industries. Neither Party shall, without the permission of the 
+other Party, (i) disclose the terms of this Agreement (other than to its affiliates or as required by applicable laws) or (ii) 
+refer to the other Party or its affiliates in any manner in connection with the promotion of any product or service (other 
+than to its Affiliates), provided that TT may refer to Customer as being a client of TT in customer reference lists and, 
+sales presentations without the prior written consent of Customer. Each Party agrees to use reasonable efforts to ensure 
+that its employees, agents and independent contractors are bound by written confidentiality/non-disclosure obligations 
+at least as restrictive as this Section 13. 
+13.2.	All materials containing or derived from the confidential information of the disclosing Party will be returned promptly 
+to the owner thereof or destroyed upon the earlier of: (a) termination of this Agreement, or (b) the owner's written 
+request.  The Party returning confidential information will certify in writing that, to the best of such Party's knowledge, 
+all tangible materials containing such confidential information have been returned to the owner or destroyed and that all 
+such confidential information stored electronically, magnetically, optically or in some other non-tangible form has been 
+destroyed. Each Party agrees to use reasonable efforts to ensure that, upon termination of any of its employees' 
+employment, such employee shall promptly return to such Party or destroy all materials in his or her possession 
+containing confidential information of the other Party. Notwithstanding the foregoing, neither party shall be required to 
+remove copies of the other Party's confidential information from its backup media and servers, where doing so would 
+be commercially impracticable.  In addition, the foregoing destruction and return obligation shall be subject to any 
+retention obligations imposed on a party by law or regulation.
+13.3.	TT agrees that it shall hold all information associated with Users ("User Information") confidential and shall not 
+disclose such User Information to any persons or entities other than TT Parties who have an obligation to preserve the 
+confidentiality of the User Information and have a need to know the User Information in order to fulfill TT's obligations 
+under this Agreement, maintain and enhance the operation of the Services and/or comply with applicable laws. "User 
+Information" includes a User's name, email, trading account numbers, billing information, trading limits and margins, 
+trading algorithm definitions, and other similar information associated with a User as configured by the Responsible 
+Company's administrator. Notwithstanding anything to the contrary (a) TT may disclose User Information as necessary 
+for TT to perform the Services and to process Customer's orders in the normal course of business, to comply with 
+applicable laws, and/or to respond to requests or regulatory authorities, including any self-regulatory obligations; and 
+(b) TT may share and User information with successors in interests and assigns permitted under this Agreement.
+
+14.	Feedback. Customer may provide Feedback to TT. Feedback is voluntary and TT is not required to hold it in confidence. TT 
+may use Feedback for any purpose without obligation of any kind. To the extent a license is required under Customer's intellectual 
+property rights to make use of the Feedback, Customer hereby grants TT an irrevocable, non-exclusive, perpetual, royalty-free license to 
+use the Feedback in connection with TT's business, including enhancement of the Services.
+
+15.	Transfer and Use of Data.  TT may transfer, store and process Customer and User data in the United States or any other 
+country in which TT or its agents maintain facilities. TT may also share Customer and User data with Exchanges or other regulatory 
+bodies.
+
+16.	Usage Data. In an effort to continually improve the Services and other services provided by TT to Customer and TT's other 
+customers, TT will collect Usage Data. Customer grants TT a non-exclusive, perpetual, irrevocable, fully-paid-up, royalty free license to 
+use, copy, distribute, and otherwise exploit the Usage Data for TT's internal business purposes, including the provision of products and 
+services to TT's customers. Except as necessary or otherwise required for TT's performance of its obligations under this Agreement and 
+subject to obligations of confidentiality, TT will not make any Usage Data available to any third parties. TT may also use information 
+derived from Customer's use of the Services to better service Customer, including suggesting other TT products and services that may be 
+of interest.
+
+17.	Applicable Laws.
+
+17.1.	Each party warrants that at all times it shall comply with all applicable federal, state, local and other laws as such laws 
+may be amended from time to time in performing its obligations pursuant to this Agreement.
+17.2.	TT acknowledges that Customer is and/or may be subject to Privacy Laws.  Furthermore, TT agrees to and shall ensure 
+that its representatives cooperate with Customer with respect to Customer's obligations under the Privacy Laws and 
+comply with all provisions of Privacy Laws applicable to TT relating to the collection, storage, use, processing, 
+disclosure or disposal of Personal Information provided to or accessible by TT or any of its representatives in the course 
+of carrying out this Agreement or providing services to Customer. Notwithstanding the foregoing, Customer 
+acknowledges and agrees that TT may use personally identifiable information for billing purposes and may share such 
+information with TT Affiliates and service providers and may share personally identifiable information with Exchanges 
+to the extent required to comply with contractual obligations with such Exchanges.
+17.3.	TT confirms, in relation to the provision of the Services to the Customer and the activities to be carried out under the 
+Agreement that: (i) its officers, directors and employees are subject to the policies and procedures of TT which are 
+designed to prevent the occurrence of bribery and corrupt conduct; and (ii) it shall procure compliance with such 
+policies and procedures by its officers, directors and employees.
+17.4.	Dispute Resolution. 
+17.4.1.	In the event of any dispute, controversy or claim arising out of or relating to this Agreement, or the breach, 
+termination or invalidity thereof, the parties shall send written notice of their respective positions to the other 
+party and will exert good faith efforts to resolve the dispute. If the dispute is not settled at the expiration of 
+thirty (30) days from the date the first written notice is received by either party (the "Resolution Period"), then 
+the entire matter shall be finally resolved by arbitration in accordance with the Commercial Arbitration Rules 
+of the American Arbitration Association ("AAA") in effect at the time of the arbitration. 
+17.4.2.	In the event of any conflict between this Agreement and the AAA rules, this Agreement will control. 
+17.4.3.	Arbitration will be on an individual basis and the parties waive their right to participate in class-wide 
+arbitration.
+17.4.4.	If the amount in controversy is less than US$1 million ($1,000,000), there will be a single arbitrator who will 
+be selected as follows: (a) each party will propose three potential arbitrators, all of whom must have 
+experience and/or expertise with subject matter of the dispute and must not be connected with either party; (b) 
+the parties will confer with each other in a good faith effort to agree on an arbitrator selected from one or both 
+of the parties' lists; (c) if an arbitrator is not selected by the parties within twenty (20) days of the expiration 
+of the Resolution Period, the AAA shall make the selection from its list of available neutrals with experience 
+and/or expertise in the subject matter of the dispute. If the arbitrator is unable or unwilling to serve at any 
+point in the dispute resolution process, the process for selection of an arbitrator specified in this section will 
+be repeated, running from the date of notice of the unavailability of the first arbitrator instead of the date of 
+the expiration of the Resolution Period. If the amount in controversy is US$1 million or more, there will be 
+three (3) arbitrators, all of whom must have experience and/or expertise in the subject matter of the dispute.  
+With respect to a three-person tribunal, each side shall have the right to select one arbitrator and the two so 
+chosen (in consultation with the aide who appointed each arbitrator), shall attempt to agree on a Chairman.  If 
+the parties cannot agree on a Chairman within 30 days of the filing of the Request for Arbitration, the AAA 
+shall make such selection from the list of the ICDR. 
+17.4.5.	The place of the arbitration will be Chicago, Illinois, United States of America, or in any other location agreed 
+to by all parties. Unless the parties otherwise agree, or the arbitrator determines that attendance in person 
+would be unduly burdensome, the parties (or a corporate representative if a party is not an individual) will 
+personally attend the arbitration hearings. If the arbitrator determines that attendance in person would be 
+unduly burdensome, the arbitration may be conducted, in whole or in part, by video conference. Whether or 
+not the parties personally attend, the place of the arbitration will be deemed to be Chicago, Illinois. If the 
+parties personally attend the arbitration, the parties will select a specific location in Chicago, Illinois, United 
+States of America for the arbitration. If the parties are unable to agree on a specific location within twenty 
+(20) days of the commencement of the arbitration, the location will be selected by the arbitrator. 
+17.4.6.	The language of the arbitration will be English. 
+17.4.7.	In addition to the power to grant monetary relief, the arbitrator shall have the power to grant any other remedy 
+or relief available under United States law or Illinois law, whether provisional or final, including but not 
+limited to preliminary or conservatory injunctive relief, and any such measures ordered by the arbitrator will 
+be enforceable to the extent permitted by applicable law.
+17.4.8.	All costs and expenses of the arbitral tribunal and of the arbitral institution shall be borne by the parties 
+equally. Each party shall bear all costs and expenses (including of its own counsel, experts and witnesses) 
+involved in preparing and presenting its case.
+17.4.9.	The award in any arbitration shall be rendered within twelve (12) months of the commencement of the 
+arbitration, unless the parties agree to a longer period of time for the arbitration or the arbitrator determines 
+that the interest of justice or the complexity of the case requires that this limit be extended. 
+17.4.10.	Judgment upon the award rendered by the arbitrators may be entered in any court having jurisdiction. 
+17.4.11.	In the event that the foregoing binding arbitration provision is determined for any reason to be unenforceable 
+or inapplicable to a particular dispute, that dispute shall be resolved exclusively in a state or federal court of 
+competent jurisdiction located in Cook County, Illinois.  The parties submit to the in personam jurisdiction of 
+such courts for purposes of any such action or proceeding and waive any argument that such venue is an 
+inconvenient forum.  Any such dispute that is not subject to arbitration for any reason shall be decided solely 
+by a judge, without the use of a jury and THE PARTIES HEREBY KNOWINGLY AND VOLUNTARILY 
+AND IRREVOCABLY WAIVE THEIR RIGHT TO A TRIAL BY JURY. 
+17.4.12.	The content of the arbitral proceedings and any rulings or award shall be kept confidential by the parties and 
+the arbitrator except: (i) to the extent that disclosure may be required of a party to fulfill a legal duty, protect 
+or pursue a legal right, or enforce or challenge an award or other relief granted by the arbitrator in bona fide 
+legal proceedings before a state or federal court or other judicial authority; or (ii) with the consent of all 
+parties. Notwithstanding anything to the contrary in this Agreement, either party may disclose matters relating 
+to the arbitration or the arbitral proceedings where necessary for the preparation or presentation of a claim or 
+defense in the arbitration. 
+17.4.13.	Any proceedings to confirm or vacate an arbitration award will be governed, whenever possible, by the laws 
+of the State of Illinois, without regard to its choice of law provisions. The foregoing notwithstanding, any 
+arbitration award may be presented to and enforced by any judicial or other authority, in any country, having 
+authority to enforce the arbitration award. 
+17.4.14.	Each party retains the right to apply to any court of competent jurisdiction for provisional and/or conservatory 
+relief, including pre-arbitral attachments or injunctions, and any such request shall not be deemed 
+incompatible with the agreement to arbitrate, nor a waiver of the right to have disputes submitted to 
+arbitration as provided in this Agreement.
+
+18.	Governing Law. This Agreement is governed by and construed in accordance with the laws of the State of Illinois, as applied to 
+agreements entered into and wholly performed within Illinois between Illinois residents.
+
+19.	Headings. The headings at the beginnings of the Articles of this Agreement are for identification purposes and shall not affect 
+the interpretation or construction of this Agreement.
+
+20.	Severability. In the event any provision of this Agreement is determined to be invalid or unenforceable, that provision shall be 
+severed and modified to the extent necessary to make such provision enforceable, and the remainder of this Agreement shall remain valid 
+and fully enforceable.
+
+21.	Relationship of the Parties.
+21.1.	The parties agree that TT shall perform its duties under this Agreement as an independent contractor.  Nothing 
+contained herein shall be deemed to establish a partnership, joint venture, association, or employment relationship 
+between the parties.  Personnel employed or retained by TT who perform duties related to this Agreement shall remain 
+under the supervision, management, and control of TT.
+21.2.	The parties hereby acknowledge and agree that each Exchange is an intended third party beneficiaries of the Agreement.  
+Otherwise, the parties are the sole parties to this Agreement which is personal to them and acknowledge that they do not 
+hold the benefit of any provisions on behalf of third parties and that no third parties shall have the benefit of any 
+provisions of this Agreement or any right to enforce the same.
+
+22.	Inspection Rights. During the term and for up to three (3) years after the expiration or termination hereof, TT may, on 
+reasonable written notice, audit Customer's compliance with the terms and conditions of this Agreement. Customer will reasonably 
+cooperate in the audits, including making relevant personnel and records available for TT's review. Customer shall also provide TT with 
+access to all data related to Customer's use of market data. TT shall also have the right to audit Customer's records (including any 
+records of Customer's Clients) related to Customer's use of market data to verify accurate reporting and compliance with the Agreement. 
+In the event the audit reveals any non-compliance, the reasonable cost of the audit will be paid by Customer, Customer will immediately 
+pay any additional fees associated with the non-compliance, plus interest at the maximum rate permitted by law from the date the fees 
+should have been paid, and Customer shall comply with the terms of the Agreement.   
+
+23.	General. This Agreement constitutes the entire understanding and agreement between TT and Customer with respect to the 
+transactions contemplated in this Agreement and supersedes all prior or contemporaneous oral or written communications with respect to 
+the subject matter of this Agreement, all of which are merged in this Agreement only as agreed to in this Agreement. Without limiting the 
+generality of the foregoing, any EULA that may appear upon installation or use of the Software or Service and may be assented to by the 
+User does not supersede this Agreement to the extent it would otherwise apply because the User is an employee, agent, contractor or 
+authorized User of a customer who has already taken responsibility for such person or entity under the terms of this Agreement or a 
+similar agreement. This Agreement shall not be modified, amended or in any way altered except by an instrument in writing signed by 
+authorized representatives of both parties, provided that in the event Customer downloads, installs or uses any Enhancement or new 
+version of the Service, Customer may be required to enter into and accept the terms of the then-current Agreement. In the event that any 
+provision of this Agreement is found invalid or unenforceable pursuant to judicial decree, the remainder of this Agreement shall remain 
+valid and enforceable according to its terms. Any failure by TT to strictly enforce any provision of this Agreement will not operate as a 
+waiver of that provision or any subsequent breach of that provision. TT may assign any of its rights or obligations hereunder as it deems 
+necessary. IT IS EXPRESSLY UNDERSTOOD AND AGREED THAT IN THE EVENT ANY REMEDY HEREUNDER IS 
+DETERMINED TO HAVE FAILED OF ITS ESSENTIAL PURPOSE, ALL LIMITATIONS OF LIABILITY AND 
+EXCLUSIONS OF DAMAGES SET FORTH HEREIN SHALL REMAIN IN EFFECT.
+
+24.	Assignment. This Agreement is specific to Customer and Customer may not assign or otherwise transfer its rights or obligations 
+as specified in this Agreement without the prior written consent of TT.  This Agreement shall not be construed or interpreted to confer or 
+provide any rights to any third parties.
+
+25.	Notices. All legal notices shall be in writing and shall be sent to the addresses provided to TT by Customer during the initial 
+registration process prior to using the Service or to such other address as either party may request.  Legal notices to TT shall be sent to 
+the following address:
+
+Trading Technologies International, Inc.
+Attn: General Counsel
+222 South Riverside Plaza, Suite 1100
+Chicago, Illinois 60606
+U.S.A.
+
+Facsimile: 	(312) 476-1169
+E-mail:	legal@tradingtechnologies.com
+
+Notices shall be deemed given (i) the fifth business day after they are mailed by certified mail, return receipt requested, (ii) the next 
+business day after they are sent by reputable overnight courier service or two days if sent from outside the United States, and (iii) the 
+same business day when sent by facsimile or e-mail between 8:00 a.m. and 5:00 p.m. central U.S. time or the next business day if sent 
+after 5:00 p.m. central U.S. time, provided that all facsimile transmissions shall be confirmed by notice using one of the methods set forth 
+in subsections (i) or (ii) above.  Information regarding support, Enhancements, Service changes, price changes and related issues 
+("General Notices") also may be communicated to Customer with electronic notifications that are part of the Services (e.g., using the 
+Service's  message center functionality) or  by e-mail from TT.
+
+26.	Electronic Acceptance. This Agreement may be accepted in electronic form (e.g., by an electronic or other means of 
+demonstrating assent) and Customer's acceptance will be deemed binding between the parties. Neither party may contest the validity or 
+enforceability of this Agreement, including under any applicable statute of frauds, because it was accepted or signed in electronic form. 
+Electronically maintained records when produced in hard copy form shall constitute business records and shall have the same validity as 
+any other generally recognized business records.
+
+Customer acknowledges and agrees that, pursuant to Section 5.2, invoices may be sent to Customer by e-mail and each invoice shall be 
+deemed received on the date the e-mail is sent.  Customer is obligated to provide TT with contact information of the person designated 
+by the Customer to receive TT invoices, legal notices and other General Notices. Customer shall notify TT immediately of any changes 
+to the invoice contact information by sending an e-mail to billing@tradingtechnologies.com and to legal@tradingtechnologies.com for 
+any changes to legal or general contact information.
+
+Version 10/03/2016
+
+
