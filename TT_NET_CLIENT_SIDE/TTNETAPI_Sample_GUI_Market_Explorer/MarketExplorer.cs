@@ -57,6 +57,7 @@ namespace TTNETAPI_Sample_GUI_Market_Explorer
                 statusLabel.Text = "TT NET SDK INITIALIZED";
                 m_api = api;
                 m_api.TTAPIStatusUpdate += new EventHandler<TTAPIStatusUpdateEventArgs>(m_api_TTAPIStatusUpdate);
+                TTAPI.ShutdownCompleted += new EventHandler(TTAPI_ShutdownCompleted);
                 m_api.Start();
             }
             else if (ex.IsRecoverable)
@@ -150,8 +151,7 @@ namespace TTNETAPI_Sample_GUI_Market_Explorer
                     }
                     listViewMarketList.Items.Clear();
                 }
-
-                TTAPI.ShutdownCompleted += new EventHandler(TTAPI_ShutdownCompleted);
+                
                 TTAPI.Shutdown();
 
                 m_shutdownInProcess = true;

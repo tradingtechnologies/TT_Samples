@@ -64,6 +64,7 @@ namespace TTNETAPI_Sample_Console_OrderRouting
         public void Init(tt_net_sdk.TTAPIOptions apiConfig)
         {
             ApiInitializeHandler apiInitializeHandler = new ApiInitializeHandler(ttNetApiInitHandler);
+            TTAPI.ShutdownCompleted += TTAPI_ShutdownCompleted;
             TTAPI.CreateTTAPI(tt_net_sdk.Dispatcher.Current, apiConfig, apiInitializeHandler);
         }
 
@@ -315,14 +316,10 @@ namespace TTNETAPI_Sample_Console_OrderRouting
                         m_instrumentTradeSubscription = null;
                     }
 
-                    // Begin shutdown the TT API
-                    TTAPI.ShutdownCompleted += new EventHandler(TTAPI_ShutdownCompleted);
-                    TTAPI.Shutdown();
-
                     m_isDisposed = true;
                 }
 
-                TTAPI.ShutdownCompleted += TTAPI_ShutdownCompleted;
+                
                 TTAPI.Shutdown();
             }
         }

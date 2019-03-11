@@ -58,6 +58,7 @@ namespace TTAPI_Sample_Console_TimeAndSales
         public void Init(tt_net_sdk.TTAPIOptions apiConfig)
         {
             ApiInitializeHandler apiInitializeHandler = new ApiInitializeHandler(ttNetApiInitHandler);
+            TTAPI.ShutdownCompleted += TTAPI_ShutdownCompleted;
             TTAPI.CreateTTAPI(tt_net_sdk.Dispatcher.Current, apiConfig, apiInitializeHandler);
         }
 
@@ -184,8 +185,7 @@ namespace TTAPI_Sample_Console_TimeAndSales
 
             if ( object.ReferenceEquals(m_tsSubscription, null) == false )
                 m_tsSubscription.Dispose();
-
-            TTAPI.ShutdownCompleted += TTAPI_ShutdownCompleted;
+            
             TTAPI.Shutdown();
         }
 

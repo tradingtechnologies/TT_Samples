@@ -59,6 +59,7 @@ namespace TTAPI_Sample_Console_PriceDepthSubscription
         public void Init(tt_net_sdk.TTAPIOptions apiConfig)
         {
             ApiInitializeHandler apiInitializeHandler = new ApiInitializeHandler(ttNetApiInitHandler);
+            TTAPI.ShutdownCompleted += TTAPI_ShutdownCompleted;
             TTAPI.CreateTTAPI(tt_net_sdk.Dispatcher.Current, apiConfig, apiInitializeHandler);
         }
 
@@ -190,8 +191,7 @@ namespace TTAPI_Sample_Console_PriceDepthSubscription
 
             if ( object.ReferenceEquals(m_priceSubsciption, null) == false )
                 m_priceSubsciption.Dispose();
-
-            TTAPI.ShutdownCompleted += TTAPI_ShutdownCompleted;
+            
             TTAPI.Shutdown();
         }
 
