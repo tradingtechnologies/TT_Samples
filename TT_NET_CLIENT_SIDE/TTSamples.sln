@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTNETAPI_Sample_Console_Tim
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTNETAPI_Sample_GUI_Market_Explorer", "TTNETAPI_Sample_GUI_Market_Explorer\TTNETAPI_Sample_GUI_Market_Explorer.csproj", "{0F559DE1-A680-4ED6-B1D2-4EA361059C15}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTNETAPI_Sample_Console_FillsSubscription", "TTNETAPI_Sample_Console_FillsSubscription\TTNETAPI_Sample_Console_FillsSubscription.csproj", "{86597CDD-ED9E-47F5-A66F-81ED0332A35B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -33,6 +35,10 @@ Global
 		{0F559DE1-A680-4ED6-B1D2-4EA361059C15}.Debug|x64.Build.0 = Debug|x64
 		{0F559DE1-A680-4ED6-B1D2-4EA361059C15}.Release|x64.ActiveCfg = Release|x64
 		{0F559DE1-A680-4ED6-B1D2-4EA361059C15}.Release|x64.Build.0 = Release|x64
+		{86597CDD-ED9E-47F5-A66F-81ED0332A35B}.Debug|x64.ActiveCfg = Debug|x64
+		{86597CDD-ED9E-47F5-A66F-81ED0332A35B}.Debug|x64.Build.0 = Debug|x64
+		{86597CDD-ED9E-47F5-A66F-81ED0332A35B}.Release|x64.ActiveCfg = Release|x64
+		{86597CDD-ED9E-47F5-A66F-81ED0332A35B}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
