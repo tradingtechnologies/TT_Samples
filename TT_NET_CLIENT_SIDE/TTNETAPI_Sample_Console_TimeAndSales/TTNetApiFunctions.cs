@@ -92,26 +92,35 @@ namespace TTAPI_Sample_Console_TimeAndSales
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         public void m_api_TTAPIStatusUpdate(object sender, TTAPIStatusUpdateEventArgs e)
         {
-            if (e.IsReady)
+            Console.WriteLine("TTAPIStatusUpdate: {0}", e);
+            if (e.IsReady == false)
             {
-                // connection to TT is established
-                Console.WriteLine("TTAPI Authenticated");
-
-                MarketId marketKey   = Market.GetMarketIdFromName( m_market );
-                ProductType productType = Product.GetProductTypeFromName(m_prodType);
-
-                // lookup an instrument
-                m_instrLookupRequest = new InstrumentLookup(tt_net_sdk.Dispatcher.Current,
-                            marketKey, productType, m_product, m_alias);
-
-                m_instrLookupRequest.OnData += m_instrLookupRequest_OnData;
-                m_instrLookupRequest.GetAsync();
+                // TODO: Do any connection lost processing here
+                return;
             }
-            else
-            {
-                Console.WriteLine("TT.NET SDK Status: {0}", e);
+            // TODO: Do any connection up processing here
+            //       note: can happen multiple times with your application life cycle
 
-            }
+                // can get status multiple times - do not create subscription if it exists
+                //
+            if( object.ReferenceEquals(m_instrLookupRequest, null) == false )
+                return;
+
+            // Status is up and we have not started a subscription yet
+
+            // connection to TT is established
+            Console.WriteLine("TTAPI Authenticated");
+
+            MarketId marketKey   = Market.GetMarketIdFromName( m_market );
+            ProductType productType = Product.GetProductTypeFromName(m_prodType);
+
+            // lookup an instrument
+            m_instrLookupRequest = new InstrumentLookup(tt_net_sdk.Dispatcher.Current,
+                        marketKey, productType, m_product, m_alias);
+
+            m_instrLookupRequest.OnData += m_instrLookupRequest_OnData;
+            m_instrLookupRequest.GetAsync();
+
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
