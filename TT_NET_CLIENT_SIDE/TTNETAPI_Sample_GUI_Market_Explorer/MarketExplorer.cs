@@ -75,16 +75,25 @@ namespace TTNETAPI_Sample_GUI_Market_Explorer
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         private void m_api_TTAPIStatusUpdate(object sender, TTAPIStatusUpdateEventArgs e)
         {
+            statusLabel.Text = e.StatusMessage.ToString();
+
             if (e.IsReady)
             {
                 statusLabel.Text = "APP KEY AUTHENTICATED : LOGIN SUCCESSFUL";
 
-                m_marketList = new List<MarketListViewItem>();
+                // TODO: Do any connection up processing here
+                //       note: can happen multiple times with your application life cycle
 
-                m_instrumentCatalogList = new Dictionary<Product, InstrumentCatalog>();
+                // can get status multiple times - do not create subscription if it exists
+                if (m_marketCatalog != null)
+                    return;
 
                 // Init the windows.
                 initWindowViews();
+
+                m_marketList = new List<MarketListViewItem>();
+
+                m_instrumentCatalogList = new Dictionary<Product, InstrumentCatalog>();
 
                 // Create the Market Catalog
                 m_marketCatalog = m_api.MarketCatalog;
