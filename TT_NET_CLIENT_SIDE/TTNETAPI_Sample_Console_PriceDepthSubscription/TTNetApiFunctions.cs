@@ -168,16 +168,31 @@ namespace TTAPI_Sample_Console_PriceDepthSubscription
                 if (e.UpdateType == UpdateType.Snapshot)
                 {
                     // Received a market data snapshot
-                    Console.WriteLine("\nSnapshot Updates");
-                    foreach (FieldId f in e.Fields.GetChangedFieldIds())
-                        Console.WriteLine("    {0} : {1}", f.ToString(), e.Fields[f].FormattedValue);
+
+                    // TODO: initialize your data here.
+                    //       the snap shot event can come multiple times
+                    Console.WriteLine("\nSnapshot Update");
                 }
                 else
                 {
-                    // Only some fields have changed
-                    Console.WriteLine("\nDepth Updates");
-                    foreach (FieldId f in e.Fields.GetChangedFieldIds())
+                    Console.WriteLine("\nIncremental Update");
+                }
+                Console.WriteLine("\nTop and level 0 field(s):");
+                foreach (FieldId f in e.Fields.GetChangedFieldIds())
                         Console.WriteLine("    {0} : {1}", f.ToString(), e.Fields[f].FormattedValue);
+
+                Console.WriteLine("\nDepth field(s):");
+                int depthLevels = e.Fields.GetMaxDepthLevel();
+                for (int i = 0; i < depthLevels; i++)
+                {
+                    if (e.Fields.GetChangedFieldIds(i).Length > 0)
+                    {
+                        Console.WriteLine("Level={0}", i);
+                        foreach (FieldId id in e.Fields.GetChangedFieldIds(i))
+                        {
+                            Console.WriteLine("    {0}: {1}", id.ToString(), e.Fields[id, i].FormattedValue);
+                        }
+                    }
                 }
             }
             else
