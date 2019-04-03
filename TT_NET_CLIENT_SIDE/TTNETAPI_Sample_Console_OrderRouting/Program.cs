@@ -14,10 +14,10 @@ namespace TTNETAPI_Sample_Console_OrderRouting
             try
             {
                 //Add your app secret Key here . The app_key looks like : 00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000
-                string appSecretKey = "Your App Key";
+                string appSecretKey = "Add your app secret Key here";
 
                 //Set the environment the app needs to run in here
-                tt_net_sdk.ServiceEnvironment environment = tt_net_sdk.ServiceEnvironment.UatCert;
+                tt_net_sdk.ServiceEnvironment environment = tt_net_sdk.ServiceEnvironment.DevCert;
 
                 tt_net_sdk.TTAPIOptions apiConfig = new tt_net_sdk.TTAPIOptions(
                         environment,
