@@ -162,46 +162,45 @@ namespace TTAPI_Sample_Console_PriceDepthSubscription
         void m_priceSubscription_FieldsUpdated(object sender, FieldsUpdatedEventArgs e)
         {
             Console.WriteLine("\n================= {0}", m_ps_counter++);
-            
-            if (e.Error == null)
+            if (e.Error != null)
             {
-                if (e.UpdateType == UpdateType.Snapshot)
-                {
-                    // Received a market data snapshot
+                // Error has occured - the subscription is no longer active
 
-                    // TODO: initialize your data here.
-                    //       the snap shot event can come multiple times
-                    Console.WriteLine("\nSnapshot Update");
-                }
-                else
-                {
-                    Console.WriteLine("\nIncremental Update");
-                }
-                Console.WriteLine("\nTop and level 0 field(s):");
-                foreach (FieldId f in e.Fields.GetChangedFieldIds())
-                        Console.WriteLine("    {0} : {1}", f.ToString(), e.Fields[f].FormattedValue);
+                tt_net_sdk.PriceSubscription ps = (tt_net_sdk.PriceSubscription)sender;
+                Console.WriteLine("Unrecoverable price subscription error: {0}", e.Error.Message);
+                ps.Dispose();
+                return;
+            }
 
-                Console.WriteLine("\nDepth field(s):");
-                int depthLevels = e.Fields.GetMaxDepthLevel();
-                for (int i = 0; i < depthLevels; i++)
-                {
-                    if (e.Fields.GetChangedFieldIds(i).Length > 0)
-                    {
-                        Console.WriteLine("Level={0}", i);
-                        foreach (FieldId id in e.Fields.GetChangedFieldIds(i))
-                        {
-                            Console.WriteLine("    {0}: {1}", id.ToString(), e.Fields[id, i].FormattedValue);
-                        }
-                    }
-                }
+            if (e.UpdateType == UpdateType.Snapshot)
+            {
+                // Received a market data snapshot
+
+                // TODO: initialize your data here.
+                //       the snap shot event can come multiple times
+                Console.WriteLine("\nSnapshot Update");
+
+                // You can now apply the changed/valid value fields.
             }
             else
             {
-                if (e.Error != null)
+                Console.WriteLine("\nIncremental Update");
+            }
+            Console.WriteLine("\nTop and level 0 field(s):");
+            foreach (FieldId f in e.Fields.GetChangedFieldIds())
+                    Console.WriteLine("    {0} : {1}", f.ToString(), e.Fields[f].FormattedValue);
+
+            Console.WriteLine("\nDepth field(s):");
+            int depthLevels = e.Fields.GetMaxDepthLevel();
+            for (int i = 0; i < depthLevels; i++)
+            {
+                if (e.Fields.GetChangedFieldIds(i).Length > 0)
                 {
-                    tt_net_sdk.PriceSubscription ps = (tt_net_sdk.PriceSubscription)sender;
-                    Console.WriteLine("Unrecoverable price subscription error: {0}", e.Error.Message);
-                    ps.Dispose();
+                    Console.WriteLine("Level={0}", i);
+                    foreach (FieldId id in e.Fields.GetChangedFieldIds(i))
+                    {
+                        Console.WriteLine("    {0}: {1}", id.ToString(), e.Fields[id, i].FormattedValue);
+                    }
                 }
             }
         }
