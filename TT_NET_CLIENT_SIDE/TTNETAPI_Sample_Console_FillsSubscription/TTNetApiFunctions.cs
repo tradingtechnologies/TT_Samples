@@ -109,6 +109,7 @@ namespace TTNETAPI_Sample_Console_FillsSubscription
 
             m_fs = new FillsSubscription(m_disp);
             m_fs.FillAdded        +=  m_fs_FillAdded;
+            m_fs.FillConfirmed    +=  m_fs_FillConfirmed;
             m_fs.FillBookDownload += m_fs_FillBookDownload;
                     
             m_fs.FillListEnd   += m_fs_FillListEnd;
@@ -145,6 +146,14 @@ namespace TTNETAPI_Sample_Console_FillsSubscription
         }
 
         /// <summary>
+        /// Event notification for fills being confirmed
+        /// </summary>
+        void m_fs_FillConfirmed(object sender, FillConfirmedEventArgs e)
+        {
+            processFill("Fill Confirmed:", e.Fill);
+        }
+
+        /// <summary>
         /// Event notification for a new fill
         /// </summary>
         void m_fs_FillAdded(object sender, FillAddedEventArgs e)
@@ -171,6 +180,7 @@ namespace TTNETAPI_Sample_Console_FillsSubscription
                     if (m_fs != null)
                     {
                         m_fs.FillAdded         -= m_fs_FillAdded;
+                        m_fs.FillConfirmed     -= m_fs_FillConfirmed;
                         m_fs.FillBookDownload  -= m_fs_FillBookDownload;
                         m_fs.FillListEnd       -= m_fs_FillListEnd;
                         m_fs.FillListStart     -= m_fs_FillListStart;
