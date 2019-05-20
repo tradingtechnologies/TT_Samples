@@ -69,7 +69,7 @@ namespace TTNETAPI_Sample_Console_SSEOrderRouting
             TTAPI.ShutdownCompleted += TTAPI_ShutdownCompleted;
 
             //For Algo Orders
-            apiConfig.UserDisconnectAction = UserDisconnectAction.Cancel;
+            apiConfig.AlgoUserDisconnectAction = UserDisconnectAction.Cancel;
             TTAPI.CreateTTAPI(tt_net_sdk.Dispatcher.Current, apiConfig, apiInitializeHandler);
         }
 
