@@ -259,10 +259,10 @@ namespace TTNETAPI_Sample_Console_SSEOrderRouting
             //Construct a dictionary of the parameters and the values to send out 
             Dictionary<string, object> iceberg_userparams = new Dictionary<string, object>
                 {
-                    {"DiscVal",     5 },
+                    {"DiscVal",     5},
                     {"DiscValType", tt_net_sdk.tt_iceberg.DiscValType.Qty},
-                    {"ChildTIF" ,   tt_net_sdk.TimeInForce.Day  },
-                    {"ParentTIF" ,  tt_net_sdk.tt_stop.ParentTIF.Day },
+                    {"ChildTIF" ,   tt_net_sdk.TimeInForce.Day},
+                    {"ParentTIF" ,  tt_net_sdk.tt_iceberg.ParentTIF.Day},
                 };
 
             OrderProfile iceberg_op = m_algo.GetOrderProfile(m_instrument);
