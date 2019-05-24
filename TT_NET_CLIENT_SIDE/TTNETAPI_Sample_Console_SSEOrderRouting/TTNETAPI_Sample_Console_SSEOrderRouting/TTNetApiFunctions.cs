@@ -263,7 +263,13 @@ namespace TTNETAPI_Sample_Console_SSEOrderRouting
                     {"DiscValType", tt_net_sdk.tt_iceberg.DiscValType.Qty},
                     {"ChildTIF" ,   tt_net_sdk.TimeInForce.Day},
                     {"ParentTIF" ,  tt_net_sdk.tt_iceberg.ParentTIF.Day},
+                    {"ETimeAct",    tt_net_sdk.tt_iceberg.ETimeAct.Cancel},
+                    {"STime",       EpochTimeUtc(30)},
+                    {"ETime",       EpochTimeUtc(60)},
                 };
+
+            var lines = iceberg_userparams.Select(kvp => kvp.Key + ": " + kvp.Value.ToString());
+            Console.WriteLine(string.Join(Environment.NewLine, lines));
 
             OrderProfile iceberg_op = m_algo.GetOrderProfile(m_instrument);
             iceberg_op.LimitPrice = m_price;
@@ -330,6 +336,12 @@ namespace TTNETAPI_Sample_Console_SSEOrderRouting
                 Console.WriteLine("\n PARENT Algo Order Restated [{0}] for Algo : {1} with Synthetic Status : {2} ", e.NewOrder.SiteOrderKey, e.NewOrder.Algo.Alias, e.NewOrder.SyntheticStatus.ToString());
             else
                 Console.WriteLine("\nOrderUpdated [{0}] {1}: {2}", e.NewOrder.SiteOrderKey, e.NewOrder.BuySell, e.NewOrder.ToString());
+        }
+
+        private long EpochTimeUtc(int offset_in_sec = 0)
+        {
+            // returns current time in UTC as microseconds
+            return (long)((DateTime.UtcNow.AddSeconds(offset_in_sec) - new DateTime(1970, 1, 1)).TotalMilliseconds * 1000000);
         }
 
         public void Dispose()
