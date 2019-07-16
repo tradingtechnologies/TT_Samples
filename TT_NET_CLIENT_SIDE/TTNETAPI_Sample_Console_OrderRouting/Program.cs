@@ -17,7 +17,7 @@ namespace TTNETAPI_Sample_Console_OrderRouting
                 string appSecretKey = "Add your app secret Key here";
 
                 //Set the environment the app needs to run in here
-                tt_net_sdk.ServiceEnvironment environment = tt_net_sdk.ServiceEnvironment.DevCert;
+                tt_net_sdk.ServiceEnvironment environment = tt_net_sdk.ServiceEnvironment.UatCert;
 
                 tt_net_sdk.TTAPIOptions apiConfig = new tt_net_sdk.TTAPIOptions(
                         environment,
