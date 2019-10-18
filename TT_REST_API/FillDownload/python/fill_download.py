@@ -1,5 +1,5 @@
 '''
-    Copyright  2018-2019 Trading Technologies International, Inc. All Rights Reserved Worldwide
+    Copyright © 2018-2019 Trading Technologies International, Inc. All Rights Reserved Worldwide
 
     Redistribution and use in source and binary forms, with or without
     modification, are permitted provided that the following conditions are met:
