@@ -1,5 +1,5 @@
 '''
-    Copyright © 2018-2019 Trading Technologies International, Inc. All Rights Reserved Worldwide
+    Copyright  2018-2019 Trading Technologies International, Inc. All Rights Reserved Worldwide
 
     Redistribution and use in source and binary forms, with or without
     modification, are permitted provided that the following conditions are met:
@@ -38,6 +38,7 @@ import logging
 import platform
 import argparse
 import calendar
+from uuid import uuid4
 from getpass import getpass
 from datetime import datetime, timedelta
 from threading import Thread, Lock, Event
@@ -57,6 +58,9 @@ VALID_TT_ENVIRONMENTS = (
     'ext_prod_live'
 )
 
+# Updated in main below
+REQUEST_ID_BASE = None
+
 class GLOBALS(object):
     enums = []
     api_http_header = {}
@@ -68,15 +72,16 @@ log = logging.getLogger()
 log.setLevel(logging.INFO)
 
 
-
 ###############################
 ###    COMMON UTILITIES     ###
 ###############################
 
 def api_request(url, headers, data=None, http_method='get'):
     log.debug('{} {}'.format(http_method.upper(), url))
+    req_id = '{}--{}'.format(REQUEST_ID_BASE, uuid4())
+    params = {'requestId': req_id}
     response = \
-        getattr(requests, http_method)(url=url, headers=headers, data=data)
+        getattr(requests, http_method)(url=url, headers=headers, data=data, params=params)
     if response.status_code != 200:
         raise AssertionError(
             "Error on API request --> http code: {} message: {}".
@@ -783,12 +788,14 @@ if __name__ == "__main__":
         description='',
         formatter_class=argparse.RawTextHelpFormatter,
         epilog="Example:\n\t"
-"python tt_fill_downloader.py -e ext_uat_cert -st 08:00 -et 14:30 -r 1 -o -l /tmp"
+"python fill_downloader.py -e ext_uat_cert -c TradingTech -st 08:00 -et 14:30 -r 1 -o -l /tmp"
     )
 
     parser.add_argument('-e', '--env', dest='tt_env', action='store',
         required=False, default='ext_prod_live',
         help='The TT order environment to interact with')
+    parser.add_argument('-c', '--company', dest='company', action='store',
+        required=True, help='Company name of the user')
     parser.add_argument('-st', '--start-time', dest='start_time', action='store',
         required=False, default='00:00',
         help='HH:MM formatted input based on a 24 hour clock, determining the '
@@ -808,6 +815,8 @@ if __name__ == "__main__":
         help='If supplied, will log to console')
 
     args = parser.parse_args()
+
+    REQUEST_ID_BASE = 'PyFillDownloader-{}'.format(args.company)
 
     if args.log_dir or args.stdout:
         # setup logging
