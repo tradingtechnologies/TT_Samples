@@ -788,7 +788,7 @@ if __name__ == "__main__":
         description='',
         formatter_class=argparse.RawTextHelpFormatter,
         epilog="Example:\n\t"
-"python fill_downloader.py -e ext_uat_cert -c TradingTech -st 08:00 -et 14:30 -r 1 -o -l /tmp"
+"python fill_download.py -e ext_uat_cert -c TradingTech -st 08:00 -et 14:30 -r 1 -o -l /tmp"
     )
 
     parser.add_argument('-e', '--env', dest='tt_env', action='store',
