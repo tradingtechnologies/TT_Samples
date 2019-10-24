@@ -85,13 +85,13 @@ namespace FillDownload.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("fills.csv")]
-        public string OutputLocation {
+        [global::System.Configuration.DefaultSettingValueAttribute(".\\")]
+        public string OutputFolder {
             get {
-                return ((string)(this["OutputLocation"]));
+                return ((string)(this["OutputFolder"]));
             }
             set {
-                this["OutputLocation"] = value;
+                this["OutputFolder"] = value;
             }
         }
         

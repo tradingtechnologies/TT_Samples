@@ -97,9 +97,10 @@ namespace FillDownload
 
             try
             {
-                FileStream fs = File.Create(txtOutput.Text);
+                string outFileName = txtOutput.Text + "\\fills.csv";
+                FileStream fs = File.Create(outFileName);
                 fs.Close();
-                m_outputFile = new StreamWriter(txtOutput.Text, true, Encoding.ASCII);
+                m_outputFile = new StreamWriter(outFileName, false, Encoding.ASCII);
                 m_outputFile.AutoFlush = true;
                 m_outputFile.Write(GetCSVHeader());
             }
@@ -131,7 +132,7 @@ namespace FillDownload
             this.Close();
         }
 
-            private void fillThread_OnFillDownload(object sender, List<TT_Fill> fills)
+        private void fillThread_OnFillDownload(object sender, List<TT_Fill> fills)
         {
             bool errors = false;
             foreach (TT_Fill fill in fills)
@@ -264,10 +265,11 @@ namespace FillDownload
 
         private void btnBrowse_Click(object sender, EventArgs e)
         {
-            DialogResult result = fdOutFile.ShowDialog();
+            //DialogResult result = fdOutFile.ShowDialog();
+            DialogResult result = fbdOutFolder.ShowDialog();
             if (result == DialogResult.OK)
             {
-                string file = fdOutFile.FileName;
+                string file = fbdOutFolder.SelectedPath;
                 try
                 {
                     txtOutput.Text = file;
@@ -287,7 +289,7 @@ namespace FillDownload
 
             txtFrequency.Text = Properties.filldownload.Default.Frequency;
 
-            txtOutput.Text = Properties.filldownload.Default.OutputLocation;
+            txtOutput.Text = Properties.filldownload.Default.OutputFolder;
 
             dtpEndTime.Value = dtpEndTime.Value.Date + Properties.filldownload.Default.EndTime;
             dtpStartTime.Value = dtpEndTime.Value.Date + Properties.filldownload.Default.StartTime;
@@ -325,7 +327,7 @@ namespace FillDownload
 
             Properties.filldownload.Default.Frequency = txtFrequency.Text;
 
-            Properties.filldownload.Default.OutputLocation = txtOutput.Text;
+            Properties.filldownload.Default.OutputFolder = txtOutput.Text;
 
             Properties.filldownload.Default.StartTime = dtpStartTime.Value.TimeOfDay;
             Properties.filldownload.Default.EndTime = dtpEndTime.Value.TimeOfDay;
