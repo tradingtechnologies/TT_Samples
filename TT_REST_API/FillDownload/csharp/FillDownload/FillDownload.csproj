@@ -70,6 +70,7 @@
     <Compile Include="CommonEnums.cs" />
     <Compile Include="ErrorLog.cs" />
     <Compile Include="FillDownloadThread.cs" />
+    <Compile Include="FillFile.cs" />
     <Compile Include="FrmFillDownload.cs">
       <SubType>Form</SubType>
     </Compile>

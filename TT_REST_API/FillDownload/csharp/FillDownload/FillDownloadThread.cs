@@ -90,7 +90,7 @@ namespace FillDownload
                 RestSharp.IRestResponse result = RestManager.GetRequest("ledger", "fills", min_param);
 
                 if (result.StatusCode != System.Net.HttpStatusCode.OK)
-                    throw new Exception("Request for fills unsuccessful. Status:" + result.StatusCode.ToString() + "Error Message: " + result.ErrorMessage);
+                    throw new Exception(String.Format("Request for fills unsuccessful. (minTimestamp={0}) - Status: {1} - Error Message: {2}", min_param.Value.ToString(), result.StatusCode.ToString(), result.ErrorMessage));
 
                 JObject json_data = JObject.Parse(result.Content);
                 foreach (var fill in json_data["fills"])

@@ -10,7 +10,7 @@ namespace FillDownload
     public partial class FrmFillDownload : Form
     {
         FillDownloadThread m_fillThread = null;
-        StreamWriter m_outputFile = null;
+        FillFile m_outputFile = null;
 
         List<FillColumn> m_TradePaneColumns = null;
 
@@ -95,14 +95,24 @@ namespace FillDownload
             days_to_run[5] = chkFriday.Checked;
             days_to_run[6] = chkSaturday.Checked;
 
+            //try
+            //{
+            //    string outFileName = txtOutput.Text + "\\fills.csv";
+            //    FileStream fs = File.Create(outFileName);
+            //    fs.Close();
+            //    m_outputFile = new StreamWriter(outFileName, false, Encoding.ASCII);
+            //    m_outputFile.AutoFlush = true;
+            //    m_outputFile.Write(GetCSVHeader());
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show("Error creating output file: " + ex.Message);
+            //    return;
+            //}
+
             try
             {
-                string outFileName = txtOutput.Text + "\\fills.csv";
-                FileStream fs = File.Create(outFileName);
-                fs.Close();
-                m_outputFile = new StreamWriter(outFileName, false, Encoding.ASCII);
-                m_outputFile.AutoFlush = true;
-                m_outputFile.Write(GetCSVHeader());
+                m_outputFile = FillFile.GetFillFile(FileMode.PerDay, txtOutput.Text, GetReportItems());
             }
             catch (Exception ex)
             {
@@ -134,26 +144,7 @@ namespace FillDownload
 
         private void fillThread_OnFillDownload(object sender, List<TT_Fill> fills)
         {
-            bool errors = false;
-            foreach (TT_Fill fill in fills)
-            {
-                String row = "";
-                foreach (FillColumn column in clbColumns.CheckedItems)
-                {
-                    try
-                    {
-                        row += column.DisplayField(fill) + ",";
-                    }
-                    catch (Exception ex)
-                    {
-                        row += ",";
-                        ErrorLog.Write("Error: Error parsing fill column " + column.ColumnName + " for fill " + fill.RecordID + Environment.NewLine + ex.Message);
-                        errors = true;
-                    }
-                }
-                row += Environment.NewLine;
-                m_outputFile.Write(row.ToString());
-            }
+            bool errors = m_outputFile.ProcessFills(fills);
 
             if (errors)
                 this.OnError(this, "Errors parsing fills. Closing down.");
@@ -235,6 +226,21 @@ namespace FillDownload
             m_TradePaneColumns.Add(new FillColumn("InvestDec", delegate (TT_Fill fill) { return fill.InvestDec; }));
             m_TradePaneColumns.Add(new FillColumn("ExecDec", delegate (TT_Fill fill) { return fill.ExecDec; }));
             m_TradePaneColumns.Add(new FillColumn("ClientID", delegate (TT_Fill fill) { return fill.ClientID; }));
+        }
+
+
+        private List<FillColumn> GetReportItems()
+        {
+            List<FillColumn> list = new List<FillColumn>();
+            var selected_columns = clbColumns.SelectedItems;
+            var selectEnumerator = selected_columns.GetEnumerator();
+
+            for (int i = 0; i < clbColumns.CheckedItems.Count; i++)
+            {
+                list.Add((FillColumn)clbColumns.CheckedItems[i]);
+            }
+
+            return list;
         }
 
         private String GetCSVHeader()
@@ -357,9 +363,9 @@ namespace FillDownload
     }
 
 
-    delegate String ColumnDisplay(TT_Fill display);
+    public delegate String ColumnDisplay(TT_Fill display);
 
-    class FillColumn
+    public class FillColumn
     {
         public String ColumnName;
         public String DisplayField(TT_Fill fill)

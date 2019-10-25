@@ -25,7 +25,7 @@ namespace FillDownload
             string log_name = "error_log.txt";
             FileStream fs = File.Create(log_name);
             fs.Close();
-            m_errorFile = new StreamWriter(log_name, false, Encoding.ASCII);
+            m_errorFile = new StreamWriter(log_name, true, Encoding.ASCII);
             m_errorFile.AutoFlush = true;
         }
 
