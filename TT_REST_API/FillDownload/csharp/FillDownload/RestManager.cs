@@ -99,14 +99,14 @@ namespace FillDownload
                     }
                     else
                     {
-                        string err_msg = "Error, GET request for token failed: " + dict_response["status_message"];
+                        string err_msg = "Error, POST request for token failed: " + dict_response["status_message"];
                         ErrorLog.Write(err_msg);
                         throw new Exception(err_msg);
                     }
                 }
                 else
                 {
-                    string err_msg = "Error, GET request for token failed: " + response.ErrorMessage;
+                    string err_msg = "Error, POST request for token failed: " + response.ErrorMessage;
                     ErrorLog.Write(err_msg);
                     throw new Exception(err_msg);
                 }
@@ -131,6 +131,13 @@ namespace FillDownload
                 var response = rest_man.Client.Execute(request);
                 return response;
             }
+        }
+
+        private static void LogRequest(RestRequest request, RestSharp.IRestResponse result)
+        {
+            RestManager rest_man = privInstance;
+            string log_message = String.Format("{0} - {1} {2}", result.StatusCode.ToString(), request.Method.ToString(), rest_man.Client.BuildUri(request));
+            RequestLog.Log(log_message);
         }
 
         private static RestManager privInstance
