@@ -83,9 +83,12 @@ namespace FillDownload
 
                 request.AddParameter("grant_type", "user_app");
                 request.AddParameter("app_key", rest_man.SecretKey);
+                request.AddParameter(GetRequestId());
 
                 var response = rest_man.Client.Execute(request);
                 var content = response.Content;
+
+                LogRequest(request, response);
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
@@ -124,11 +127,13 @@ namespace FillDownload
                 request.RequestFormat = DataFormat.Json;
 
                 request.Parameters.AddRange(parameters);
+                request.Parameters.Add(GetRequestId());
 
                 request.AddHeader("Authorization", rest_man.AccessToken);
                 request.AddHeader("x-api-key", rest_man.AppKey);
 
                 var response = rest_man.Client.Execute(request);
+                LogRequest(request, response);
                 return response;
             }
         }
@@ -138,6 +143,13 @@ namespace FillDownload
             RestManager rest_man = privInstance;
             string log_message = String.Format("{0} - {1} {2}", result.StatusCode.ToString(), request.Method.ToString(), rest_man.Client.BuildUri(request));
             RequestLog.Log(log_message);
+        }
+
+        private static Parameter GetRequestId()
+        {
+            string request_id = "REST-FILLDOWNLOAD--" + Guid.NewGuid();
+            Parameter parameter = new Parameter("requestId", request_id, RestSharp.ParameterType.QueryString);
+            return parameter;
         }
 
         private static RestManager privInstance
