@@ -54,7 +54,7 @@ namespace FillDownload
             fs.Close();
             m_outputFile = new StreamWriter(outFileName, false, Encoding.ASCII);
             m_outputFile.AutoFlush = true;
-            m_outputFile.Write(m_columns);
+            m_outputFile.Write(GetCSVHeader());
         }
 
         protected String GetCSVHeader()
