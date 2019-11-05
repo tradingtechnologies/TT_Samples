@@ -38,27 +38,29 @@ using System.IO;
 
 namespace FillDownload
 {
-    class ErrorLog
+    class RequestLog
     {
         private static readonly object m_lock = new object();
-        private static ErrorLog instance = null;
-        private TextWriter m_errorFile = null;
+        private static RequestLog instance = null;
+        private StreamWriter m_logFile = null;
 
-        public static void Write(String error_msg)
+        public static void Log(String request)
         {
-            ErrorLog log = privInstance;
-            error_msg += Environment.NewLine;
-            log.m_errorFile.Write(error_msg);
+            RequestLog log = privInstance;
+            request += Environment.NewLine;
+            log.m_logFile.Write(DateTime.Now.ToString() + " - " + request);
         }
 
-        private ErrorLog()
+        private RequestLog()
         {
-            FileStream fs = File.Create("error_log.txt");
+            string log_name = GetFileName();
+            FileStream fs = File.Create(log_name);
             fs.Close();
-            m_errorFile = TextWriter.Synchronized(File.AppendText("error_log.txt"));
+            m_logFile = new StreamWriter(log_name, true, Encoding.ASCII);
+            m_logFile.AutoFlush = true;
         }
 
-        private static ErrorLog privInstance
+        private static RequestLog privInstance
         {
             get
             {
@@ -66,11 +68,16 @@ namespace FillDownload
                 {
                     if (instance == null)
                     {
-                        instance = new ErrorLog();
+                        instance = new RequestLog();
                     }
                     return instance;
                 }
             }
+        }
+
+        private static string GetFileName()
+        {
+            return "requests_" + DateTime.Now.ToString("yyyy_MM_dd") + ".log";
         }
     }
 }
