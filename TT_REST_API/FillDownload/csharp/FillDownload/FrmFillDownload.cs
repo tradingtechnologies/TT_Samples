@@ -41,7 +41,7 @@ namespace FillDownload
     public partial class FrmFillDownload : Form
     {
         FillDownloadThread m_fillThread = null;
-        StreamWriter m_outputFile = null;
+        FillFile m_outputFile = null;
 
         List<FillColumn> m_TradePaneColumns = null;
 
@@ -58,6 +58,8 @@ namespace FillDownload
             }
              
             this.FormClosing += FrmFillDownload_FormClosing;
+
+            cbFileMode.DataSource = Enum.GetValues(typeof(FileMode));
 
             LoadSettings();
         }
@@ -87,8 +89,11 @@ namespace FillDownload
                 return;
             }
 
+
             // Try to log in to the REST API
-            RestManager.Init(txtKey.Text, txtSecret.Text, txtEnvironment.Text);
+            string app_key = txtSecret.Text.Split(':')[0];
+            string app_secret = txtSecret.Text;
+            RestManager.Init(app_key, app_secret, txtEnvironment.Text);
             if (!RestManager.IsAuthorized())
             {
                 MessageBox.Show("Rest API was not able to log in with provided App Key and Secret");
@@ -128,11 +133,8 @@ namespace FillDownload
 
             try
             {
-                FileStream fs = File.Create(txtOutput.Text);
-                fs.Close();
-                m_outputFile = new StreamWriter(txtOutput.Text, true, Encoding.ASCII);
-                m_outputFile.AutoFlush = true;
-                m_outputFile.Write(GetCSVHeader());
+                FileMode mode = (FileMode)cbFileMode.SelectedItem;
+                m_outputFile = FillFile.GetFillFile(mode, txtOutput.Text, GetReportItems());
             }
             catch (Exception ex)
             {
@@ -162,28 +164,9 @@ namespace FillDownload
             this.Close();
         }
 
-            private void fillThread_OnFillDownload(object sender, List<TT_Fill> fills)
+        private void fillThread_OnFillDownload(object sender, List<TT_Fill> fills)
         {
-            bool errors = false;
-            foreach (TT_Fill fill in fills)
-            {
-                String row = "";
-                foreach (FillColumn column in clbColumns.CheckedItems)
-                {
-                    try
-                    {
-                        row += column.DisplayField(fill) + ",";
-                    }
-                    catch (Exception ex)
-                    {
-                        row += ",";
-                        ErrorLog.Write("Error: Error parsing fill column " + column.ColumnName + " for fill " + fill.RecordID + Environment.NewLine + ex.Message);
-                        errors = true;
-                    }
-                }
-                row += Environment.NewLine;
-                m_outputFile.Write(row.ToString());
-            }
+            bool errors = m_outputFile.ProcessFills(fills);
 
             if (errors)
                 this.OnError(this, "Errors parsing fills. Closing down.");
@@ -267,6 +250,21 @@ namespace FillDownload
             m_TradePaneColumns.Add(new FillColumn("ClientID", delegate (TT_Fill fill) { return fill.ClientID; }));
         }
 
+
+        private List<FillColumn> GetReportItems()
+        {
+            List<FillColumn> list = new List<FillColumn>();
+            var selected_columns = clbColumns.SelectedItems;
+            var selectEnumerator = selected_columns.GetEnumerator();
+
+            for (int i = 0; i < clbColumns.CheckedItems.Count; i++)
+            {
+                list.Add((FillColumn)clbColumns.CheckedItems[i]);
+            }
+
+            return list;
+        }
+
         private String GetCSVHeader()
         {
             String header = "";
@@ -295,10 +293,11 @@ namespace FillDownload
 
         private void btnBrowse_Click(object sender, EventArgs e)
         {
-            DialogResult result = fdOutFile.ShowDialog();
+            //DialogResult result = fdOutFile.ShowDialog();
+            DialogResult result = fbdOutFolder.ShowDialog();
             if (result == DialogResult.OK)
             {
-                string file = fdOutFile.FileName;
+                string file = fbdOutFolder.SelectedPath;
                 try
                 {
                     txtOutput.Text = file;
@@ -312,13 +311,12 @@ namespace FillDownload
         private void LoadSettings()
         {
             txtURL.Text = Properties.filldownload.Default.ApiURL;
-            txtKey.Text = Properties.filldownload.Default.Key;
             txtSecret.Text = Properties.filldownload.Default.Secret;
             txtEnvironment.Text = Properties.filldownload.Default.Env;
 
             txtFrequency.Text = Properties.filldownload.Default.Frequency;
 
-            txtOutput.Text = Properties.filldownload.Default.OutputLocation;
+            txtOutput.Text = Properties.filldownload.Default.OutputFolder;
 
             dtpEndTime.Value = dtpEndTime.Value.Date + Properties.filldownload.Default.EndTime;
             dtpStartTime.Value = dtpEndTime.Value.Date + Properties.filldownload.Default.StartTime;
@@ -337,6 +335,8 @@ namespace FillDownload
             chkFriday.Checked = Properties.filldownload.Default.RunFriday;
             chkSaturday.Checked = Properties.filldownload.Default.RunSaturday;
 
+            cbFileMode.SelectedItem = Properties.filldownload.Default.FileMode;
+
             var columns = Properties.filldownload.Default.Columns;
             if (columns != null)
             {
@@ -350,13 +350,12 @@ namespace FillDownload
         private void btnSaveSettings_Click(object sender, EventArgs e)
         {
             Properties.filldownload.Default.ApiURL = txtURL.Text;
-            Properties.filldownload.Default.Key = txtKey.Text;
             Properties.filldownload.Default.Secret = txtSecret.Text;
             Properties.filldownload.Default.Env = txtEnvironment.Text;
 
             Properties.filldownload.Default.Frequency = txtFrequency.Text;
 
-            Properties.filldownload.Default.OutputLocation = txtOutput.Text;
+            Properties.filldownload.Default.OutputFolder = txtOutput.Text;
 
             Properties.filldownload.Default.StartTime = dtpStartTime.Value.TimeOfDay;
             Properties.filldownload.Default.EndTime = dtpEndTime.Value.TimeOfDay;
@@ -374,6 +373,8 @@ namespace FillDownload
             Properties.filldownload.Default.RunFriday = chkFriday.Checked;
             Properties.filldownload.Default.RunSaturday = chkSaturday.Checked;
 
+            Properties.filldownload.Default.FileMode = (FileMode)cbFileMode.SelectedItem;
+
             var columns = new System.Collections.Specialized.StringCollection();
             foreach(var col in clbColumns.CheckedItems)
             {
@@ -386,9 +387,9 @@ namespace FillDownload
     }
 
 
-    delegate String ColumnDisplay(TT_Fill display);
+    public delegate String ColumnDisplay(TT_Fill display);
 
-    class FillColumn
+    public class FillColumn
     {
         public String ColumnName;
         public String DisplayField(TT_Fill fill)

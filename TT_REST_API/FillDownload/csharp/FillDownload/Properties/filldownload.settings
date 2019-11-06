@@ -17,8 +17,8 @@
     <Setting Name="Frequency" Type="System.String" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
-    <Setting Name="OutputLocation" Type="System.String" Scope="User">
-      <Value Profile="(Default)">fills.csv</Value>
+    <Setting Name="OutputFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">.\</Value>
     </Setting>
     <Setting Name="StartTime" Type="System.TimeSpan" Scope="User">
       <Value Profile="(Default)">09:00:00</Value>
@@ -55,6 +55,9 @@
     </Setting>
     <Setting Name="RunSunday" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="FileMode" Type="FillDownload.FileMode" Scope="User">
+      <Value Profile="(Default)">Replace</Value>
     </Setting>
   </Settings>
 </SettingsFile>

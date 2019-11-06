@@ -42,20 +42,22 @@ namespace FillDownload
     {
         private static readonly object m_lock = new object();
         private static ErrorLog instance = null;
-        private TextWriter m_errorFile = null;
+        private StreamWriter m_errorFile = null;
 
         public static void Write(String error_msg)
         {
             ErrorLog log = privInstance;
             error_msg += Environment.NewLine;
-            log.m_errorFile.Write(error_msg);
+            log.m_errorFile.Write(DateTime.Now.ToString() + " " + error_msg);
         }
 
         private ErrorLog()
         {
-            FileStream fs = File.Create("error_log.txt");
+            string log_name = "error_log.txt";
+            FileStream fs = File.Create(log_name);
             fs.Close();
-            m_errorFile = TextWriter.Synchronized(File.AppendText("error_log.txt"));
+            m_errorFile = new StreamWriter(log_name, true, Encoding.ASCII);
+            m_errorFile.AutoFlush = true;
         }
 
         private static ErrorLog privInstance

@@ -85,13 +85,13 @@ namespace FillDownload.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("fills.csv")]
-        public string OutputLocation {
+        [global::System.Configuration.DefaultSettingValueAttribute(".\\")]
+        public string OutputFolder {
             get {
-                return ((string)(this["OutputLocation"]));
+                return ((string)(this["OutputFolder"]));
             }
             set {
-                this["OutputLocation"] = value;
+                this["OutputFolder"] = value;
             }
         }
         
@@ -233,6 +233,18 @@ namespace FillDownload.Properties {
             }
             set {
                 this["RunSunday"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Replace")]
+        public global::FillDownload.FileMode FileMode {
+            get {
+                return ((global::FillDownload.FileMode)(this["FileMode"]));
+            }
+            set {
+                this["FileMode"] = value;
             }
         }
     }

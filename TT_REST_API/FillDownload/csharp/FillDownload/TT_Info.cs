@@ -128,8 +128,25 @@ namespace FillDownload
         private static TT_User RequestUser(string user_id)
         {
             var result = RestManager.GetRequest("risk", "user/" + user_id);
-            UserResponse usr = JsonConvert.DeserializeObject<UserResponse>(result.Content);
-            return usr.user[0];
+            UserResponse response = JsonConvert.DeserializeObject<UserResponse>(result.Content);
+            TT_User usr = null;
+
+            if(response.Status == "Ok")
+            {
+                usr = response.user[0];
+            }
+            else
+            {
+                // If the REST API user cannot view this user, make a dummy variable
+                usr = new TT_User();
+                usr.id = user_id;
+                usr.alias = "user_id:" + user_id;
+                usr.company = new TT_Company();
+                usr.company.name = "user_id:" + user_id;
+                usr.company.id = -1;
+                usr.company.abbrevName = "user_id:" + user_id;
+            }
+            return usr;
         }
 
 

@@ -30,10 +30,8 @@ namespace FillDownload
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmFillDownload));
             this.btnStart = new System.Windows.Forms.Button();
-            this.txtKey = new System.Windows.Forms.TextBox();
             this.txtSecret = new System.Windows.Forms.TextBox();
             this.txtOutput = new System.Windows.Forms.TextBox();
-            this.lblKey = new System.Windows.Forms.Label();
             this.lblSecret = new System.Windows.Forms.Label();
             this.lblOutputFile = new System.Windows.Forms.Label();
             this.lblInterval = new System.Windows.Forms.Label();
@@ -55,7 +53,6 @@ namespace FillDownload
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.btnBrowse = new System.Windows.Forms.Button();
-            this.fdOutFile = new System.Windows.Forms.OpenFileDialog();
             this.btnSaveSettings = new System.Windows.Forms.Button();
             this.chkMonday = new System.Windows.Forms.CheckBox();
             this.chkTuesday = new System.Windows.Forms.CheckBox();
@@ -65,6 +62,9 @@ namespace FillDownload
             this.chkSaturday = new System.Windows.Forms.CheckBox();
             this.chkThursday = new System.Windows.Forms.CheckBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.fbdOutFolder = new System.Windows.Forms.FolderBrowserDialog();
+            this.cbFileMode = new System.Windows.Forms.ComboBox();
+            this.lblFileMode = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnStart
@@ -82,18 +82,10 @@ namespace FillDownload
             this.btnStart.UseVisualStyleBackColor = false;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
-            // txtKey
-            // 
-            this.txtKey.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtKey.Location = new System.Drawing.Point(22, 213);
-            this.txtKey.Name = "txtKey";
-            this.txtKey.Size = new System.Drawing.Size(210, 26);
-            this.txtKey.TabIndex = 3;
-            // 
             // txtSecret
             // 
             this.txtSecret.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSecret.Location = new System.Drawing.Point(22, 280);
+            this.txtSecret.Location = new System.Drawing.Point(22, 215);
             this.txtSecret.Name = "txtSecret";
             this.txtSecret.Size = new System.Drawing.Size(210, 26);
             this.txtSecret.TabIndex = 4;
@@ -105,23 +97,13 @@ namespace FillDownload
             this.txtOutput.Name = "txtOutput";
             this.txtOutput.Size = new System.Drawing.Size(130, 26);
             this.txtOutput.TabIndex = 5;
-            this.txtOutput.Text = "fills.csv";
-            // 
-            // lblKey
-            // 
-            this.lblKey.AutoSize = true;
-            this.lblKey.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblKey.Location = new System.Drawing.Point(19, 190);
-            this.lblKey.Name = "lblKey";
-            this.lblKey.Size = new System.Drawing.Size(59, 18);
-            this.lblKey.TabIndex = 6;
-            this.lblKey.Text = "App Key";
+            this.txtOutput.Text = ".\\";
             // 
             // lblSecret
             // 
             this.lblSecret.AutoSize = true;
             this.lblSecret.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSecret.Location = new System.Drawing.Point(19, 257);
+            this.lblSecret.Location = new System.Drawing.Point(19, 192);
             this.lblSecret.Name = "lblSecret";
             this.lblSecret.Size = new System.Drawing.Size(75, 18);
             this.lblSecret.TabIndex = 7;
@@ -180,7 +162,7 @@ namespace FillDownload
             // 
             this.lblEnvironment.AutoSize = true;
             this.lblEnvironment.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEnvironment.Location = new System.Drawing.Point(19, 332);
+            this.lblEnvironment.Location = new System.Drawing.Point(19, 259);
             this.lblEnvironment.Name = "lblEnvironment";
             this.lblEnvironment.Size = new System.Drawing.Size(88, 18);
             this.lblEnvironment.TabIndex = 16;
@@ -189,7 +171,7 @@ namespace FillDownload
             // txtEnvironment
             // 
             this.txtEnvironment.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEnvironment.Location = new System.Drawing.Point(22, 353);
+            this.txtEnvironment.Location = new System.Drawing.Point(22, 280);
             this.txtEnvironment.Name = "txtEnvironment";
             this.txtEnvironment.Size = new System.Drawing.Size(210, 26);
             this.txtEnvironment.TabIndex = 15;
@@ -332,12 +314,6 @@ namespace FillDownload
             this.btnBrowse.UseVisualStyleBackColor = true;
             this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
             // 
-            // ofdOutFile
-            // 
-            this.fdOutFile.CheckFileExists = false;
-            this.fdOutFile.FileName = "fills.csv";
-            this.fdOutFile.InitialDirectory = ".\\";
-            // 
             // btnSaveSettings
             // 
             this.btnSaveSettings.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -355,9 +331,8 @@ namespace FillDownload
             this.chkMonday.BackColor = System.Drawing.Color.White;
             this.chkMonday.Checked = true;
             this.chkMonday.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkMonday.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(214)))));
             this.chkMonday.FlatAppearance.BorderColor = System.Drawing.Color.DarkGray;
-            this.chkMonday.CheckedChanged += Chk_CheckedChanged;
+            this.chkMonday.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(214)))));
             this.chkMonday.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.chkMonday.ForeColor = System.Drawing.Color.White;
             this.chkMonday.Location = new System.Drawing.Point(271, 140);
@@ -367,8 +342,6 @@ namespace FillDownload
             this.chkMonday.Text = "M";
             this.chkMonday.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.chkMonday.UseVisualStyleBackColor = false;
-            FrmFillDownload.setBoxStateColors(chkMonday);
-
             // 
             // chkTuesday
             // 
@@ -376,9 +349,8 @@ namespace FillDownload
             this.chkTuesday.BackColor = System.Drawing.Color.White;
             this.chkTuesday.Checked = true;
             this.chkTuesday.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkTuesday.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(214)))));
             this.chkTuesday.FlatAppearance.BorderColor = System.Drawing.Color.DarkGray;
-            this.chkTuesday.CheckedChanged += Chk_CheckedChanged;
+            this.chkTuesday.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(214)))));
             this.chkTuesday.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.chkTuesday.ForeColor = System.Drawing.Color.White;
             this.chkTuesday.Location = new System.Drawing.Point(300, 140);
@@ -388,7 +360,6 @@ namespace FillDownload
             this.chkTuesday.Text = "T";
             this.chkTuesday.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.chkTuesday.UseVisualStyleBackColor = false;
-            FrmFillDownload.setBoxStateColors(chkTuesday);
             // 
             // chkWednesday
             // 
@@ -396,9 +367,8 @@ namespace FillDownload
             this.chkWednesday.BackColor = System.Drawing.Color.White;
             this.chkWednesday.Checked = true;
             this.chkWednesday.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkWednesday.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(214)))));
             this.chkWednesday.FlatAppearance.BorderColor = System.Drawing.Color.DarkGray;
-            this.chkWednesday.CheckedChanged += Chk_CheckedChanged;
+            this.chkWednesday.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(214)))));
             this.chkWednesday.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.chkWednesday.ForeColor = System.Drawing.Color.White;
             this.chkWednesday.Location = new System.Drawing.Point(329, 140);
@@ -408,15 +378,13 @@ namespace FillDownload
             this.chkWednesday.Text = "W";
             this.chkWednesday.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.chkWednesday.UseVisualStyleBackColor = false;
-            FrmFillDownload.setBoxStateColors(chkWednesday);
             // 
             // chkSunday
             // 
             this.chkSunday.Appearance = System.Windows.Forms.Appearance.Button;
             this.chkSunday.BackColor = System.Drawing.Color.White;
-            this.chkSunday.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(214)))));
             this.chkSunday.FlatAppearance.BorderColor = System.Drawing.Color.DarkGray;
-            this.chkSunday.CheckedChanged += Chk_CheckedChanged;
+            this.chkSunday.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(214)))));
             this.chkSunday.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.chkSunday.ForeColor = System.Drawing.Color.White;
             this.chkSunday.Location = new System.Drawing.Point(445, 140);
@@ -426,8 +394,6 @@ namespace FillDownload
             this.chkSunday.Text = "U";
             this.chkSunday.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.chkSunday.UseVisualStyleBackColor = false;
-            FrmFillDownload.setBoxStateColors(chkSunday);
-
             // 
             // chkFriday
             // 
@@ -435,9 +401,8 @@ namespace FillDownload
             this.chkFriday.BackColor = System.Drawing.Color.White;
             this.chkFriday.Checked = true;
             this.chkFriday.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkFriday.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(214)))));
             this.chkFriday.FlatAppearance.BorderColor = System.Drawing.Color.DarkGray;
-            this.chkFriday.CheckedChanged += Chk_CheckedChanged;
+            this.chkFriday.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(214)))));
             this.chkFriday.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.chkFriday.ForeColor = System.Drawing.Color.White;
             this.chkFriday.Location = new System.Drawing.Point(387, 140);
@@ -447,16 +412,13 @@ namespace FillDownload
             this.chkFriday.Text = "F";
             this.chkFriday.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.chkFriday.UseVisualStyleBackColor = false;
-            FrmFillDownload.setBoxStateColors(chkFriday);
-
             // 
             // chkSaturday
             // 
             this.chkSaturday.Appearance = System.Windows.Forms.Appearance.Button;
             this.chkSaturday.BackColor = System.Drawing.Color.White;
-            this.chkSaturday.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(214)))));
             this.chkSaturday.FlatAppearance.BorderColor = System.Drawing.Color.DarkGray;
-            this.chkSaturday.CheckedChanged += Chk_CheckedChanged;
+            this.chkSaturday.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(214)))));
             this.chkSaturday.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.chkSaturday.ForeColor = System.Drawing.Color.White;
             this.chkSaturday.Location = new System.Drawing.Point(416, 140);
@@ -466,16 +428,15 @@ namespace FillDownload
             this.chkSaturday.Text = "S";
             this.chkSaturday.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.chkSaturday.UseVisualStyleBackColor = false;
-            FrmFillDownload.setBoxStateColors(chkSaturday);
             // 
             // chkThursday
             // 
             this.chkThursday.Appearance = System.Windows.Forms.Appearance.Button;
             this.chkThursday.BackColor = System.Drawing.Color.White;
             this.chkThursday.Checked = true;
-            this.chkThursday.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(214)))));
+            this.chkThursday.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkThursday.FlatAppearance.BorderColor = System.Drawing.Color.DarkGray;
-            this.chkThursday.CheckedChanged += Chk_CheckedChanged;
+            this.chkThursday.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(214)))));
             this.chkThursday.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.chkThursday.ForeColor = System.Drawing.Color.White;
             this.chkThursday.Location = new System.Drawing.Point(358, 140);
@@ -485,7 +446,6 @@ namespace FillDownload
             this.chkThursday.Text = "R";
             this.chkThursday.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.chkThursday.UseVisualStyleBackColor = false;
-            FrmFillDownload.setBoxStateColors(chkThursday);
             // 
             // label8
             // 
@@ -497,11 +457,38 @@ namespace FillDownload
             this.label8.TabIndex = 42;
             this.label8.Text = "Days of the Week";
             // 
+            // fbdOutFolder
+            // 
+            this.fbdOutFolder.RootFolder = System.Environment.SpecialFolder.UserProfile;
+            this.fbdOutFolder.SelectedPath = ".\\";
+            // 
+            // cbFileMode
+            // 
+            this.cbFileMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbFileMode.Font = new System.Drawing.Font("Calibri", 11.25F);
+            this.cbFileMode.FormattingEnabled = true;
+            this.cbFileMode.Location = new System.Drawing.Point(22, 352);
+            this.cbFileMode.Name = "cbFileMode";
+            this.cbFileMode.Size = new System.Drawing.Size(210, 26);
+            this.cbFileMode.TabIndex = 43;
+            // 
+            // lblFileMode
+            // 
+            this.lblFileMode.AutoSize = true;
+            this.lblFileMode.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFileMode.Location = new System.Drawing.Point(19, 331);
+            this.lblFileMode.Name = "lblFileMode";
+            this.lblFileMode.Size = new System.Drawing.Size(71, 18);
+            this.lblFileMode.TabIndex = 44;
+            this.lblFileMode.Text = "File Mode";
+            // 
             // FrmFillDownload
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(764, 571);
+            this.Controls.Add(this.lblFileMode);
+            this.Controls.Add(this.cbFileMode);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.chkThursday);
             this.Controls.Add(this.chkSaturday);
@@ -532,10 +519,8 @@ namespace FillDownload
             this.Controls.Add(this.txtFrequency);
             this.Controls.Add(this.lblOutputFile);
             this.Controls.Add(this.lblSecret);
-            this.Controls.Add(this.lblKey);
             this.Controls.Add(this.txtOutput);
             this.Controls.Add(this.txtSecret);
-            this.Controls.Add(this.txtKey);
             this.Controls.Add(this.btnStart);
             this.Cursor = System.Windows.Forms.Cursors.Default;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -562,10 +547,8 @@ namespace FillDownload
 
         #endregion
         private System.Windows.Forms.Button btnStart;
-        private System.Windows.Forms.TextBox txtKey;
         private System.Windows.Forms.TextBox txtSecret;
         private System.Windows.Forms.TextBox txtOutput;
-        private System.Windows.Forms.Label lblKey;
         private System.Windows.Forms.Label lblSecret;
         private System.Windows.Forms.Label lblOutputFile;
         private System.Windows.Forms.Label lblInterval;
@@ -587,7 +570,6 @@ namespace FillDownload
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button btnBrowse;
-        private System.Windows.Forms.OpenFileDialog fdOutFile;
         private System.Windows.Forms.Button btnSaveSettings;
         private System.Windows.Forms.CheckBox chkMonday;
         private System.Windows.Forms.CheckBox chkTuesday;
@@ -597,6 +579,9 @@ namespace FillDownload
         private System.Windows.Forms.CheckBox chkSaturday;
         private System.Windows.Forms.CheckBox chkThursday;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.FolderBrowserDialog fbdOutFolder;
+        private System.Windows.Forms.ComboBox cbFileMode;
+        private System.Windows.Forms.Label lblFileMode;
     }
 }
 
