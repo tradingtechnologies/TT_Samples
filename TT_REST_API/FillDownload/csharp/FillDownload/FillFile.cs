@@ -138,8 +138,14 @@ namespace FillDownload
 
         public override bool ProcessFills(List<TT_Fill> fills)
         {
-            CreateFile(GetFileName(DateTime.Now));
-            return WriteFillsToFile(fills);
+            bool errors = false;
+            if(fills.Count > 0)
+            {
+                DateTime firstFillTime = fills[0].UtcTimeStamp.ToLocalTime();
+                CreateFile(GetFileName(firstFillTime));
+                errors = WriteFillsToFile(fills);
+            }
+            return errors;
         }
 
         // export_yyyy_mm_dd_hh_mm.csv

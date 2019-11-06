@@ -112,7 +112,7 @@ namespace FillDownload
 
             try
             {
-                m_outputFile = FillFile.GetFillFile(FileMode.PerDay, txtOutput.Text, GetReportItems());
+                m_outputFile = FillFile.GetFillFile(FileMode.PerDownload, txtOutput.Text, GetReportItems());
             }
             catch (Exception ex)
             {
