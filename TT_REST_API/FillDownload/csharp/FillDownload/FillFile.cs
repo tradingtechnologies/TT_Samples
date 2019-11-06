@@ -25,12 +25,12 @@ namespace FillDownload
         {
             if(mode == FileMode.PerDay)
             {
-                return new DailyFillFile(path_to_file, columns);
+                return new ReplaceFile(path_to_file, columns);
 
             }
             else if(mode == FileMode.PerDownload)
             {
-                return new DownloadFillFile(path_to_file, columns);
+                return new NewFillFile(path_to_file, columns);
             }
             else
             {
@@ -100,11 +100,11 @@ namespace FillDownload
         }
     }
 
-    public class DailyFillFile : FillFile
+    public class ReplaceFile : FillFile
     {
         DateTime m_lastCreated;
 
-        public DailyFillFile(string path_to_file, List<FillColumn> columns)
+        public ReplaceFile(string path_to_file, List<FillColumn> columns)
             :base(path_to_file, columns)
         {
             m_lastCreated = DateTime.Now;
@@ -128,9 +128,9 @@ namespace FillDownload
         }
     }
 
-    public class DownloadFillFile : FillFile
+    public class NewFillFile : FillFile
     {
-        public DownloadFillFile(string path_to_file, List<FillColumn> columns)
+        public NewFillFile(string path_to_file, List<FillColumn> columns)
             : base(path_to_file, columns)
         {
 

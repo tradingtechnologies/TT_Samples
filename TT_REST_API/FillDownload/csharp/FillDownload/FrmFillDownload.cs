@@ -56,8 +56,11 @@ namespace FillDownload
                 return;
             }
 
+
+            string app_key = txtSecret.Text.Split(':')[0];
+            string app_secret = txtSecret.Text;
             // Try to log in to the REST API
-            RestManager.Init(txtKey.Text, txtSecret.Text, txtEnvironment.Text);
+            RestManager.Init(app_key, app_secret, txtEnvironment.Text);
             if (!RestManager.IsAuthorized())
             {
                 MessageBox.Show("Rest API was not able to log in with provided App Key and Secret");
@@ -289,7 +292,6 @@ namespace FillDownload
         private void LoadSettings()
         {
             txtURL.Text = Properties.filldownload.Default.ApiURL;
-            txtKey.Text = Properties.filldownload.Default.Key;
             txtSecret.Text = Properties.filldownload.Default.Secret;
             txtEnvironment.Text = Properties.filldownload.Default.Env;
 
@@ -327,7 +329,6 @@ namespace FillDownload
         private void btnSaveSettings_Click(object sender, EventArgs e)
         {
             Properties.filldownload.Default.ApiURL = txtURL.Text;
-            Properties.filldownload.Default.Key = txtKey.Text;
             Properties.filldownload.Default.Secret = txtSecret.Text;
             Properties.filldownload.Default.Env = txtEnvironment.Text;
 

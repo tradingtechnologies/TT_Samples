@@ -30,10 +30,8 @@ namespace FillDownload
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmFillDownload));
             this.btnStart = new System.Windows.Forms.Button();
-            this.txtKey = new System.Windows.Forms.TextBox();
             this.txtSecret = new System.Windows.Forms.TextBox();
             this.txtOutput = new System.Windows.Forms.TextBox();
-            this.lblKey = new System.Windows.Forms.Label();
             this.lblSecret = new System.Windows.Forms.Label();
             this.lblOutputFile = new System.Windows.Forms.Label();
             this.lblInterval = new System.Windows.Forms.Label();
@@ -82,18 +80,10 @@ namespace FillDownload
             this.btnStart.UseVisualStyleBackColor = false;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
-            // txtKey
-            // 
-            this.txtKey.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtKey.Location = new System.Drawing.Point(22, 213);
-            this.txtKey.Name = "txtKey";
-            this.txtKey.Size = new System.Drawing.Size(210, 26);
-            this.txtKey.TabIndex = 3;
-            // 
             // txtSecret
             // 
             this.txtSecret.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSecret.Location = new System.Drawing.Point(22, 280);
+            this.txtSecret.Location = new System.Drawing.Point(22, 215);
             this.txtSecret.Name = "txtSecret";
             this.txtSecret.Size = new System.Drawing.Size(210, 26);
             this.txtSecret.TabIndex = 4;
@@ -107,21 +97,11 @@ namespace FillDownload
             this.txtOutput.TabIndex = 5;
             this.txtOutput.Text = ".\\";
             // 
-            // lblKey
-            // 
-            this.lblKey.AutoSize = true;
-            this.lblKey.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblKey.Location = new System.Drawing.Point(19, 190);
-            this.lblKey.Name = "lblKey";
-            this.lblKey.Size = new System.Drawing.Size(59, 18);
-            this.lblKey.TabIndex = 6;
-            this.lblKey.Text = "App Key";
-            // 
             // lblSecret
             // 
             this.lblSecret.AutoSize = true;
             this.lblSecret.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSecret.Location = new System.Drawing.Point(19, 257);
+            this.lblSecret.Location = new System.Drawing.Point(19, 192);
             this.lblSecret.Name = "lblSecret";
             this.lblSecret.Size = new System.Drawing.Size(75, 18);
             this.lblSecret.TabIndex = 7;
@@ -180,7 +160,7 @@ namespace FillDownload
             // 
             this.lblEnvironment.AutoSize = true;
             this.lblEnvironment.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEnvironment.Location = new System.Drawing.Point(19, 332);
+            this.lblEnvironment.Location = new System.Drawing.Point(19, 259);
             this.lblEnvironment.Name = "lblEnvironment";
             this.lblEnvironment.Size = new System.Drawing.Size(88, 18);
             this.lblEnvironment.TabIndex = 16;
@@ -189,7 +169,7 @@ namespace FillDownload
             // txtEnvironment
             // 
             this.txtEnvironment.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEnvironment.Location = new System.Drawing.Point(22, 353);
+            this.txtEnvironment.Location = new System.Drawing.Point(22, 280);
             this.txtEnvironment.Name = "txtEnvironment";
             this.txtEnvironment.Size = new System.Drawing.Size(210, 26);
             this.txtEnvironment.TabIndex = 15;
@@ -515,10 +495,8 @@ namespace FillDownload
             this.Controls.Add(this.txtFrequency);
             this.Controls.Add(this.lblOutputFile);
             this.Controls.Add(this.lblSecret);
-            this.Controls.Add(this.lblKey);
             this.Controls.Add(this.txtOutput);
             this.Controls.Add(this.txtSecret);
-            this.Controls.Add(this.txtKey);
             this.Controls.Add(this.btnStart);
             this.Cursor = System.Windows.Forms.Cursors.Default;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -545,10 +523,8 @@ namespace FillDownload
 
         #endregion
         private System.Windows.Forms.Button btnStart;
-        private System.Windows.Forms.TextBox txtKey;
         private System.Windows.Forms.TextBox txtSecret;
         private System.Windows.Forms.TextBox txtOutput;
-        private System.Windows.Forms.Label lblKey;
         private System.Windows.Forms.Label lblSecret;
         private System.Windows.Forms.Label lblOutputFile;
         private System.Windows.Forms.Label lblInterval;
