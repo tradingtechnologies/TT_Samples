@@ -100,21 +100,6 @@ namespace FillDownload
             days_to_run[5] = chkFriday.Checked;
             days_to_run[6] = chkSaturday.Checked;
 
-            //try
-            //{
-            //    string outFileName = txtOutput.Text + "\\fills.csv";
-            //    FileStream fs = File.Create(outFileName);
-            //    fs.Close();
-            //    m_outputFile = new StreamWriter(outFileName, false, Encoding.ASCII);
-            //    m_outputFile.AutoFlush = true;
-            //    m_outputFile.Write(GetCSVHeader());
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show("Error creating output file: " + ex.Message);
-            //    return;
-            //}
-
             try
             {
                 FileMode mode = (FileMode)cbFileMode.SelectedItem;
