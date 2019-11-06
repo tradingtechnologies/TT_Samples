@@ -9,10 +9,11 @@ using System.Diagnostics;
 
 namespace FillDownload
 {
+    [Serializable]
     public enum FileMode
     {
-        PerDay,
-        PerDownload
+        Replace,
+        New
     }
 
     public abstract class FillFile
@@ -23,12 +24,12 @@ namespace FillDownload
 
         public static FillFile GetFillFile(FileMode mode, string path_to_file, List<FillColumn> columns)
         {
-            if(mode == FileMode.PerDay)
+            if(mode == FileMode.Replace)
             {
                 return new ReplaceFile(path_to_file, columns);
 
             }
-            else if(mode == FileMode.PerDownload)
+            else if(mode == FileMode.New)
             {
                 return new NewFillFile(path_to_file, columns);
             }

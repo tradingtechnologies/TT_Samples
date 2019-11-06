@@ -28,6 +28,8 @@ namespace FillDownload
              
             this.FormClosing += FrmFillDownload_FormClosing;
 
+            cbFileMode.DataSource = Enum.GetValues(typeof(FileMode));
+
             LoadSettings();
         }
 
@@ -57,9 +59,9 @@ namespace FillDownload
             }
 
 
+            // Try to log in to the REST API
             string app_key = txtSecret.Text.Split(':')[0];
             string app_secret = txtSecret.Text;
-            // Try to log in to the REST API
             RestManager.Init(app_key, app_secret, txtEnvironment.Text);
             if (!RestManager.IsAuthorized())
             {
@@ -115,7 +117,8 @@ namespace FillDownload
 
             try
             {
-                m_outputFile = FillFile.GetFillFile(FileMode.PerDownload, txtOutput.Text, GetReportItems());
+                FileMode mode = (FileMode)cbFileMode.SelectedItem;
+                m_outputFile = FillFile.GetFillFile(mode, txtOutput.Text, GetReportItems());
             }
             catch (Exception ex)
             {
@@ -316,6 +319,8 @@ namespace FillDownload
             chkFriday.Checked = Properties.filldownload.Default.RunFriday;
             chkSaturday.Checked = Properties.filldownload.Default.RunSaturday;
 
+            cbFileMode.SelectedItem = Properties.filldownload.Default.FileMode;
+
             var columns = Properties.filldownload.Default.Columns;
             if (columns != null)
             {
@@ -351,6 +356,8 @@ namespace FillDownload
             Properties.filldownload.Default.RunThurday = chkThursday.Checked;
             Properties.filldownload.Default.RunFriday = chkFriday.Checked;
             Properties.filldownload.Default.RunSaturday = chkSaturday.Checked;
+
+            Properties.filldownload.Default.FileMode = (FileMode)cbFileMode.SelectedItem;
 
             var columns = new System.Collections.Specialized.StringCollection();
             foreach(var col in clbColumns.CheckedItems)

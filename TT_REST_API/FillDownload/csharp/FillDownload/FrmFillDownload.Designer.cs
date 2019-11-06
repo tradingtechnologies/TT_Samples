@@ -63,6 +63,8 @@ namespace FillDownload
             this.chkThursday = new System.Windows.Forms.CheckBox();
             this.label8 = new System.Windows.Forms.Label();
             this.fbdOutFolder = new System.Windows.Forms.FolderBrowserDialog();
+            this.cbFileMode = new System.Windows.Forms.ComboBox();
+            this.lblFileMode = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnStart
@@ -460,11 +462,33 @@ namespace FillDownload
             this.fbdOutFolder.RootFolder = System.Environment.SpecialFolder.UserProfile;
             this.fbdOutFolder.SelectedPath = ".\\";
             // 
+            // cbFileMode
+            // 
+            this.cbFileMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbFileMode.Font = new System.Drawing.Font("Calibri", 11.25F);
+            this.cbFileMode.FormattingEnabled = true;
+            this.cbFileMode.Location = new System.Drawing.Point(22, 352);
+            this.cbFileMode.Name = "cbFileMode";
+            this.cbFileMode.Size = new System.Drawing.Size(210, 26);
+            this.cbFileMode.TabIndex = 43;
+            // 
+            // lblFileMode
+            // 
+            this.lblFileMode.AutoSize = true;
+            this.lblFileMode.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFileMode.Location = new System.Drawing.Point(19, 331);
+            this.lblFileMode.Name = "lblFileMode";
+            this.lblFileMode.Size = new System.Drawing.Size(71, 18);
+            this.lblFileMode.TabIndex = 44;
+            this.lblFileMode.Text = "File Mode";
+            // 
             // FrmFillDownload
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(764, 571);
+            this.Controls.Add(this.lblFileMode);
+            this.Controls.Add(this.cbFileMode);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.chkThursday);
             this.Controls.Add(this.chkSaturday);
@@ -556,6 +580,8 @@ namespace FillDownload
         private System.Windows.Forms.CheckBox chkThursday;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.FolderBrowserDialog fbdOutFolder;
+        private System.Windows.Forms.ComboBox cbFileMode;
+        private System.Windows.Forms.Label lblFileMode;
     }
 }
 

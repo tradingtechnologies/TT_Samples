@@ -235,5 +235,17 @@ namespace FillDownload.Properties {
                 this["RunSunday"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Replace")]
+        public global::FillDownload.FileMode FileMode {
+            get {
+                return ((global::FillDownload.FileMode)(this["FileMode"]));
+            }
+            set {
+                this["FileMode"] = value;
+            }
+        }
     }
 }
