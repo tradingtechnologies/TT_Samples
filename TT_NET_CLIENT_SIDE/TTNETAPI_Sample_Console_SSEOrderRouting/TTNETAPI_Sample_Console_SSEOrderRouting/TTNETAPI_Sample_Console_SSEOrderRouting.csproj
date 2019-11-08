@@ -74,8 +74,8 @@
     <Reference Include="TimeZoneConverter, Version=3.2.0.0, Culture=neutral, PublicKeyToken=e20ab7d0d9479841, processorArchitecture=MSIL">
       <HintPath>..\..\packages\TimeZoneConverter.3.2.0\lib\net461\TimeZoneConverter.dll</HintPath>
     </Reference>
-    <Reference Include="tt-net-api, Version=2.0.0.10, Culture=neutral, PublicKeyToken=1205eb0b90b69de7, processorArchitecture=AMD64">
-      <HintPath>..\..\packages\TT.NET.SDK.ClientSide.2.0.0.10\lib\net461\tt-net-api.dll</HintPath>
+    <Reference Include="tt-net-api, Version=2.0.0.12, Culture=neutral, PublicKeyToken=1205eb0b90b69de7, processorArchitecture=AMD64">
+      <HintPath>..\..\packages\TT.NET.SDK.ClientSide.2.0.0.12\lib\net461\tt-net-api.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
