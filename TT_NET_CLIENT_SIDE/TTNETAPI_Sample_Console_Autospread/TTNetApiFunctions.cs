@@ -119,8 +119,6 @@ namespace TTNETAPI_Sample_Console_Autospread
 
             var newInst = CreateSpread();
             var updatedInst = UpdateSpread(newInst);
-            //Console.WriteLine("Sleep for 10 seconds.");
-            //Thread.Sleep(10000);
             DeleteSpread(updatedInst);
         }
 
@@ -136,6 +134,7 @@ namespace TTNETAPI_Sample_Console_Autospread
             return instLookup.Instrument;
         }
 
+        // When a spread is created, updated or deleted.
         private void OnSpreadDefinitionNotification(object sender,InstrumentCatalogEventArgs e)
         {
             Console.WriteLine("=== OnSpreadDefinitionNotification " + e?.Event + " " + e?.Message);

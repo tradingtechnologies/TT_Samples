@@ -14,7 +14,7 @@ namespace TTNETAPI_Sample_Console_Autospread
             try
             {
                 //Add your app secret Key here . The app_key looks like : 00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000
-                string appSecretKey = "240bc7e6-ba70-b3eb-b99c-28b34865525b:91ecb109-b5fc-5eaf-96ab-af8539b8fd5a"; // "Add your app secret Key here";
+                string appSecretKey = "Add your app secret Key here";
 
                 //Set the environment the app needs to run in here
                 tt_net_sdk.ServiceEnvironment environment = tt_net_sdk.ServiceEnvironment.DevCert;
