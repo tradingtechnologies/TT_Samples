@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTNETAPI_Sample_Console_Fil
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTNETAPI_Sample_Console_SSEOrderRouting", "TTNETAPI_Sample_Console_SSEOrderRouting\TTNETAPI_Sample_Console_SSEOrderRouting\TTNETAPI_Sample_Console_SSEOrderRouting.csproj", "{BD18C39E-3960-42B7-BD0F-21A429C90C8C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTNETAPI_Sample_Console_Autospread", "TTNETAPI_Sample_Console_Autospread\TTNETAPI_Sample_Console_Autospread.csproj", "{1ABC4C1B-0A33-4350-BD50-E72235AB15DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,12 @@ Global
 		{BD18C39E-3960-42B7-BD0F-21A429C90C8C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BD18C39E-3960-42B7-BD0F-21A429C90C8C}.Release|x64.ActiveCfg = Release|x64
 		{BD18C39E-3960-42B7-BD0F-21A429C90C8C}.Release|x64.Build.0 = Release|x64
+		{1ABC4C1B-0A33-4350-BD50-E72235AB15DF}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{1ABC4C1B-0A33-4350-BD50-E72235AB15DF}.Debug|x64.ActiveCfg = Debug|x64
+		{1ABC4C1B-0A33-4350-BD50-E72235AB15DF}.Debug|x64.Build.0 = Debug|x64
+		{1ABC4C1B-0A33-4350-BD50-E72235AB15DF}.Release|Any CPU.ActiveCfg = Release|x64
+		{1ABC4C1B-0A33-4350-BD50-E72235AB15DF}.Release|x64.ActiveCfg = Release|x64
+		{1ABC4C1B-0A33-4350-BD50-E72235AB15DF}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
