@@ -134,14 +134,14 @@ namespace FillDownload
                     else
                     {
                         string err_msg = "Error, POST request for token failed: " + dict_response["status_message"];
-                        ErrorLog.Write(err_msg);
+                        FDLog.LogError(err_msg);
                         throw new Exception(err_msg);
                     }
                 }
                 else
                 {
                     string err_msg = "Error, POST request for token failed: " + response.ErrorMessage;
-                    ErrorLog.Write(err_msg);
+                    FDLog.LogError(err_msg);
                     throw new Exception(err_msg);
                 }
             }
@@ -173,7 +173,7 @@ namespace FillDownload
         {
             RestManager rest_man = privInstance;
             string log_message = String.Format("{0} - {1} {2}", result.StatusCode.ToString(), request.Method.ToString(), rest_man.Client.BuildUri(request));
-            RequestLog.Log(log_message);
+            FDLog.LogRequest(log_message);
         }
 
         private static Parameter GetRequestId()
