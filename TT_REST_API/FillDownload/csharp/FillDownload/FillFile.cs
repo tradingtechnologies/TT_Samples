@@ -85,9 +85,13 @@ namespace FillDownload
                     catch (Exception ex)
                     {
                         row += ",";
-                        ErrorLog.Write("Error: Error parsing fill column " + column.ColumnName + " for fill " + fill.RecordID + Environment.NewLine + ex.Message);
+                        FDLog.LogError("Error parsing fill column " + column.ColumnName + " for fill " + fill.RecordID + Environment.NewLine + ex.Message);
                         errors = true;
                     }
+                }
+                if(errors)
+                {
+                    FDLog.LogError("Json for fill " + fill.RecordID + ": " + fill.JsonData() + Environment.NewLine);
                 }
                 row += Environment.NewLine;
                 m_outputFile.Write(row.ToString());
@@ -97,7 +101,8 @@ namespace FillDownload
 
         public void Close()
         {
-            m_outputFile.Close();
+            if(m_outputFile != null)
+                m_outputFile.Close();
         }
     }
 

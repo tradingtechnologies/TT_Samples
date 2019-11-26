@@ -68,7 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonEnums.cs" />
-    <Compile Include="ErrorLog.cs" />
+    <Compile Include="FDLog.cs" />
     <Compile Include="FillDownloadThread.cs" />
     <Compile Include="FillFile.cs" />
     <Compile Include="FrmFillDownload.cs">
@@ -79,7 +79,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RequestLog.cs" />
     <Compile Include="RestManager.cs" />
     <Compile Include="TT_Fill.cs" />
     <Compile Include="TT_Info.cs" />

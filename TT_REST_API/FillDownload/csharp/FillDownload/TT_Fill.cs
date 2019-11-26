@@ -48,6 +48,11 @@ namespace FillDownload
             m_jsonData = json_data;
         }
 
+        public string JsonData()
+        {
+            return m_jsonData.ToString();
+        }
+
 
         override public String ToString()
         {
