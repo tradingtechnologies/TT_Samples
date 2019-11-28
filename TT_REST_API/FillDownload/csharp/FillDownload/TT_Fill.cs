@@ -170,7 +170,7 @@ namespace FillDownload
             {
                 foreach (JToken party in parties)
                 {
-                    if (party["partyRole"].ToString() == role)
+                    if (party["role"].ToString() == role)
                     {
                         return party["partyId"].ToString();
                     }
