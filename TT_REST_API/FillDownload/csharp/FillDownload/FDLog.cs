@@ -38,20 +38,35 @@ using System.IO;
 
 namespace FillDownload
 {
-    class RequestLog
+    class FDLog
     {
         private static readonly object m_lock = new object();
-        private static RequestLog instance = null;
+        private static FDLog instance = null;
         private StreamWriter m_logFile = null;
 
-        public static void Log(String request)
+
+        public static void LogMessage(String message)
         {
-            RequestLog log = privInstance;
-            request += Environment.NewLine;
-            log.m_logFile.Write(DateTime.Now.ToString() + " - " + request);
+            FDLog.privLog("MSG | " + message + Environment.NewLine);
         }
 
-        private RequestLog()
+        public static void LogRequest(String request)
+        {
+            FDLog.privLog("REQ | " + request + Environment.NewLine);
+        }
+
+        public static void LogError(String error_msg)
+        {
+            FDLog.privLog("ERR | " + error_msg + Environment.NewLine);
+        }
+
+        private static void privLog(String msg)
+        {
+            FDLog log = privInstance;
+            log.m_logFile.Write(DateTime.UtcNow.ToString() + " | " + msg);
+        }
+
+        private FDLog()
         {
             string log_name = GetFileName();
             FileStream fs = File.Create(log_name);
@@ -60,7 +75,7 @@ namespace FillDownload
             m_logFile.AutoFlush = true;
         }
 
-        private static RequestLog privInstance
+        private static FDLog privInstance
         {
             get
             {
@@ -68,7 +83,7 @@ namespace FillDownload
                 {
                     if (instance == null)
                     {
-                        instance = new RequestLog();
+                        instance = new FDLog();
                     }
                     return instance;
                 }
@@ -77,7 +92,7 @@ namespace FillDownload
 
         private static string GetFileName()
         {
-            return "requests_" + DateTime.Now.ToString("yyyy_MM_dd") + ".log";
+            return "fd_" + DateTime.Now.ToString("yyyy_MM_dd") + ".log";
         }
     }
 }

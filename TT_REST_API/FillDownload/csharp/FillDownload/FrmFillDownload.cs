@@ -174,7 +174,7 @@ namespace FillDownload
 
         private void OnError(object sender, string error_message)
         {
-            ErrorLog.Write(error_message + Environment.NewLine + "--------------------------------------------------" + Environment.NewLine);
+            FDLog.LogError(error_message + Environment.NewLine + "--------------------------------------------------" + Environment.NewLine);
             MessageBox.Show(error_message);
 
             if (this.InvokeRequired)
