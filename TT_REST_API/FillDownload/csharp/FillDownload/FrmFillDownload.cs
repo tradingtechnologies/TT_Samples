@@ -101,6 +101,7 @@ namespace FillDownload
             }
             else
             {
+                FDLog.LogMessage("Successfully logged in with app key and secret");
                 RestManager.OnTokenError += RestManager_OnTokenError;
             }
 
@@ -147,6 +148,9 @@ namespace FillDownload
             btnStart.Click -= btnStart_Click;
             btnStart.Click += btnStart_Close;
             btnBrowse.Enabled = false;
+
+            FDLog.LogMessage("Beginning downloads...");
+
 
             m_fillThread = new FillDownloadThread(start_time, end_time, new TimeSpan(0, interval, 0), days_to_run, start_date);
             m_fillThread.FillDownload += fillThread_OnFillDownload;
