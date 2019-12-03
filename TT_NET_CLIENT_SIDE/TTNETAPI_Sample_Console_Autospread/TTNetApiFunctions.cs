@@ -39,7 +39,7 @@ namespace TTNETAPI_Sample_Console_Autospread
         private readonly string m_product = "GE";
         private readonly string m_alias1 = "GE Jun20";
         private readonly string m_alias2 = "GE Sep20";
-        private bool subscriptionReady = false;
+        private static bool subscriptionReady = false;
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>  Attach the worker Dispatcher </summary>
@@ -111,15 +111,7 @@ namespace TTNETAPI_Sample_Console_Autospread
             asSpreads.OnData += OnSpreadDefinitionNotification;
             asSpreads.Start();
 
-            while (!subscriptionReady)
-            {
-                Console.WriteLine("wait for 10 sec.");
-                Thread.Sleep(10000);
-            }
 
-            var newInst = CreateSpread();
-            var updatedInst = UpdateSpread(newInst);
-            DeleteSpread(updatedInst);
         }
 
         Instrument FindInstrument(string product, string alias)
@@ -146,7 +138,14 @@ namespace TTNETAPI_Sample_Console_Autospread
                     {
                         Console.WriteLine("   Spread " + sp.Name);
                     }
-                    subscriptionReady = true;
+
+                    if(!subscriptionReady)
+                    {       
+                        subscriptionReady = true;
+                        var newInst = CreateSpread();
+                        var updatedInst = UpdateSpread(newInst);
+                        DeleteSpread(updatedInst);
+                    }
                     break;
                 case ProductDataEvent.InstrumentDeleted:
                     foreach(var sp in e.Deleted)
