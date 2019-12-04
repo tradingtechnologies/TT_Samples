@@ -177,7 +177,27 @@ namespace FillDownload
                 {
                     if (party["role"].ToString() == role)
                     {
-                        return party["partyId"].ToString();
+                        return party["id"].ToString();
+                    }
+                }
+            }
+            return "";
+        }
+
+        private string GetPartyWithRoleOrIdSource(string role, string idSource)
+        {
+            var parties = m_jsonData.AsJEnumerable()["parties"];
+            if (parties != null)
+            {
+                foreach (JToken party in parties)
+                {
+                    if (party["role"].ToString() == role)
+                    {
+                        return party["id"].ToString();
+                    }
+                    else if (party["idSource"] != null && party["idSource"].ToString() == idSource)
+                    {
+                        return party["id"].ToString();
                     }
                 }
             }
@@ -744,11 +764,7 @@ namespace FillDownload
         {
             get
             {
-                string id = GetPartyWithRole("22");
-                if (id != "")
-                    return id;
-                else
-                    return GetPartyWithRole("19");
+                return GetPartyWithRoleOrIdSource("22","19");
             }
         }
     }
