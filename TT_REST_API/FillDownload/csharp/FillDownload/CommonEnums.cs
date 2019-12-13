@@ -134,7 +134,9 @@ namespace FillDownload
 
         public static string GetEnum(string enumName, int enumVal)
         {
-            return privInstance.dicts[enumName][enumVal];
+            string out_val;
+            bool success = privInstance.dicts[enumName].TryGetValue(enumVal, out out_val);
+            return success ? out_val : enumVal.ToString();
         }
 
         private static Dictionary<int, string> CreateDictionary(List<TT_Enum> enumList)

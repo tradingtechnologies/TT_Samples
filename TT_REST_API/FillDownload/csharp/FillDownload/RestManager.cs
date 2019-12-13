@@ -52,6 +52,8 @@ namespace FillDownload
         private Timer TokenTimer;
         private static readonly object s_lock = new object();
         private static RestManager s_instance = null;
+        private DateTime m_nextRequest = default(DateTime);
+        private static readonly TimeSpan MinSpace = new TimeSpan(0, 0, 0, 0, 333);
 
         public static void Init (string app_key, string secret_key, string api_env, string api_url = "https://apigateway.trade.tt/")
         {
@@ -71,10 +73,11 @@ namespace FillDownload
                     renewal_time = new TimeSpan(0, 0, 0, 10);
                     rest_man.TokenTimer = new Timer(TokenTimerHandler, rest_man, renewal_time, renewal_time);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     // Login errors can be ignored during initialization
                     // to allow the user to attempt to log in again
+                    FDLog.LogError(String.Format("Error Authenticating: {0}", e.Message));
                 }
             }
         }
@@ -163,7 +166,13 @@ namespace FillDownload
                 request.AddHeader("Authorization", rest_man.AccessToken);
                 request.AddHeader("x-api-key", rest_man.AppKey);
 
+                if(privInstance.m_nextRequest > DateTime.Now)
+                {
+                    Thread.Sleep(privInstance.m_nextRequest - DateTime.Now);
+                }
+
                 var response = rest_man.Client.Execute(request);
+                privInstance.m_nextRequest = DateTime.Now + RestManager.MinSpace;
                 LogRequest(request, response);
                 return response;
             }
