@@ -48,6 +48,7 @@ namespace FillDownload
         DateTime m_startDate = default(DateTime);
         DateTime m_minTimeStamp = default(DateTime);
         bool[] m_daysToRun;
+        private static readonly int max_retries = 32;
 
         object m_lock = new object();
 
@@ -128,7 +129,8 @@ namespace FillDownload
                     should_continue = true;
                     DateTime max_time = DateTime.Now;
 
-                    for(int i = 0; i < 32; ++i)
+                    int retry_count = 0;
+                    for(retry_count = 0; retry_count < max_retries; ++retry_count)
                     {
                         FDLog.LogMessage("Fill request timed out. Retrying....");
 
@@ -146,9 +148,14 @@ namespace FillDownload
                         {
                             throw new Exception(String.Format("Request for fills unsuccessful. (minTimestamp={0}) - Status: {1} - Error Message: {2}", min_param.Value.ToString(), result.StatusCode.ToString(), result.ErrorMessage));
                         }
+
+                        if(retry_count == max_retries)
+                        {
+                            throw new Exception("Request for fills unsuccessful. Max Retries exceeded.");
+                        }
                     }
 
-                    throw new Exception("Request for fills unsuccessful. Max Retries exceeded.");
+                    
 
                 }
                 else if (result.StatusCode != System.Net.HttpStatusCode.OK)

@@ -75,6 +75,7 @@ namespace FillDownload
             bool errors = false;
             foreach (TT_Fill fill in fills)
             {
+                bool fill_errors = false;
                 String row = "";
                 foreach (FillColumn column in m_columns)
                 {
@@ -86,12 +87,13 @@ namespace FillDownload
                     {
                         row += ",";
                         FDLog.LogError("Error parsing fill column " + column.ColumnName + " for fill " + fill.RecordID + Environment.NewLine + ex.Message);
-                        errors = true;
+                        fill_errors = true;
                     }
                 }
-                if(errors)
+                if(fill_errors)
                 {
                     FDLog.LogError("Json for fill " + fill.RecordID + ": " + fill.JsonData() + Environment.NewLine);
+                    errors = true;
                 }
                 row += Environment.NewLine;
                 m_outputFile.Write(row.ToString());
