@@ -18,8 +18,8 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <BaseIntermediateOutputPath>..\buildDir\obj\$(AssemblyName)\</BaseIntermediateOutputPath>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <BaseIntermediateOutputPath>obj\$(Configuration)\</BaseIntermediateOutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -28,8 +28,8 @@
     <PlatformTarget>x64</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <BaseIntermediateOutputPath>..\buildDir\obj\$(AssemblyName)\</BaseIntermediateOutputPath>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <BaseIntermediateOutputPath>obj\$(Configuration)\</BaseIntermediateOutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
