@@ -147,6 +147,8 @@ namespace TTNETAPI_Sample_Console_SSEOrderRouting
                 m_algoTradeSubscription.OrderFilled += new EventHandler<OrderFilledEventArgs>(m_algoTradeSubscription_OrderFilled);
                 m_algoTradeSubscription.OrderRejected += new EventHandler<OrderRejectedEventArgs>(m_algoTradeSubscription_OrderRejected);
                 m_algoTradeSubscription.OrderBookDownload += new EventHandler<OrderBookDownloadEventArgs>(m_algoTradeSubscription_OrderBookDownload);
+                m_algoTradeSubscription.ExportValuesUpdated += new EventHandler<ExportValuesUpdatedEventArgs>(m_algoTradeSubscription_ExportValuesUpdated);
+                m_algoTradeSubscription.AlertsFired += new EventHandler<AlertsFiredEventArgs>(m_algoTradeSubscription_AlertsUpdated);
                 m_algoTradeSubscription.Start();
             }
             else if (e.Event == ProductDataEvent.NotAllowed)
@@ -336,6 +338,28 @@ namespace TTNETAPI_Sample_Console_SSEOrderRouting
                 Console.WriteLine("\n PARENT Algo Order Restated [{0}] for Algo : {1} with Synthetic Status : {2} ", e.NewOrder.SiteOrderKey, e.NewOrder.Algo.Alias, e.NewOrder.SyntheticStatus.ToString());
             else
                 Console.WriteLine("\nOrderUpdated [{0}] {1}: {2}", e.NewOrder.SiteOrderKey, e.NewOrder.BuySell, e.NewOrder.ToString());
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>   Event notification for Algo ExportedValue update. </summary>
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        void m_algoTradeSubscription_ExportValuesUpdated(object sender, ExportValuesUpdatedEventArgs e)
+        {
+            foreach(string key in e.ExportValues.Keys)
+            {
+                Console.WriteLine("Algo EVU: Parameter Name = {0} and Parameter Value = {1}",key,e.ExportValues[key]);
+            }
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>   Event notification for Algo Alert update. </summary>
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        void m_algoTradeSubscription_AlertsUpdated(object sender, AlertsFiredEventArgs e)
+        {
+            foreach(string key in e.Alerts.Keys)
+            {
+                Console.WriteLine("Algo Alerts updated: Name = {0} and Alert Value = {1}",key,e.Alerts[key]);
+            }
         }
 
         private long EpochTimeUtc(int offset_in_sec = 0)
