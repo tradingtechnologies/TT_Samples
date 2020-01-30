@@ -286,7 +286,7 @@ namespace TTNETAPI_Sample_Console_AlgoOrderRouting
         void m_algoTradeSubscription_OrderUpdated(object sender, OrderUpdatedEventArgs e)
         {
             if(e.NewOrder.ExecutionType == ExecType.Restated)
-                Console.WriteLine("\nPARENT Algo Order Restated [{0}] for Algo : {1} with Synthetic Status : {2} ", e.NewOrder.SiteOrderKey, e.NewOrder.Algo.Alias, e.NewOrder.SyntheticStatus.ToString());
+                Console.WriteLine("\nAlgo Order Restated [{0}] for Algo : {1} with Synthetic Status : {2} ", e.NewOrder.SiteOrderKey, e.NewOrder.Algo.Alias, e.NewOrder.SyntheticStatus.ToString());
             else
                 Console.WriteLine("\nOrderUpdated [{0}] {1}: {2}", e.NewOrder.SiteOrderKey, e.NewOrder.BuySell, e.NewOrder.ToString());
         }
