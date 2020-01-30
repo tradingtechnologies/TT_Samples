@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTNETAPI_Sample_Console_Aut
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTNETAPI_Sample_Console_SSEOrderRouting", "TTNETAPI_Sample_Console_SSEOrderRouting\TTNETAPI_Sample_Console_SSEOrderRouting.csproj", "{BD18C39E-3960-42B7-BD0F-21A429C90C8C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTNETAPI_Sample_Console_AlgoOrderRouting", "TTNETAPI_Sample_Console_AlgoOrderRouting\TTNETAPI_Sample_Console_AlgoOrderRouting.csproj", "{1177FC31-6A3B-4309-9F20-43D80B84456D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -51,6 +53,10 @@ Global
 		{BD18C39E-3960-42B7-BD0F-21A429C90C8C}.Debug|x64.Build.0 = Debug|x64
 		{BD18C39E-3960-42B7-BD0F-21A429C90C8C}.Release|x64.ActiveCfg = Release|x64
 		{BD18C39E-3960-42B7-BD0F-21A429C90C8C}.Release|x64.Build.0 = Release|x64
+		{1177FC31-6A3B-4309-9F20-43D80B84456D}.Debug|x64.ActiveCfg = Debug|x64
+		{1177FC31-6A3B-4309-9F20-43D80B84456D}.Debug|x64.Build.0 = Debug|x64
+		{1177FC31-6A3B-4309-9F20-43D80B84456D}.Release|x64.ActiveCfg = Release|x64
+		{1177FC31-6A3B-4309-9F20-43D80B84456D}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
