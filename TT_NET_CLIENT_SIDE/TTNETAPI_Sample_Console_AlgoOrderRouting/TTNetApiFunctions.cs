@@ -1,6 +1,6 @@
 ﻿// **********************************************************************************************************************
 //
-//	Copyright © 2005-2019 Trading Technologies International, Inc.
+//	Copyright © 2005-2020 Trading Technologies International, Inc.
 //	All Rights Reserved Worldwide
 //
 // 	* * * S T R I C T L Y   P R O P R I E T A R Y * * *
@@ -43,7 +43,7 @@ namespace TTNETAPI_Sample_Console_AlgoOrderRouting
         private readonly string m_market = "CME";
         private readonly string m_product = "GE";
         private readonly string m_prodType = "Future";
-        private readonly string m_alias = "GE Sep27";
+        private readonly string m_alias = "GE Sep21";
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -171,7 +171,6 @@ namespace TTNETAPI_Sample_Console_AlgoOrderRouting
                 m_instrument = e.InstrumentLookup.Instrument;
                 Console.WriteLine("Found: {0}", m_instrument);
 
-                //  "TimeAndSales"
                 AlgoLookupSubscription algoLookupSubscription = new AlgoLookupSubscription(tt_net_sdk.Dispatcher.Current, "test-algo");
                 algoLookupSubscription.OnData += AlgoLookupSubscription_OnData;
                 algoLookupSubscription.GetAsync();
@@ -230,7 +229,7 @@ namespace TTNETAPI_Sample_Console_AlgoOrderRouting
             Console.WriteLine(string.Join(Environment.NewLine,lines));
 
             OrderProfile algo_op = m_algo.GetOrderProfile(m_instrument);
-            algo_op.LimitPrice = Price.FromDecimal(m_instrument,9812.5m);  // m_price;
+            algo_op.LimitPrice = m_price;
             algo_op.OrderQuantity = Quantity.FromDecimal(m_instrument,5); ;
             algo_op.Side = OrderSide.Buy;
             algo_op.OrderType = OrderType.Limit;

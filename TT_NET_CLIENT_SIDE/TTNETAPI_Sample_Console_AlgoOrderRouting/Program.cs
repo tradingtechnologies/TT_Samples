@@ -1,6 +1,6 @@
 ﻿// **********************************************************************************************************************
 //
-//	Copyright © 2005-2019 Trading Technologies International, Inc.
+//	Copyright © 2005-2020 Trading Technologies International, Inc.
 //	All Rights Reserved Worldwide
 //
 // 	* * * S T R I C T L Y   P R O P R I E T A R Y * * *

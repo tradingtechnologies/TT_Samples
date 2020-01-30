@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TTNETAPI_Sample_Console_SSEOrderRouting")]
+[assembly: AssemblyTitle("TTNETAPI_Sample_Console_AlgoOrderRouting")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("TTNETAPI_Sample_Console_SSEOrderRouting")]
-[assembly: AssemblyCopyright("Copyright ©  2019")]
+[assembly: AssemblyProduct("TTNETAPI_Sample_Console_AlgoOrderRouting")]
+[assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("bd18c39e-3960-42b7-bd0f-21a429c90c8c")]
+[assembly: Guid("8E122A67-36B9-4D6E-9CAE-682919090BD8")]
 
 // Version information for an assembly consists of the following four values:
 //
