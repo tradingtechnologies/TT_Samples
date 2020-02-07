@@ -30,17 +30,27 @@ namespace TTAPI_Sample_Console_PriceDepthSubscription
         {
             try
             {
-                // Add your app secret Key here. It looks like: 00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000
-                string appSecretKey = "Add your app secret Key here";
+                // Add your app secret Key here . The app_key looks like : 00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000
+                string appSecretKey = "Add your app secret key here";
 
-                //Set the environment the app needs to run in here
+                // Set the environment the app needs to run in here
                 tt_net_sdk.ServiceEnvironment environment = tt_net_sdk.ServiceEnvironment.UatCert;
 
+                // Select the mode in which you wish to run -- Client (outside the TT datacenter)  
+                //                                          or Server (on a dedicated machine inside TT datacenter)
+                tt_net_sdk.TTAPIOptions.SDKMode sdkMode = tt_net_sdk.TTAPIOptions.SDKMode.Client;
                 tt_net_sdk.TTAPIOptions apiConfig = new tt_net_sdk.TTAPIOptions(
-                     environment,
-                     appSecretKey,
-                     5000 );
+                        sdkMode,
+                        environment,
+                        appSecretKey,
+                        5000);
 
+                // Add the host machine instance id assigned to you by TT only needed for Server mode. If set in
+                // Client mode, it will simply be ignored
+                string instanceId = "Add your host machine instance id here";
+                apiConfig.ServerInstanceId = instanceId;
+
+                // set any other SDK options you need configured
                 apiConfig.ProfitLossCalculationType = tt_net_sdk.ProfitLossCalculationType.RiskWaterfall;
 
                 // Start the TT API on the same thread

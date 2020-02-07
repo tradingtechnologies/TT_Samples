@@ -127,8 +127,6 @@ namespace TTNETAPI_Sample_Console_SSEOrderRouting
             m_instrLookupRequest.OnData += m_instrLookupRequest_OnData;
             m_instrLookupRequest.GetAsync();
 
-            // Get the accounts
-            m_accounts = m_api.Accounts;
         }
 
         private void AlgoLookupSubscription_OnData(object sender, AlgoLookupEventArgs e)
@@ -213,7 +211,7 @@ namespace TTNETAPI_Sample_Console_SSEOrderRouting
         void m_algoTradeSubscription_OrderBookDownload(object sender, OrderBookDownloadEventArgs e)
         {
             Console.WriteLine("Orderbook downloaded...");
-            
+
             //To retrieve the list of parameters valid for the Algo you can call
             //algo.AlgoParameters;
 
@@ -255,6 +253,8 @@ namespace TTNETAPI_Sample_Console_SSEOrderRouting
             ETimeAct                    Int_t               false           false         tt_net_sdk.tt_iceberg.ETimeAct
             AutoResubExpiredGTD         Boolean_t           false           false
             ----------------------------------------------------------------------------------------------------------------------- */
+            // Get the accounts
+            m_accounts = m_api.Accounts;
 
             //Construct a dictionary of the parameters and the values to send out 
             Dictionary<string, object> iceberg_userparams = new Dictionary<string, object>
@@ -273,7 +273,8 @@ namespace TTNETAPI_Sample_Console_SSEOrderRouting
 
             OrderProfile iceberg_op = m_algo.GetOrderProfile(m_instrument);
             iceberg_op.LimitPrice = m_price;
-            iceberg_op.Account = m_accounts.ElementAt(2);
+            if (m_accounts.Count > 0)
+                iceberg_op.Account = m_accounts.ElementAt(0);
             iceberg_op.Side = OrderSide.Buy;
             iceberg_op.OrderType = OrderType.Limit;
             iceberg_op.OrderQuantity = Quantity.FromDecimal(m_instrument, 10);
@@ -290,7 +291,7 @@ namespace TTNETAPI_Sample_Console_SSEOrderRouting
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         void m_algoTradeSubscription_OrderRejected(object sender, OrderRejectedEventArgs e)
         {
-            Console.WriteLine("\nOrderRejected for : [{0}]", e.Order.SiteOrderKey);
+            Console.WriteLine("\nOrderRejected [{0}] Details:{1} [{2}] :", e.Order.SiteOrderKey, e.Message, e.OrderRejectReason);
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
