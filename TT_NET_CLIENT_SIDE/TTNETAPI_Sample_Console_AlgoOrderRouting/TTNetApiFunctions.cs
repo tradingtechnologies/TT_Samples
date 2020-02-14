@@ -27,6 +27,7 @@ namespace TTNETAPI_Sample_Console_AlgoOrderRouting
     {
         // Declare the API objects
         private TTAPI m_api = null;
+        private ManualResetEvent mre = new ManualResetEvent(false);
         private InstrumentLookup m_instrLookupRequest = null;
         private PriceSubscription m_priceSubscription = null;
         private tt_net_sdk.WorkerDispatcher m_disp = null;
@@ -101,10 +102,7 @@ namespace TTNETAPI_Sample_Console_AlgoOrderRouting
         void StartAlgo()
         {
             while (! m_price.IsValid || m_algo ==null)
-            {
-                Console.WriteLine("Waiting ...");
-                Thread.Sleep(1000);
-            }
+                mre.WaitOne();
 
             // To retrieve the list of parameters valid for the Algo you can call algo.AlgoParameters;
             // Construct a dictionary of the parameters and the values to send out 
@@ -182,6 +180,8 @@ namespace TTNETAPI_Sample_Console_AlgoOrderRouting
                 m_algoTradeSubscription.ExportValuesUpdated += new EventHandler<ExportValuesUpdatedEventArgs>(m_algoTradeSubscription_ExportValuesUpdated);
                 m_algoTradeSubscription.AlertsFired += new EventHandler<AlertsFiredEventArgs>(m_algoTradeSubscription_AlertsUpdated);
                 m_algoTradeSubscription.Start();
+
+                mre.Set();
             }
             else if (e.Event == ProductDataEvent.NotAllowed)
             {
@@ -238,7 +238,10 @@ namespace TTNETAPI_Sample_Console_AlgoOrderRouting
                 Dispose();
             }
             else if (e.Fields.GetBestBidPriceField().Value != null)
+            {
                 m_price = e.Fields.GetBestBidPriceField().Value;
+                mre.Set();
+            }
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
