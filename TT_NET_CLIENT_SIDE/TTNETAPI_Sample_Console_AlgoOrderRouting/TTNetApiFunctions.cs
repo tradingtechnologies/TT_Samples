@@ -18,7 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using tt_net_sdk;
 
 namespace TTNETAPI_Sample_Console_AlgoOrderRouting
@@ -98,6 +98,33 @@ namespace TTNETAPI_Sample_Console_AlgoOrderRouting
             }
         }
 
+        void StartAlgo()
+        {
+            while (! m_price.IsValid || m_algo ==null)
+            {
+                Console.WriteLine("Waiting ...");
+                Thread.Sleep(1000);
+            }
+
+            // To retrieve the list of parameters valid for the Algo you can call algo.AlgoParameters;
+            // Construct a dictionary of the parameters and the values to send out 
+            Dictionary<string,object> algo_userparams = new Dictionary<string,object>
+                {
+                    {"Ignore Market State",     true},
+                };
+
+            var lines = algo_userparams.Select(kvp => kvp.Key + ": " + kvp.Value.ToString());
+            Console.WriteLine(string.Join(Environment.NewLine,lines));
+
+            OrderProfile algo_op = m_algo.GetOrderProfile(m_instrument);
+            algo_op.LimitPrice = m_price;
+            algo_op.OrderQuantity = Quantity.FromDecimal(m_instrument,5); ;
+            algo_op.Side = OrderSide.Buy;
+            algo_op.OrderType = OrderType.Limit;
+            algo_op.Account = m_accounts.ElementAt(0);
+            algo_op.UserParameters = algo_userparams;
+            m_algoTradeSubscription.SendOrder(algo_op);
+        }
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>   Event notification for status of authentication. </summary>
         ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -129,6 +156,11 @@ namespace TTNETAPI_Sample_Console_AlgoOrderRouting
 
             // Get the accounts
             m_accounts = m_api.Accounts;
+
+            // Start Algo Trading thread.
+            Thread algoThread = new Thread(() => this.StartAlgo());
+            algoThread.Name = "Algo Trading Thread";
+            algoThread.Start();
         }
 
         private void AlgoLookupSubscription_OnData(object sender, AlgoLookupEventArgs e)
@@ -173,13 +205,13 @@ namespace TTNETAPI_Sample_Console_AlgoOrderRouting
 
                 AlgoLookupSubscription algoLookupSubscription = new AlgoLookupSubscription(tt_net_sdk.Dispatcher.Current, "test-algo");
                 algoLookupSubscription.OnData += AlgoLookupSubscription_OnData;
-                algoLookupSubscription.GetAsync();
-
+                algoLookupSubscription.GetAsync(); 
+                
                 // Subscribe for market Data
                 m_priceSubscription = new PriceSubscription(m_instrument, tt_net_sdk.Dispatcher.Current);
                 m_priceSubscription.Settings = new PriceSubscriptionSettings(PriceSubscriptionType.MarketDepth);
                 m_priceSubscription.FieldsUpdated += m_priceSubscription_FieldsUpdated;
-                m_priceSubscription.Start();    
+                m_priceSubscription.Start();   
             }
             else if (e.Event == ProductDataEvent.NotAllowed)
             {
@@ -215,27 +247,6 @@ namespace TTNETAPI_Sample_Console_AlgoOrderRouting
         void m_algoTradeSubscription_OrderBookDownload(object sender, OrderBookDownloadEventArgs e)
         {
             Console.WriteLine("Orderbook downloaded...");
-
-            //To retrieve the list of parameters valid for the Algo you can call
-            //algo.AlgoParameters;
-
-            //Construct a dictionary of the parameters and the values to send out 
-            Dictionary<string,object> algo_userparams = new Dictionary<string,object>
-                {
-                    {"Ignore Market State",     true},
-                };
-
-            var lines = algo_userparams.Select(kvp => kvp.Key + ": " + kvp.Value.ToString());
-            Console.WriteLine(string.Join(Environment.NewLine,lines));
-
-            OrderProfile algo_op = m_algo.GetOrderProfile(m_instrument);
-            algo_op.LimitPrice = m_price;
-            algo_op.OrderQuantity = Quantity.FromDecimal(m_instrument,5); ;
-            algo_op.Side = OrderSide.Buy;
-            algo_op.OrderType = OrderType.Limit;
-            algo_op.Account = m_accounts.ElementAt(0);
-            algo_op.UserParameters = algo_userparams;
-            m_algoTradeSubscription.SendOrder(algo_op);
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
