@@ -36,7 +36,7 @@ namespace TTAPI_Sample_Console_PriceDepthSubscription
         private readonly string m_market = "CME";
         private readonly string m_product = "GE";
         private readonly string m_prodType = "Future";
-        private readonly string m_alias = "GE Sep19";
+        private readonly string m_alias = "GE Sep20";
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////

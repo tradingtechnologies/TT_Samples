@@ -173,7 +173,10 @@ namespace FillDownload
             bool errors = m_outputFile.ProcessFills(fills);
 
             if (errors)
+            {
+                m_fillThread.StopDownloading();
                 this.OnError(this, "Errors parsing fills. Closing down.");
+            }
         }
 
         private void OnError(object sender, string error_message)

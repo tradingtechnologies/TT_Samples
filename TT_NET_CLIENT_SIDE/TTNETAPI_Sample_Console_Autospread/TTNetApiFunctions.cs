@@ -218,7 +218,7 @@ namespace TTNETAPI_Sample_Console_Autospread
             spreadReq.UserDefinedNumerator = 1;
             var legChange = spreadReq.GetLeg(1);
             legChange.PriceMultiplier = -3;
-            spreadReq.Updateleg(1,legChange);
+            spreadReq.UpdateLeg(1,legChange);
 
             // Update the spread to the spread manager and Save the ASE instrument in TT system.
             //  Parameter spreadReq: SpreadDetails object representing the spread to update

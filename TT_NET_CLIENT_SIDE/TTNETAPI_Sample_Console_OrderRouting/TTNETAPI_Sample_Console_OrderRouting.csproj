@@ -12,14 +12,16 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
     <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <BaseIntermediateOutputPath>..\buildDir\obj\$(AssemblyName)\</BaseIntermediateOutputPath>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <BaseIntermediateOutputPath>obj\$(Configuration)\</BaseIntermediateOutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -28,13 +30,22 @@
     <PlatformTarget>x64</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <BaseIntermediateOutputPath>..\buildDir\obj\$(AssemblyName)\</BaseIntermediateOutputPath>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <BaseIntermediateOutputPath>obj\$(Configuration)\</BaseIntermediateOutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="core-wrapper, Version=3.0.0.1, Culture=neutral, PublicKeyToken=1205eb0b90b69de7, processorArchitecture=AMD64">
+      <HintPath>..\packages\TT.NET.SDK.3.0.0.1\lib\net461\core-wrapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.ProtocolBuffers, Version=2.4.1.555, Culture=neutral, PublicKeyToken=55f7125234beb589, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.ProtocolBuffers.2.4.1.555\lib\net40\Google.ProtocolBuffers.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.ProtocolBuffers.Serialization, Version=2.4.1.555, Culture=neutral, PublicKeyToken=55f7125234beb589, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.ProtocolBuffers.2.4.1.555\lib\net40\Google.ProtocolBuffers.Serialization.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -56,8 +67,8 @@
     <Reference Include="TimeZoneConverter, Version=3.2.0.0, Culture=neutral, PublicKeyToken=e20ab7d0d9479841, processorArchitecture=MSIL">
       <HintPath>..\packages\TimeZoneConverter.3.2.0\lib\net461\TimeZoneConverter.dll</HintPath>
     </Reference>
-    <Reference Include="tt-net-api, Version=2.0.0.14, Culture=neutral, PublicKeyToken=1205eb0b90b69de7, processorArchitecture=AMD64">
-      <HintPath>..\packages\TT.NET.SDK.ClientSide.2.0.0.14\lib\net461\tt-net-api.dll</HintPath>
+    <Reference Include="tt-net-api, Version=3.0.0.1, Culture=neutral, PublicKeyToken=1205eb0b90b69de7, processorArchitecture=AMD64">
+      <HintPath>..\packages\TT.NET.SDK.3.0.0.1\lib\net461\tt-net-api.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -70,4 +81,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\TT.NET.SDK.3.0.0.1\build\TT.NET.SDK.targets" Condition="Exists('..\packages\TT.NET.SDK.3.0.0.1\build\TT.NET.SDK.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\TT.NET.SDK.3.0.0.1\build\TT.NET.SDK.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\TT.NET.SDK.3.0.0.1\build\TT.NET.SDK.targets'))" />
+  </Target>
 </Project>

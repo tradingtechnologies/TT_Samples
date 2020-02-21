@@ -13,16 +13,25 @@ namespace TTNETAPI_Sample_Console_Autospread
         {
             try
             {
-                //Add your app secret Key here . The app_key looks like : 00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000
+                // Add your app secret Key here. It looks like: 00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000
                 string appSecretKey = "Add your app secret Key here";
 
-                //Set the environment the app needs to run in here
-                tt_net_sdk.ServiceEnvironment environment = tt_net_sdk.ServiceEnvironment.DevCert;
+                // Add the host machine instance id assigned to you by TT only needed for Server mode. If set in
+                // Client mode, it will simply be ignored
+                string instanceId = "Add your host machine instance id here";
 
+                // Set the environment the app needs to run in here
+                tt_net_sdk.ServiceEnvironment environment = tt_net_sdk.ServiceEnvironment.UatCert;
+                // Select the mode in which you wish to run -- Client (outside the TT datacenter)  
+                //                                          or Server (on a dedicated machine inside TT datacenter)
+                tt_net_sdk.TTAPIOptions.SDKMode sdkMode = tt_net_sdk.TTAPIOptions.SDKMode.Client;
                 tt_net_sdk.TTAPIOptions apiConfig = new tt_net_sdk.TTAPIOptions(
+                        sdkMode,
                         environment,
                         appSecretKey,
                         5000);
+                // set the instance id and any other options needed
+                apiConfig.ServerInstanceId = instanceId;
 
                 // Start the TT API on the same thread
                 TTNetApiFunctions tf = new TTNetApiFunctions();

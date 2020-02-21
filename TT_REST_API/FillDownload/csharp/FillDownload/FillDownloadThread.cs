@@ -48,6 +48,7 @@ namespace FillDownload
         DateTime m_startDate = default(DateTime);
         DateTime m_minTimeStamp = default(DateTime);
         bool[] m_daysToRun;
+        private static readonly int max_retries = 32;
 
         object m_lock = new object();
 
@@ -113,17 +114,57 @@ namespace FillDownload
             // Perform REST request/response to download fill data, specifying our cached minimum timestamp as a starting point.  
             // On a successful response the timestamp will be updated so we run no risk of downloading duplicate fills.
 
+            bool should_continue = false;
             List<TT_Fill> fills = new List<TT_Fill>();
             do
             {
+                should_continue = false;
+
                 var min_param = new RestSharp.Parameter("minTimestamp", TT_Info.ToRestTimestamp(m_minTimeStamp).ToString(), RestSharp.ParameterType.QueryString);
 
                 RestSharp.IRestResponse result = RestManager.GetRequest("ledger", "fills", min_param);
 
-                if (result.StatusCode != System.Net.HttpStatusCode.OK)
+                if (result.StatusCode == System.Net.HttpStatusCode.GatewayTimeout)
+                {
+                    should_continue = true;
+                    DateTime max_time = DateTime.Now;
+
+                    int retry_count = 0;
+                    for(retry_count = 0; retry_count < max_retries; ++retry_count)
+                    {
+                        FDLog.LogMessage("Fill request timed out. Retrying....");
+
+                        max_time = m_minTimeStamp + TimeSpan.FromTicks((max_time - m_minTimeStamp).Ticks / 2);
+                        var max_param = new RestSharp.Parameter("maxTimestamp", TT_Info.ToRestTimestamp(max_time).ToString(), RestSharp.ParameterType.QueryString);
+
+                        result = RestManager.GetRequest("ledger", "fills", min_param, max_param);
+
+                        if (result.StatusCode == System.Net.HttpStatusCode.OK)
+                        {
+                            m_minTimeStamp = max_time;
+                            break;
+                        }
+                        else if (result.StatusCode != System.Net.HttpStatusCode.GatewayTimeout)
+                        {
+                            throw new Exception(String.Format("Request for fills unsuccessful. (minTimestamp={0}) - Status: {1} - Error Message: {2}", min_param.Value.ToString(), result.StatusCode.ToString(), result.ErrorMessage));
+                        }
+
+                        if(retry_count == max_retries)
+                        {
+                            throw new Exception("Request for fills unsuccessful. Max Retries exceeded.");
+                        }
+                    }
+
+                    
+
+                }
+                else if (result.StatusCode != System.Net.HttpStatusCode.OK)
+                {
                     throw new Exception(String.Format("Request for fills unsuccessful. (minTimestamp={0}) - Status: {1} - Error Message: {2}", min_param.Value.ToString(), result.StatusCode.ToString(), result.ErrorMessage));
+                }
 
                 JObject json_data = JObject.Parse(result.Content);
+                FDLog.LogMessage(String.Format("Downloaded {0} fills.", json_data["fills"].Count()));
                 foreach (var fill in json_data["fills"])
                 {
                     fills.Add(new TT_Fill(fill));
@@ -132,10 +173,13 @@ namespace FillDownload
                 fills.Sort((f1, f2) => f1.UtcTimeStamp.CompareTo(f2.UtcTimeStamp));
                 RaiseFillDownloadEvent(fills);
 
-                if (fills.Count > 0 && m_running)
+                if (fills.Count > 0)
                     m_minTimeStamp = new DateTime(fills[fills.Count - 1].UtcTimeStamp.Ticks + 1);
+
+                should_continue |= (fills.Count == TT_Info.MAX_RESPONSE_FILLS);
+                should_continue &= m_running;
             }
-            while (fills.Count == TT_Info.MAX_RESPONSE_FILLS);
+            while (should_continue);
         }
 
 
@@ -195,11 +239,17 @@ namespace FillDownload
             }
         }
 
+        public void StopDownloading()
+        {
+            m_running = false;
+        }
+
         public void StopThread()
         {
             if (m_thread != null)
             {
                 m_running = false;
+                m_interval = m_interval = TimeSpan.MinValue;
                 ThreadNotify();
                 m_thread.Join();
             }
