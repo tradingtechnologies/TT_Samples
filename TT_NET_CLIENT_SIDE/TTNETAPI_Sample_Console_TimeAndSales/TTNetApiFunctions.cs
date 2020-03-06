@@ -168,7 +168,7 @@ namespace TTAPI_Sample_Console_TimeAndSales
                 {
                     Price ltp = ts.TradePrice;
                     Quantity ltq = ts.TradeQuantity;
-                    Console.WriteLine("\n[{0}] {1} isOTC={2} {3} {4} @ {5}", ts.TimeStamp, ts.Instrument.Name, ts.IsOverTheCounter, ts.Direction, ts.TradePrice, ts.TradeQuantity);
+                    Console.WriteLine("\n[{0}] {1} isOTC={2} isImplied={3} isLegTrade={4} {5} {6} @ {7}", ts.TimeStamp, ts.Instrument.Name, ts.IsOverTheCounter, ts.IsImplied, ts.IsLegTrade, ts.Direction, ts.TradePrice, ts.TradeQuantity);
                 }
 
             }
