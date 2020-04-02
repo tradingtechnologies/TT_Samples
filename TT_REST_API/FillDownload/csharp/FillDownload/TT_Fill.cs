@@ -251,7 +251,7 @@ namespace FillDownload
             get
             {
                 string time_stamp = GetData("timeStamp");
-                return GetTime(time_stamp).ToString("HH:mm");
+                return GetTime(time_stamp).ToString("HH:mm:ss.ffff");
             }
         }
 
@@ -583,7 +583,7 @@ namespace FillDownload
         {
             get
             {
-                return GetTime(GetDataOrDefault("transactTime", "")).ToString("HH:mm");
+                return GetTime(GetDataOrDefault("transactTime", "")).ToString("HH:mm:ss.ffff");
             }
         }
 
