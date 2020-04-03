@@ -150,7 +150,12 @@ namespace FillDownload
             }
         }
 
-        public static IRestResponse GetRequest(string target, string call, params Parameter [] parameters)
+        public static IRestResponse GetRequest(string target, string call, params Parameter[] parameters)
+        {
+            return RestManager.GetRequest(target, call, 1, parameters);
+        }
+
+            public static IRestResponse GetRequest(string target, string call, int max_retries, params Parameter [] parameters)
         {
             RestManager rest_man = privInstance;
             lock (rest_man)
@@ -166,14 +171,23 @@ namespace FillDownload
                 request.AddHeader("Authorization", rest_man.AccessToken);
                 request.AddHeader("x-api-key", rest_man.AppKey);
 
-                if(privInstance.m_nextRequest > DateTime.Now)
+                IRestResponse response = null;
+
+                for (int i = 0; i < max_retries; ++i)
                 {
-                    Thread.Sleep(privInstance.m_nextRequest - DateTime.Now);
+                    if (privInstance.m_nextRequest > DateTime.Now)
+                    {
+                        Thread.Sleep(privInstance.m_nextRequest - DateTime.Now);
+                    }
+
+                    response = rest_man.Client.Execute(request);
+                    privInstance.m_nextRequest = DateTime.Now + RestManager.MinSpace;
+                    LogRequest(request, response);
+
+                    if (response.IsSuccessful || response.StatusCode != System.Net.HttpStatusCode.InternalServerError)
+                        break;
                 }
 
-                var response = rest_man.Client.Execute(request);
-                privInstance.m_nextRequest = DateTime.Now + RestManager.MinSpace;
-                LogRequest(request, response);
                 return response;
             }
         }

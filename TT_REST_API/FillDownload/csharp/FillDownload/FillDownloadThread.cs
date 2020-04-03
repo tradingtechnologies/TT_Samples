@@ -48,7 +48,8 @@ namespace FillDownload
         DateTime m_startDate = default(DateTime);
         DateTime m_minTimeStamp = default(DateTime);
         bool[] m_daysToRun;
-        private static readonly int max_retries = 32;
+        private static readonly int max_timeout_retries = 16;
+        private static readonly int max_narrowing_retries = 32;
 
         object m_lock = new object();
 
@@ -122,7 +123,7 @@ namespace FillDownload
 
                 var min_param = new RestSharp.Parameter("minTimestamp", TT_Info.ToRestTimestamp(m_minTimeStamp).ToString(), RestSharp.ParameterType.QueryString);
 
-                RestSharp.IRestResponse result = RestManager.GetRequest("ledger", "fills", min_param);
+                RestSharp.IRestResponse result = RestManager.GetRequest("ledger", "fills", max_timeout_retries, min_param);
 
                 if (result.StatusCode == System.Net.HttpStatusCode.GatewayTimeout)
                 {
@@ -130,14 +131,14 @@ namespace FillDownload
                     DateTime max_time = DateTime.Now;
 
                     int retry_count = 0;
-                    for(retry_count = 0; retry_count < max_retries; ++retry_count)
+                    for(retry_count = 0; retry_count < max_narrowing_retries; ++retry_count)
                     {
                         FDLog.LogMessage("Fill request timed out. Retrying....");
 
                         max_time = m_minTimeStamp + TimeSpan.FromTicks((max_time - m_minTimeStamp).Ticks / 2);
                         var max_param = new RestSharp.Parameter("maxTimestamp", TT_Info.ToRestTimestamp(max_time).ToString(), RestSharp.ParameterType.QueryString);
 
-                        result = RestManager.GetRequest("ledger", "fills", min_param, max_param);
+                        result = RestManager.GetRequest("ledger", "fills", max_timeout_retries, min_param, max_param);
 
                         if (result.StatusCode == System.Net.HttpStatusCode.OK)
                         {
@@ -149,14 +150,11 @@ namespace FillDownload
                             throw new Exception(String.Format("Request for fills unsuccessful. (minTimestamp={0}) - Status: {1} - Error Message: {2}", min_param.Value.ToString(), result.StatusCode.ToString(), result.ErrorMessage));
                         }
 
-                        if(retry_count == max_retries)
+                        if(retry_count == max_narrowing_retries)
                         {
                             throw new Exception("Request for fills unsuccessful. Max Retries exceeded.");
                         }
                     }
-
-                    
-
                 }
                 else if (result.StatusCode != System.Net.HttpStatusCode.OK)
                 {

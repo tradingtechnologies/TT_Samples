@@ -34,6 +34,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using System.IO;
 
 namespace FillDownload
@@ -62,6 +63,9 @@ namespace FillDownload
             cbFileMode.DataSource = Enum.GetValues(typeof(FileMode));
 
             LoadSettings();
+
+            this.DragOver += FrmFillDownload_DragOver;
+            this.DragDrop += Debug_DragDrop;
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -390,6 +394,64 @@ namespace FillDownload
             Properties.filldownload.Default.Columns = columns;
 
             Properties.filldownload.Default.Save();
+        }
+
+        private void FrmFillDownload_DragOver(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.All;
+            else
+                e.Effect = DragDropEffects.None;
+        }
+
+        private void Debug_DragDrop(object sender, DragEventArgs e)
+        {
+            if (!RestManager.IsAuthorized())
+            {
+                string app_key = txtSecret.Text.Split(':')[0];
+                string app_secret = txtSecret.Text;
+                RestManager.Init(app_key, app_secret, txtEnvironment.Text);
+                if (!RestManager.IsAuthorized())
+                {
+                    MessageBox.Show("Rest API was not able to log in with provided App Key and Secret");
+                    return;
+                }
+                else
+                {
+                    FDLog.LogMessage("Successfully logged in with app key and secret");
+                    RestManager.OnTokenError += RestManager_OnTokenError;
+                }
+            }
+
+            string[] s = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            int i;
+            var fields = GetReportItems();
+            for (i = 0; i < s.Length; i++)
+            {
+                Console.WriteLine();
+
+                using (StreamReader file = File.OpenText(s[i]))
+                using (JsonTextReader reader = new JsonTextReader(file))
+                {
+                    TT_Fill fill = new TT_Fill(JToken.ReadFrom(reader));
+                    FDLog.LogMessage(String.Format("Parsing fill from file {0}", s[i]));
+                    string row = "";
+                    foreach(var field in fields)
+                    {
+                        try
+                        {
+                            row += field.DisplayField(fill) + ",";
+                        }
+                        catch (Exception ex)
+                        {
+                            row += ",";
+                            FDLog.LogError("Error parsing fill column " + field.ColumnName + " for fill " + fill.RecordID + Environment.NewLine + ex.Message);
+                        }
+                    }
+                    FDLog.LogMessage(row);
+                }
+            }
+                
         }
     }
 
