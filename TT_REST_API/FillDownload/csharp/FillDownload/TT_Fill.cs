@@ -683,7 +683,15 @@ namespace FillDownload
         {
             get
             {
-                return GetDataOrDefault("strike", "");
+                if (TT_Info.GetInstrument(GetData("instrumentId")).productTypeId == 51)
+                {
+                    TT_Instrument instr = TT_Info.GetInstrument(GetData("instrumentId"));
+                    return instr.strike.ToString();
+                }
+                else
+                {
+                    return "";
+                }
             }
         }
 
