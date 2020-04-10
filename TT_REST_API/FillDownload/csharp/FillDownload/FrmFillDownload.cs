@@ -422,7 +422,14 @@ namespace FillDownload
                     RestManager.OnTokenError += RestManager_OnTokenError;
                 }
             }
+            string[] s = (string[])e.Data.GetData(DataFormats.FileDrop, false);
 
+            Action debug = () => { DebugFillFiles(e); };
+            this.BeginInvoke(debug);
+        }
+
+        private void DebugFillFiles(DragEventArgs e)
+        {
             string[] s = (string[])e.Data.GetData(DataFormats.FileDrop, false);
             int i;
             var fields = GetReportItems();
@@ -436,7 +443,7 @@ namespace FillDownload
                     TT_Fill fill = new TT_Fill(JToken.ReadFrom(reader));
                     FDLog.LogMessage(String.Format("Parsing fill from file {0}", s[i]));
                     string row = "";
-                    foreach(var field in fields)
+                    foreach (var field in fields)
                     {
                         try
                         {
@@ -451,10 +458,8 @@ namespace FillDownload
                     FDLog.LogMessage(row);
                 }
             }
-                
         }
     }
-
 
     public delegate String ColumnDisplay(TT_Fill display);
 
