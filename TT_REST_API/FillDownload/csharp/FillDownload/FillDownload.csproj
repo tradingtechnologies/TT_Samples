@@ -71,6 +71,7 @@
     <Compile Include="FDLog.cs" />
     <Compile Include="FillDownloadThread.cs" />
     <Compile Include="FillFile.cs" />
+    <Compile Include="FillReport.cs" />
     <Compile Include="FrmFillDownload.cs">
       <SubType>Form</SubType>
     </Compile>

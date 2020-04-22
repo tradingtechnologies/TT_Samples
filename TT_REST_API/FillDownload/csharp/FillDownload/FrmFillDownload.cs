@@ -258,7 +258,6 @@ namespace FillDownload
             m_TradePaneColumns.Add(new FillColumn("CommodityDerivativeIndicator", delegate (TT_Fill fill) { return fill.CommodityDerivativeIndicator; }));
             m_TradePaneColumns.Add(new FillColumn("InvestDec", delegate (TT_Fill fill) { return fill.InvestDec; }));
             m_TradePaneColumns.Add(new FillColumn("ExecDec", delegate (TT_Fill fill) { return fill.ExecDec; }));
-            m_TradePaneColumns.Add(new FillColumn("ClientID", delegate (TT_Fill fill) { return fill.ClientID; }));
         }
 
 

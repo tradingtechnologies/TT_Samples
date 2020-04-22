@@ -229,6 +229,29 @@ namespace FillDownload
             return date.ToUniversalTime();
         }
 
+        public bool HasFillsGroup
+        {
+            get
+            {
+                return JsonContains("fillsGroup");
+            }
+        }
+
+        public int FillsGroupSize
+        {
+            get
+            {
+                if(this.HasFillsGroup)
+                {
+                    return m_jsonData.AsJEnumerable()["fillsGroup"].Count();
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+
         public string RecordID
         {
             get
@@ -774,6 +797,21 @@ namespace FillDownload
             {
                 return GetPartyWithRoleOrIdSource("22","19");
             }
+        }
+
+        public string GetIndividualExchangeTransactionID(int group_idx)
+        {
+            return m_jsonData.AsJEnumerable()["fillsGroup"][group_idx]["fillExecId"].ToString();
+        }
+
+        public string GetIndividualPrice(int group_idx)
+        {
+            return m_jsonData.AsJEnumerable()["fillsGroup"][group_idx]["fillPx"].ToString();
+        }
+
+        public string GetIndividualQuantity(int group_idx)
+        {
+            return m_jsonData.AsJEnumerable()["fillsGroup"][group_idx]["fillQty"].ToString();
         }
     }
 }
