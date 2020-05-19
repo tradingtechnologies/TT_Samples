@@ -1,6 +1,6 @@
 ﻿// **********************************************************************************************************************
 //
-//	Copyright © 2005-2019 Trading Technologies International, Inc.
+//	Copyright © 2005-2020 Trading Technologies International, Inc.
 //	All Rights Reserved Worldwide
 //
 // 	* * * S T R I C T L Y   P R O P R I E T A R Y * * *
@@ -44,11 +44,6 @@ namespace TTNETAPI_Sample_Console_PriceDetailedDepthSubscription_EPIQ
                         environment,
                         appSecretKey,
                         5000);
-
-                // Add the host machine instance id assigned to you by TT only needed for Server mode. If set in
-                // Client mode, it will simply be ignored
-                string instanceId = "Add your host machine instance id here";
-                apiConfig.ServerInstanceId = instanceId;
 
                 //Set to true if EPIQ is to be calculated
                 apiConfig.EnableEstimatedPostionInQueue = true;

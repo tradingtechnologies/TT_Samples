@@ -15,7 +15,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <PlatformTarget>x64</PlatformTarget>
-    <OutputPath>bin\x64\Debug\</OutputPath>
+    <OutputPath>..\..\buildDir\bin\Debug\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <PlatformTarget>x64</PlatformTarget>
@@ -37,7 +37,7 @@
       <HintPath>..\packages\TimeZoneConverter.3.2.0\lib\net471\TimeZoneConverter.dll</HintPath>
     </Reference>
     <Reference Include="tt-net-api">
-      <HintPath>..\packages\TT.NET.SDK.3.0.0.14\lib\net461\tt-net-api.dll</HintPath>
+      <HintPath>..\..\..\SDKs\dotnet\buildDir\bin\Debug\tt-net-api.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
