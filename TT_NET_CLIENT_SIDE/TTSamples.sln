@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTNETAPI_Sample_Console_SSE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTNETAPI_Sample_Console_AlgoOrderRouting", "TTNETAPI_Sample_Console_AlgoOrderRouting\TTNETAPI_Sample_Console_AlgoOrderRouting.csproj", "{1177FC31-6A3B-4309-9F20-43D80B84456D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTNETAPI_Sample_Console_PriceDetailedDepthSubscription_EPIQ", "TTNETAPI_Sample_Console_PriceDetailedDepthSubscription_EPIQ\TTNETAPI_Sample_Console_PriceDetailedDepthSubscription_EPIQ.csproj", "{FF3A52E7-BEE5-4AF7-BBD9-6351A39F2E5C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -57,6 +59,10 @@ Global
 		{1177FC31-6A3B-4309-9F20-43D80B84456D}.Debug|x64.Build.0 = Debug|x64
 		{1177FC31-6A3B-4309-9F20-43D80B84456D}.Release|x64.ActiveCfg = Release|x64
 		{1177FC31-6A3B-4309-9F20-43D80B84456D}.Release|x64.Build.0 = Release|x64
+		{FF3A52E7-BEE5-4AF7-BBD9-6351A39F2E5C}.Debug|x64.ActiveCfg = Debug|x64
+		{FF3A52E7-BEE5-4AF7-BBD9-6351A39F2E5C}.Debug|x64.Build.0 = Debug|x64
+		{FF3A52E7-BEE5-4AF7-BBD9-6351A39F2E5C}.Release|x64.ActiveCfg = Release|x64
+		{FF3A52E7-BEE5-4AF7-BBD9-6351A39F2E5C}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
