@@ -33,12 +33,6 @@ namespace TTNETAPI_Sample_Console_SSEOrderRouting
                 // Add your app secret Key here. It looks like: 00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000
                 string appSecretKey = "Add your app secret Key here";
 
-                // Add the host machine instance id assigned to you by TT only needed for Server mode. If set in
-                // Client mode, it will simply be ignored
-                string instanceId = "Add your host machine instance id here";
-
-                appSecretKey = "75c48da6-53fe-b15b-5b5e-1e546f6ed6ed:8f5aea1b-14c8-64b4-df99-99a2f0909273";
-                instanceId = "trish_coresdk_vm180";
                 // Set the environment the app needs to run in here
                 tt_net_sdk.ServiceEnvironment environment = tt_net_sdk.ServiceEnvironment.DevCert;
                 // Select the mode in which you wish to run -- Client (outside the TT datacenter)  
@@ -49,8 +43,6 @@ namespace TTNETAPI_Sample_Console_SSEOrderRouting
                         environment,
                         appSecretKey,
                         5000);
-                // set the instance id and any other SDK options needed
-                apiConfig.ServerInstanceId = instanceId;
 
 
                 // Start the TT API on the same thread

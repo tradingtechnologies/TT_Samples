@@ -46,7 +46,7 @@ namespace TTNETAPI_Sample_Console_PriceDetailedDepthSubscription_EPIQ
                         5000);
 
                 //Set to true if EPIQ is to be calculated
-                apiConfig.EnableEstimatedPostionInQueue = true;
+                apiConfig.EnableEstimatedPositionInQueue = true;
 
                 // set any other SDK options you need configured
                 apiConfig.ProfitLossCalculationType = tt_net_sdk.ProfitLossCalculationType.RiskWaterfall;

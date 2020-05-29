@@ -45,11 +45,6 @@ namespace TTAPI_Sample_Console_PriceDepthSubscription
                         appSecretKey,
                         5000);
 
-                // Add the host machine instance id assigned to you by TT only needed for Server mode. If set in
-                // Client mode, it will simply be ignored
-                string instanceId = "Add your host machine instance id here";
-                apiConfig.ServerInstanceId = instanceId;
-
                 // set any other SDK options you need configured
                 apiConfig.ProfitLossCalculationType = tt_net_sdk.ProfitLossCalculationType.RiskWaterfall;
 
