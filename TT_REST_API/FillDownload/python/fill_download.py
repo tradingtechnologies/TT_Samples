@@ -65,6 +65,7 @@ class GLOBALS(object):
     enums = []
     api_http_header = {}
     tt_environment = ''
+    max_narrowing_retries = 32
 
 common = GLOBALS()
 stop_running = Event()
@@ -76,12 +77,14 @@ log.setLevel(logging.INFO)
 ###    COMMON UTILITIES     ###
 ###############################
 
-def api_request(url, headers, data=None, http_method='get'):
+def api_request(url, headers, data=None, http_method='get', request_timeout=False):
     log.debug('{} {}'.format(http_method.upper(), url))
     req_id = '{}--{}'.format(REQUEST_ID_BASE, uuid4())
     params = {'requestId': req_id}
     response = \
         getattr(requests, http_method)(url=url, headers=headers, data=data, params=params)
+    if request_timeout and response.status_code == 408:
+        return response
     if response.status_code != 200:
         raise AssertionError(
             "Error on API request --> http code: {} message: {}".
@@ -278,8 +281,22 @@ def retrieve_fills(environment, headers, min_time_stamp=None, max_time_stamp=Non
         fill_download_url += '?minTimestamp={}'.format(min_time_stamp)
     if max_time_stamp:
         fill_download_url += '?maxTimestamp={}'.format(max_time_stamp)
-    fills = api_request(fill_download_url, headers)
-
+    fills = api_request(fill_download_url, headers, request_timeout=True)
+    if fills.status_code == 408:
+        max_time = time.time()
+        fill_download_url = '{}/ledger/{}/fills'.format(TT_URL_BASE, environment)
+        for _ in range(common.max_narrowing_retries):
+            max_time = min_time_stamp + ((max_time - min_time_stamp) / 2)
+            log.warning(
+                "Fill request timed out. Retrying with mintime {} and maxtime {}....".format(min_time_stamp, max_time))
+            fills = api_request(
+                fill_download_url + '?minTimestamp={}'.format(min_time_stamp) + '?maxTimestamp={}'.format(
+                    max_time), headers, request_timeout=True)
+            if fills.status_code == 408:
+                continue
+            break
+        else:
+            raise AssertionError("Request for fills unsuccessful. Max Retries exceeded.")
     return fills['fills']
 
 def output_fill_data_to_file(fills, output_file):
@@ -735,7 +752,7 @@ def fill_downloader(app_key, app_secret, stop_running, end_time, interval, outpu
     while not stop_running.is_set() and not common.api_http_header:
         time.sleep(1)
 
-    if  not stop_running.is_set() and not common.enums:
+    if not stop_running.is_set() and not common.enums:
         with common_lock:
             log.info('building enums')
             common.enums = build_enums(common.tt_environment, common.api_http_header)
