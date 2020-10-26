@@ -77,26 +77,31 @@ namespace FillDownload
             {
                 bool fill_errors = false;
                 String row = "";
-                foreach (FillColumn column in m_columns)
+
+                var reports = FillReport.GetReports(fill, false);
+                foreach(var report in reports)
                 {
-                    try
+                    foreach (FillColumn column in m_columns)
                     {
-                        row += column.DisplayField(fill) + ",";
+                        try
+                        {
+                            row += column.DisplayField(report) + ",";
+                        }
+                        catch (Exception ex)
+                        {
+                            row += ",";
+                            FDLog.LogError("Error parsing fill column " + column.ColumnName + " for fill " + fill.RecordID + Environment.NewLine + ex.Message);
+                            fill_errors = true;
+                        }
                     }
-                    catch (Exception ex)
+                    if (fill_errors)
                     {
-                        row += ",";
-                        FDLog.LogError("Error parsing fill column " + column.ColumnName + " for fill " + fill.RecordID + Environment.NewLine + ex.Message);
-                        fill_errors = true;
+                        FDLog.LogError("Json for fill " + fill.RecordID + ": " + fill.JsonData() + Environment.NewLine);
+                        errors = true;
                     }
+                    row += Environment.NewLine;
+                    m_outputFile.Write(row.ToString());
                 }
-                if(fill_errors)
-                {
-                    FDLog.LogError("Json for fill " + fill.RecordID + ": " + fill.JsonData() + Environment.NewLine);
-                    errors = true;
-                }
-                row += Environment.NewLine;
-                m_outputFile.Write(row.ToString());
             }
             return errors;
         }
