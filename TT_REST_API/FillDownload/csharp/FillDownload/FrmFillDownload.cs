@@ -48,6 +48,8 @@ namespace FillDownload
 
         public FrmFillDownload()
         {
+
+            var hourago = TT_Info.ToRestTimestamp(DateTime.UtcNow - new TimeSpan(1, 0, 0));
             InitializeComponent();
 
             InitializeColumnList();
@@ -66,6 +68,8 @@ namespace FillDownload
 
             this.DragOver += FrmFillDownload_DragOver;
             this.DragDrop += Debug_DragDrop;
+
+            FDLog.LogMessage("Starting up C# Fill Downloader v0.0.1");
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -97,7 +101,7 @@ namespace FillDownload
             // Try to log in to the REST API
             string app_key = txtSecret.Text.Split(':')[0];
             string app_secret = txtSecret.Text;
-            RestManager.Init(app_key, app_secret, txtEnvironment.Text);
+            RestManager.Init(app_key, app_secret, txtEnvironment.Text, txtURL.Text);
             if (!RestManager.IsAuthorized())
             {
                 MessageBox.Show("Rest API was not able to log in with provided App Key and Secret");
@@ -212,52 +216,55 @@ namespace FillDownload
         {
             m_TradePaneColumns = new List<FillColumn>();
 
-            m_TradePaneColumns.Add(new FillColumn("UtcDate", delegate (TT_Fill fill) { return fill.UtcDateString; }));
-            m_TradePaneColumns.Add(new FillColumn("UtcTime", delegate (TT_Fill fill) { return fill.UtcTimeString; }));
-            m_TradePaneColumns.Add(new FillColumn("ExchangeName", delegate (TT_Fill fill) { return fill.ExchangeName; }));
-            m_TradePaneColumns.Add(new FillColumn("ContractName", delegate (TT_Fill fill) { return fill.ContractName; }));
-            m_TradePaneColumns.Add(new FillColumn("TradeSide", delegate (TT_Fill fill) { return fill.TradeSide; }));
-            m_TradePaneColumns.Add(new FillColumn("FillQty", delegate (TT_Fill fill) { return fill.FillQty; }));
-            m_TradePaneColumns.Add(new FillColumn("Price", delegate (TT_Fill fill) { return fill.Price; }));
-            m_TradePaneColumns.Add(new FillColumn("FullPartial", delegate (TT_Fill fill) { return fill.FullPartial; }));
-            m_TradePaneColumns.Add(new FillColumn("OrdType", delegate (TT_Fill fill) { return fill.OrdType; }));
-            m_TradePaneColumns.Add(new FillColumn("Modifier", delegate (TT_Fill fill) { return fill.Modifier; }));
-            m_TradePaneColumns.Add(new FillColumn("Route", delegate (TT_Fill fill) { return fill.Route; }));
-            m_TradePaneColumns.Add(new FillColumn("PositionEffect", delegate (TT_Fill fill) { return fill.PositionEffect; }));
-            m_TradePaneColumns.Add(new FillColumn("Broker", delegate (TT_Fill fill) { return fill.Broker; }));
-            m_TradePaneColumns.Add(new FillColumn("Account", delegate (TT_Fill fill) { return fill.Account; }));
-            m_TradePaneColumns.Add(new FillColumn("AccountType", delegate (TT_Fill fill) { return fill.AccountType; }));
-            m_TradePaneColumns.Add(new FillColumn("GiveUp", delegate (TT_Fill fill) { return fill.GiveUp; }));
-            m_TradePaneColumns.Add(new FillColumn("TextA", delegate (TT_Fill fill) { return fill.TextA; }));
-            m_TradePaneColumns.Add(new FillColumn("TextB", delegate (TT_Fill fill) { return fill.TextB; }));
-            m_TradePaneColumns.Add(new FillColumn("TextC", delegate (TT_Fill fill) { return fill.TextC; }));
-            m_TradePaneColumns.Add(new FillColumn("TextTT", delegate (TT_Fill fill) { return fill.TextTT; }));
-            m_TradePaneColumns.Add(new FillColumn("Originator", delegate (TT_Fill fill) { return fill.Originator; }));
-            m_TradePaneColumns.Add(new FillColumn("CurrentUser", delegate (TT_Fill fill) { return fill.CurrentUser; }));
-            m_TradePaneColumns.Add(new FillColumn("ClientOrderID", delegate (TT_Fill fill) { return fill.ClientOrderID; }));
-            m_TradePaneColumns.Add(new FillColumn("ParentOrderID", delegate (TT_Fill fill) { return fill.ParentOrderID; }));
-            m_TradePaneColumns.Add(new FillColumn("OmaOrderID", delegate (TT_Fill fill) { return fill.OmaOrderID; }));
-            m_TradePaneColumns.Add(new FillColumn("ExchangeOrderID", delegate (TT_Fill fill) { return fill.ExchangeOrderID; }));
-            m_TradePaneColumns.Add(new FillColumn("ExchangeTransactionID", delegate (TT_Fill fill) { return fill.ExchangeTransactionID; }));
-            m_TradePaneColumns.Add(new FillColumn("ExchangeAccount", delegate (TT_Fill fill) { return fill.ExchangeAccount; }));
-            m_TradePaneColumns.Add(new FillColumn("ExchangeDate", delegate (TT_Fill fill) { return fill.ExchangeDate; }));
-            m_TradePaneColumns.Add(new FillColumn("ExchangeTime", delegate (TT_Fill fill) { return fill.ExchangeTime; }));
-            m_TradePaneColumns.Add(new FillColumn("ManualFill", delegate (TT_Fill fill) { return fill.ManualFill; }));
-            m_TradePaneColumns.Add(new FillColumn("Symbol", delegate (TT_Fill fill) { return fill.Symbol; }));
-            m_TradePaneColumns.Add(new FillColumn("ProductType", delegate (TT_Fill fill) { return fill.ProductType; }));
-            m_TradePaneColumns.Add(new FillColumn("FillType", delegate (TT_Fill fill) { return fill.FillType; }));
-            m_TradePaneColumns.Add(new FillColumn("ExecQty", delegate (TT_Fill fill) { return fill.ExecQty; }));
-            m_TradePaneColumns.Add(new FillColumn("WorkQty", delegate (TT_Fill fill) { return fill.WorkQty; }));
-            m_TradePaneColumns.Add(new FillColumn("AggressorFlag", delegate (TT_Fill fill) { return fill.AggressorFlag; }));
-            m_TradePaneColumns.Add(new FillColumn("ConnectionId", delegate (TT_Fill fill) { return fill.ConnectionId; }));
-            m_TradePaneColumns.Add(new FillColumn("PutCall", delegate (TT_Fill fill) { return fill.PutCall; }));
-            m_TradePaneColumns.Add(new FillColumn("Strike", delegate (TT_Fill fill) { return fill.Strike; }));
-            m_TradePaneColumns.Add(new FillColumn("OrderOrigination", delegate (TT_Fill fill) { return fill.OrderOrigination; }));
-            m_TradePaneColumns.Add(new FillColumn("TradingCapacity", delegate (TT_Fill fill) { return fill.TradingCapacity; }));
-            m_TradePaneColumns.Add(new FillColumn("LiquidityProvision", delegate (TT_Fill fill) { return fill.LiquidityProvision; }));
-            m_TradePaneColumns.Add(new FillColumn("CommodityDerivativeIndicator", delegate (TT_Fill fill) { return fill.CommodityDerivativeIndicator; }));
-            m_TradePaneColumns.Add(new FillColumn("InvestDec", delegate (TT_Fill fill) { return fill.InvestDec; }));
-            m_TradePaneColumns.Add(new FillColumn("ExecDec", delegate (TT_Fill fill) { return fill.ExecDec; }));
+            m_TradePaneColumns.Add(new FillColumn("UtcDate", delegate (FillReport report) { return report.fill.UtcDateString; }));
+            m_TradePaneColumns.Add(new FillColumn("UtcTime", delegate (FillReport report) { return report.fill.UtcTimeString; }));
+            m_TradePaneColumns.Add(new FillColumn("UniqueExecId", delegate (FillReport report) { return report.fill.UniqueExecId; }));
+            m_TradePaneColumns.Add(new FillColumn("ExchangeName", delegate (FillReport report) { return report.fill.ExchangeName; }));
+            m_TradePaneColumns.Add(new FillColumn("ContractName", delegate (FillReport report) { return report.fill.ContractName; }));
+            m_TradePaneColumns.Add(new FillColumn("TradeSide", delegate (FillReport report) { return report.fill.TradeSide; }));
+            m_TradePaneColumns.Add(new FillColumn("FillQty", delegate (FillReport report) { return report.Quantity; }));
+            m_TradePaneColumns.Add(new FillColumn("Price", delegate (FillReport report) { return report.Price; }));
+            m_TradePaneColumns.Add(new FillColumn("FullPartial", delegate (FillReport report) { return report.fill.FullPartial; }));
+            m_TradePaneColumns.Add(new FillColumn("OrdType", delegate (FillReport report) { return report.fill.OrdType; }));
+            m_TradePaneColumns.Add(new FillColumn("Modifier", delegate (FillReport report) { return report.fill.Modifier; }));
+            m_TradePaneColumns.Add(new FillColumn("Route", delegate (FillReport report) { return report.fill.Route; }));
+            m_TradePaneColumns.Add(new FillColumn("PositionEffect", delegate (FillReport report) { return report.fill.PositionEffect; }));
+            m_TradePaneColumns.Add(new FillColumn("Broker", delegate (FillReport report) { return report.fill.Broker; }));
+            m_TradePaneColumns.Add(new FillColumn("Account", delegate (FillReport report) { return report.fill.Account; }));
+            m_TradePaneColumns.Add(new FillColumn("AccountType", delegate (FillReport report) { return report.fill.AccountType; }));
+            m_TradePaneColumns.Add(new FillColumn("GiveUp", delegate (FillReport report) { return report.fill.GiveUp; }));
+            m_TradePaneColumns.Add(new FillColumn("TextA", delegate (FillReport report) { return report.fill.TextA; }));
+            m_TradePaneColumns.Add(new FillColumn("TextB", delegate (FillReport report) { return report.fill.TextB; }));
+            m_TradePaneColumns.Add(new FillColumn("TextC", delegate (FillReport report) { return report.fill.TextC; }));
+            m_TradePaneColumns.Add(new FillColumn("TextTT", delegate (FillReport report) { return report.fill.TextTT; }));
+            m_TradePaneColumns.Add(new FillColumn("Originator", delegate (FillReport report) { return report.fill.Originator; }));
+            m_TradePaneColumns.Add(new FillColumn("CurrentUser", delegate (FillReport report) { return report.fill.CurrentUser; }));
+            m_TradePaneColumns.Add(new FillColumn("ClientOrderID", delegate (FillReport report) { return report.fill.ClientOrderID; }));
+            m_TradePaneColumns.Add(new FillColumn("ParentOrderID", delegate (FillReport report) { return report.fill.ParentOrderID; }));
+            m_TradePaneColumns.Add(new FillColumn("OmaOrderID", delegate (FillReport report) { return report.fill.OmaOrderID; }));
+            m_TradePaneColumns.Add(new FillColumn("ExchangeOrderID", delegate (FillReport report) { return report.fill.ExchangeOrderID; }));
+            m_TradePaneColumns.Add(new FillColumn("ExchangeTransactionID", delegate (FillReport report) { return report.fill.ExchangeTransactionID; }));
+            m_TradePaneColumns.Add(new FillColumn("ExchangeAccount", delegate (FillReport report) { return report.fill.ExchangeAccount; }));
+            m_TradePaneColumns.Add(new FillColumn("ExchangeDate", delegate (FillReport report) { return report.fill.ExchangeDate; }));
+            m_TradePaneColumns.Add(new FillColumn("ExchangeTime", delegate (FillReport report) { return report.fill.ExchangeTime; }));
+            m_TradePaneColumns.Add(new FillColumn("ManualFill", delegate (FillReport report) { return report.fill.ManualFill; }));
+            m_TradePaneColumns.Add(new FillColumn("Symbol", delegate (FillReport report) { return report.fill.Symbol; }));
+            m_TradePaneColumns.Add(new FillColumn("ProductType", delegate (FillReport report) { return report.fill.ProductType; }));
+            m_TradePaneColumns.Add(new FillColumn("FillType", delegate (FillReport report) { return report.fill.FillType; }));
+            m_TradePaneColumns.Add(new FillColumn("ExecQty", delegate (FillReport report) { return report.fill.ExecQty; }));
+            m_TradePaneColumns.Add(new FillColumn("WorkQty", delegate (FillReport report) { return report.fill.WorkQty; }));
+            m_TradePaneColumns.Add(new FillColumn("AggressorFlag", delegate (FillReport report) { return report.fill.AggressorFlag; }));
+            m_TradePaneColumns.Add(new FillColumn("ConnectionId", delegate (FillReport report) { return report.fill.ConnectionId; }));
+            m_TradePaneColumns.Add(new FillColumn("PutCall", delegate (FillReport report) { return report.fill.PutCall; }));
+            m_TradePaneColumns.Add(new FillColumn("Strike", delegate (FillReport report) { return report.fill.Strike; }));
+            m_TradePaneColumns.Add(new FillColumn("OrderOrigination", delegate (FillReport report) { return report.fill.OrderOrigination; }));
+            m_TradePaneColumns.Add(new FillColumn("TradingCapacity", delegate (FillReport report) { return report.fill.TradingCapacity; }));
+            m_TradePaneColumns.Add(new FillColumn("LiquidityProvision", delegate (FillReport report) { return report.fill.LiquidityProvision; }));
+            m_TradePaneColumns.Add(new FillColumn("CommodityDerivativeIndicator", delegate (FillReport report) { return report.fill.CommodityDerivativeIndicator; }));
+            m_TradePaneColumns.Add(new FillColumn("InvestDec", delegate (FillReport report) { return report.fill.InvestDec; }));
+            m_TradePaneColumns.Add(new FillColumn("ExecDec", delegate (FillReport report) { return report.fill.ExecDec; }));
+            m_TradePaneColumns.Add(new FillColumn("TimeSentClient", delegate (FillReport report) { return report.fill.TimeSentClient; }));
+            m_TradePaneColumns.Add(new FillColumn("TimeSentTT", delegate (FillReport report) { return report.fill.TimeSentTT; }));
         }
 
 
@@ -441,31 +448,35 @@ namespace FillDownload
                 {
                     TT_Fill fill = new TT_Fill(JToken.ReadFrom(reader));
                     FDLog.LogMessage(String.Format("Parsing fill from file {0}", s[i]));
-                    string row = "";
-                    foreach (var field in fields)
+                    var reports = FillReport.GetReports(fill, false);
+                    foreach (var report in reports)
                     {
-                        try
+                        string row = "";
+                        foreach (var field in fields)
                         {
-                            row += field.DisplayField(fill) + ",";
+                            try
+                            {
+                                row += field.DisplayField(report) + ",";
+                            }
+                            catch (Exception ex)
+                            {
+                                row += ",";
+                                FDLog.LogError("Error parsing fill column " + field.ColumnName + " for fill " + fill.RecordID + Environment.NewLine + ex.Message);
+                            }
                         }
-                        catch (Exception ex)
-                        {
-                            row += ",";
-                            FDLog.LogError("Error parsing fill column " + field.ColumnName + " for fill " + fill.RecordID + Environment.NewLine + ex.Message);
-                        }
+                        FDLog.LogMessage(row);
                     }
-                    FDLog.LogMessage(row);
                 }
             }
         }
     }
 
-    public delegate String ColumnDisplay(TT_Fill display);
+    public delegate String ColumnDisplay(FillReport display);
 
     public class FillColumn
     {
         public String ColumnName;
-        public String DisplayField(TT_Fill fill)
+        public String DisplayField(FillReport fill)
         {
             return fieldDisplay(fill);
         }

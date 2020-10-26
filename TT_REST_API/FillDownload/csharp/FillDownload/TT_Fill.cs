@@ -168,21 +168,21 @@ namespace FillDownload
             return "";
         }
 
-        private string GetPartyWithRole(string role)
+private string GetPartyWithRole(string role)
+{
+    var parties = m_jsonData.AsJEnumerable()["parties"];
+    if (parties != null)
+    {
+        foreach (JToken party in parties)
         {
-            var parties = m_jsonData.AsJEnumerable()["parties"];
-            if (parties != null)
+            if (party["role"] != null && party["role"].ToString() == role)
             {
-                foreach (JToken party in parties)
-                {
-                    if (party["role"].ToString() == role)
-                    {
-                        return party["id"].ToString();
-                    }
-                }
+                return party["id"] != null ? party["id"].ToString() : "";
             }
-            return "";
         }
+    }
+    return "";
+}
 
         private string GetPartyWithRoleOrIdSource(string role, string idSource)
         {
@@ -237,7 +237,7 @@ namespace FillDownload
             }
         }
 
-        public int FillsGroupSize
+        public int FillsGroupCount
         {
             get
             {
@@ -453,8 +453,8 @@ namespace FillDownload
             get
             {
                 string broker = "";
-                if(JsonContains("currUserId") && GetData("currUserId") != "0")
-                    broker = TT_Info.GetUser(GetData("currUserId")).company.name;
+                var account_id = GetData("accountId");
+                broker = TT_Info.GetAccount(account_id).brokerName;
                 return broker;
             }
         }
@@ -542,7 +542,7 @@ namespace FillDownload
         {
             get
             {
-                return GetDataOrDefault("secondaryClOrderId", "");
+                return GetDataOrDefault("secondaryClOrdId", "");
             }
         }
 
@@ -812,6 +812,32 @@ namespace FillDownload
         public string GetIndividualQuantity(int group_idx)
         {
             return m_jsonData.AsJEnumerable()["fillsGroup"][group_idx]["fillQty"].ToString();
+        }
+
+        public string TimeSentTT
+        {
+            get
+            {
+                string time_sent = GetDataOrDefault("timeSentTT", "");
+                return time_sent != "" ? GetTime(time_sent).ToString("HH:mm:ss.ffff") : "";
+            }
+        }
+
+        public string TimeSentClient
+        {
+            get
+            {
+                string time_sent = GetDataOrDefault("timeSentClient", "");
+                return time_sent != "" ? GetTime(time_sent).ToString("HH:mm:ss.ffff") : "";
+            }
+        }
+
+        public string UniqueExecId
+        {
+            get
+            {
+                return GetDataOrDefault("uniqueExecId", "");
+            }
         }
     }
 }

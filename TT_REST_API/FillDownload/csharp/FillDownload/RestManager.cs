@@ -184,7 +184,7 @@ namespace FillDownload
                     privInstance.m_nextRequest = DateTime.Now + RestManager.MinSpace;
                     LogRequest(request, response);
 
-                    if (response.IsSuccessful || response.StatusCode != System.Net.HttpStatusCode.InternalServerError)
+                    if (response.IsSuccessful || (response.StatusCode != System.Net.HttpStatusCode.InternalServerError && response.StatusCode != System.Net.HttpStatusCode.BadRequest && response.ResponseStatus != ResponseStatus.TimedOut))
                         break;
                 }
 

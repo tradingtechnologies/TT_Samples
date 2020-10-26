@@ -133,9 +133,10 @@ namespace FillDownload
                     int retry_count = 0;
                     for(retry_count = 0; retry_count < max_narrowing_retries; ++retry_count)
                     {
+                        DateTime mid_time = m_minTimeStamp + TimeSpan.FromTicks((max_time - m_minTimeStamp).Ticks / 2);
                         FDLog.LogMessage("Fill request timed out. Retrying....");
-
-                        max_time = m_minTimeStamp + TimeSpan.FromTicks((max_time - m_minTimeStamp).Ticks / 2);
+                        FDLog.LogMessage(String.Format("min_time:{0} ({1}), max_time: {2} ({3}), mid_time: {4} ({5})", m_minTimeStamp.ToString("yyyy/MM/dd HH:mm:ss.ffff"), TT_Info.ToRestTimestamp(m_minTimeStamp).ToString(), max_time.ToString("yyyy/MM/dd HH:mm:ss.ffff"), TT_Info.ToRestTimestamp(max_time).ToString(), mid_time.ToString("yyyy/MM/dd HH:mm:ss.ffff"), TT_Info.ToRestTimestamp(mid_time).ToString()));
+                        max_time = mid_time;//m_minTimeStamp + TimeSpan.FromTicks((max_time - m_minTimeStamp).Ticks / 2);
                         var max_param = new RestSharp.Parameter("maxTimestamp", TT_Info.ToRestTimestamp(max_time).ToString(), RestSharp.ParameterType.QueryString);
 
                         result = RestManager.GetRequest("ledger", "fills", max_timeout_retries, min_param, max_param);
@@ -169,10 +170,9 @@ namespace FillDownload
                 }
 
                 fills.Sort((f1, f2) => f1.UtcTimeStamp.CompareTo(f2.UtcTimeStamp));
-                RaiseFillDownloadEvent(fills);
-
                 if (fills.Count > 0)
                     m_minTimeStamp = new DateTime(fills[fills.Count - 1].UtcTimeStamp.Ticks + 1);
+                RaiseFillDownloadEvent(fills);
 
                 should_continue |= (fills.Count == TT_Info.MAX_RESPONSE_FILLS);
                 should_continue &= m_running;
