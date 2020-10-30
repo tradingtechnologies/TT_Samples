@@ -4,9 +4,13 @@ This is a public place for sample projects related to the TT CORE SDK. It includ
 
 ## Samples Details
 HelloSDK - This is the most basic example which initializes the SDK and listens to the global updates. 
+
 PriceSubscription - This is a basic example which demonstrates how to make a price subscription and receive the price callback events.
+
 RouteOrder - This example routes an order on the specified contract which follows the market for a while and then crosses to be filled.
+
 StrategyServer - This sample demostrates how a TT CORE SDK application can be controlled remotely using Excel.
+
 
 ## Contributing
 Contributions to this repository are only done by employees of Trading Technologies International.  If wanting to propose updates to any samples, please fork this repository, then create a pull request, tagging the desired TT employees.
