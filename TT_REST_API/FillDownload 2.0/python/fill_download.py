@@ -287,8 +287,7 @@ def retrieve_fills(environment, headers, min_time_stamp=None, max_time_stamp=Non
     if max_time_stamp:
         fill_download_url += '?maxTimestamp={}'.format(max_time_stamp)
     fills = api_request(fill_download_url, headers, request_timeout=True)
-    # if fills.status_code == 408:
-    if fills['status'] != 'Ok':
+    if type(fills) is not dict and fills.status_code == 408:
         max_time = time.time()
         fill_download_url = '{}/ttledger/{}/fills'.format(TT_URL_BASE, environment)
         for _ in range(common.max_narrowing_retries):
