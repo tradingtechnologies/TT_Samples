@@ -264,18 +264,31 @@ def build_enums(environment, headers):
     prod_data_download_url = '{}/ttpds/{}/productdata'.format(TT_URL_BASE, environment)
     prod_data = api_request(prod_data_download_url, headers)
     for enum in prod_data:
-        if enum in ('status', 'message', 'lastPage'):
+        if enum in ('status', 'message', 'lastPage', 'nextPageKey'):
             continue
-        enums[enum] = {int(info['id']): info['name'] for info in prod_data[enum]}
+        enum_dict = {}
+        for info in prod_data[enum]:
+            if 'desc' in info:
+                enum_dict[int(info['id'])] = info['desc']
+            else:
+                enum_dict[int(info['id'])] = info['name']
+
+        enums[enum] = enum_dict
 
     # Instrument Date Enums
     inst_data_download_url = '{}/ttpds/{}/instrumentdata'.format(TT_URL_BASE, environment)
     inst_data = api_request(inst_data_download_url, headers)
     for enum in inst_data:
-        if enum in ('status', 'message', 'lastPage'):
+        if enum in ('status', 'message', 'lastPage', 'nextPageKey'):
             continue
-        enum_name = 'desc' if 'desc' in inst_data[enum][0] else 'name'
-        enums[enum] = {int(info['id']): info[enum_name] for info in inst_data[enum]}
+        enum_dict = {}
+        for info in inst_data[enum]:
+            if 'desc' in info:
+                enum_dict[int(info['id'])] = info['desc']
+            else:
+                enum_dict[int(info['id'])] = info['name']
+
+        enums[enum] = enum_dict
 
     return enums
 
@@ -364,7 +377,6 @@ def output_fill_data_to_file(fills, output_file):
             output.write('{}\n'.format(csv_header))
         for fill in fills:
             output.write('{}\n'.format(fill))
-
 
 class FillData(object):
     def __init__(self, json_data):
@@ -562,7 +574,7 @@ class FillData(object):
 
     @property
     def manual_fill(self):
-        return self.json_data.get('manualFill', '').capitalize()
+        return str(self.json_data.get('manualFill', ''))
 
     @property
     def symbol(self):
