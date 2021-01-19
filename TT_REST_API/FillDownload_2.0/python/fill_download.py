@@ -1,3 +1,4 @@
+# coding=utf-8
 """
     Copyright © 2018-2019 Trading Technologies International, Inc. All Rights Reserved Worldwide
 
@@ -37,7 +38,6 @@ import signal
 import logging
 import platform
 import argparse
-import calendar
 from uuid import uuid4
 from getpass import getpass
 from datetime import datetime, timedelta
@@ -48,7 +48,7 @@ from simplejson import JSONDecodeError
 
 
 ###############################
-### MODULE LEVEL ATTRIBUTES ###
+# MODULE LEVEL ATTRIBUTES
 ###############################
 
 TT_URL_BASE = 'https://apigateway.trade.tt'
@@ -61,11 +61,13 @@ VALID_TT_ENVIRONMENTS = (
 # Updated in main below
 REQUEST_ID_BASE = None
 
+
 class GLOBALS(object):
     enums = []
     api_http_header = {}
     tt_environment = ''
     max_narrowing_retries = 32
+
 
 common = GLOBALS()
 stop_running = Event()
@@ -73,8 +75,9 @@ log = logging.getLogger()
 log.setLevel(logging.INFO)
 
 ###############################
-###    COMMON UTILITIES     ###
+# COMMON UTILITIES
 ###############################
+
 
 def api_request(url, headers, data=None, http_method='get', request_timeout=False):
     log.debug('{} {}'.format(http_method.upper(), url))
@@ -145,6 +148,7 @@ def initialize_logger(log_dir=None, stdout=False):
 
 def memoize(func):
     cache = dict()
+
     def memoized_func(*args):
         if args in cache:
             return cache[args]
@@ -164,12 +168,10 @@ def get_time(datetimestamp):
     if datetimestamp:
         s, ms = divmod(int(datetimestamp) / (1000 * 1000), 1000)
         return '%s.%03d' % (time.strftime('%H:%M:%S', time.gmtime(s)), ms)
-    else:
-        None
 
 
 ###############################
-###   FILL DOWNLOAD LOGIC   ###
+# FILL DOWNLOAD LOGIC
 ###############################
 
 @memoize
@@ -221,8 +223,7 @@ def retrieve_token(environment, key, secret, common, lock, stop_running):
 
     while not stop_running.is_set():
         try:
-            login_info = api_request(url=token_url, headers=ttid_headers,
-                                      data=ttid_data, http_method='post')
+            login_info = api_request(url=token_url, headers=ttid_headers, data=ttid_data, http_method='post')
         except AssertionError:
             stop_running.set()
             raise
@@ -237,6 +238,7 @@ def retrieve_token(environment, key, secret, common, lock, stop_running):
 
         while time.time() < token_expiry-10 and not stop_running.is_set():
             time.sleep(1)
+
 
 def build_enums(environment, headers):
     # Order Data Enums
@@ -317,6 +319,7 @@ def retrieve_fills(environment, headers, min_time_stamp=None, max_time_stamp=Non
             raise AssertionError("Request for fills unsuccessful. Max Retries exceeded.")
     return fills['fills']
 
+
 def output_fill_data_to_file(fills, output_file):
     csv_header = r''\
         'Date (UTC),'\
@@ -378,21 +381,22 @@ def output_fill_data_to_file(fills, output_file):
         for fill in fills:
             output.write('{}\n'.format(fill))
 
+
 class FillData(object):
     def __init__(self, json_data):
         self.json_data = json_data
 
     @property
     def utc_date(self):
-      return get_date(self.json_data['timeStamp'])
+        return get_date(self.json_data['timeStamp'])
 
     @property
     def utc_time(self):
-      return get_time(self.json_data['timeStamp'])
+        return get_time(self.json_data['timeStamp'])
 
     @property
     def exchange_name(self):
-        return common.enums['markets'].get(self.json_data['marketId'], '')
+        return common.enums['markets'].get(str(self.json_data['marketId']), '')
 
     @property
     def contract_name(self):
@@ -400,7 +404,7 @@ class FillData(object):
 
     @property
     def trade_side(self):
-        return common.enums['side'].get(self.json_data['side'], '')
+        return common.enums['side'].get(str(self.json_data['side']), '')
 
     @property
     def fill_qty(self):
@@ -417,32 +421,32 @@ class FillData(object):
 
     @property
     def algo_type(self):
-        return common.enums['algoType'].get(self.json_data['algoType'], '')
+        return common.enums['algoType'].get(str(self.json_data['algoType']), '')
 
     @property
     def ord_type(self):
-        return common.enums['orderType'].get(self.json_data.get('ordType', -1), '').capitalize()
+        return common.enums['orderType'].get(str(self.json_data.get('ordType', -1)), '').capitalize()
 
     @property
     def synthetic_type(self):
-        return common.enums['syntheticType'].get(self.json_data.get('syntheticType', -1), '')
+        return common.enums['syntheticType'].get(str(self.json_data.get('syntheticType', -1)), '')
 
     @property
     def trade_type(self):
         if 'tradeType' in self.json_data:
-            return common.enums['tradeType'].get(self.json_data.get('tradeType', -1), '')
+            return common.enums['tradeType'].get(str(self.json_data.get('tradeType', -1)), '')
         elif 'trdType' in self.json_data:
-            return common.enums['tradeType'].get(self.json_data.get('trdType', -1), '')
+            return common.enums['tradeType'].get(str(self.json_data.get('trdType', -1)), '')
         else:
             return ''
 
     @property
     def exec_inst(self):
-        return common.enums['execInst'].get(self.json_data['execInst'], '')
+        return common.enums['execInst'].get(str(self.json_data['execInst']), '')
 
     @property
     def contingency_type(self):
-        return common.enums['contingencyType'].get(self.json_data.get('contingencyType', -1), '')
+        return common.enums['contingencyType'].get(str(self.json_data.get('contingencyType', -1)), '')
 
     @property
     def modifier(self):
@@ -463,18 +467,19 @@ class FillData(object):
 
     @property
     def order_cross_prevention_type(self):
-        return common.enums['orderCrossPreventionType'].get(self.json_data.get('orderCrossPreventionType', -1), '')
+        return common.enums['orderCrossPreventionType'].get(str(self.json_data.get('orderCrossPreventionType', -1)), '')
 
     @property
     def route(self):
-        if self.order_cross_prevention_type in ('POSITION_TRANSFER_FILL', 'ORDER_REDUCED_PARTIAL_POSITION_TRANSFER_FILL'):
+        if self.order_cross_prevention_type in \
+                ('POSITION_TRANSFER_FILL', 'ORDER_REDUCED_PARTIAL_POSITION_TRANSFER_FILL'):
             return 'Internal'
         else:
             return 'Direct'
 
     @property
     def position_effect(self):
-        return common.enums['positionEffect'].get(self.json_data.get('positionEffect', -1), '')
+        return common.enums['positionEffect'].get(str(self.json_data.get('positionEffect', -1)), '')
 
     @property
     def broker(self):
@@ -493,16 +498,16 @@ class FillData(object):
     @property
     def account_type(self):
         for party in self.json_data.get('parties', []):
-                if party.get('partyRole', -1) == 85: # PARTY_ROLE_ACCOUNT_CODE
-                    return party['partyId']
+            if party.get('role', -1) == 85:  # PARTY_ROLE_ACCOUNT_CODE
+                return party['id']
         else:
             return ''
 
     @property
     def give_up(self):
         for party in self.json_data.get('parties', []):
-                if party.get('partyRole', -1) == 6: # PARTY_ROLE_GIVEUP_CLEARING_FIRM
-                    return party['partyId']
+            if party.get('role', -1) == 6:  # PARTY_ROLE_GIVEUP_CLEARING_FIRM
+                return party['id']
         else:
             return ''
 
@@ -566,11 +571,11 @@ class FillData(object):
 
     @property
     def exchange_data(self):
-      return get_date(self.json_data['transactTime'])
+        return get_date(self.json_data['transactTime'])
 
     @property
     def exchange_time(self):
-      return get_time(self.json_data['transactTime'])
+        return get_time(self.json_data['transactTime'])
 
     @property
     def manual_fill(self):
@@ -582,11 +587,12 @@ class FillData(object):
 
     @property
     def product_type(self):
-        return common.enums['productTypes'].get(get_instrument_info(self.json_data['instrumentId']).get('productTypeId', -1), '')
+        return common.enums['productTypes'].get(get_instrument_info(self.json_data['instrumentId']).get
+                                                ('productTypeId', -1), '')
 
     @property
     def fill_type(self):
-        return common.enums['fillType'].get(self.json_data['multiLegReportingType'], '')
+        return common.enums['fillType'].get(str(self.json_data.get('multiLegReportingType', -1)), '')
 
     @property
     def exec_qty(self):
@@ -612,7 +618,8 @@ class FillData(object):
 
     @property
     def put_call(self):
-        return common.enums['optionCodes'].get(get_instrument_info(self.json_data['instrumentId']).get('optionCodeId', -1), '')
+        return common.enums['optionCodes'].get(get_instrument_info(self.json_data['instrumentId']).get
+                                               ('optionCodeId', -1), '')
 
     @property
     def strike(self):
@@ -622,25 +629,25 @@ class FillData(object):
     def order_origination(self):
         if 'orderOrigination' not in self.json_data:
             return ''
-        elif common.enums['orderOrigination'].get(self.json_data['orderOrigination'], '') ==  \
-          'ORDER_ORIGINATION_FROM_DIRECT_ACCESS_OR_SPONSORED_ACCESS_CUSTOMER':
+        elif common.enums['orderOrigination'].get(self.json_data['orderOrigination'], '') == \
+                'ORDER_ORIGINATION_FROM_DIRECT_ACCESS_OR_SPONSORED_ACCESS_CUSTOMER':
             return 'Y'
         else:
             return 'N'
 
     @property
     def order_capacity(self):
-        return common.enums['orderCapacity'].get(self.json_data.get('orderCapacity', -1), '')
+        return common.enums['orderCapacity'].get(str(self.json_data.get('orderCapacity', -1)), '')
 
     @property
     def trading_capacity(self):
         if 'orderCapacity' not in self.json_data:
             return ''
-        elif self.order_capacity ==  'ORDER_CAPACITY_AGENCY':
+        elif self.order_capacity == 'ORDER_CAPACITY_AGENCY':
             return 'Other'
-        elif self.order_capacity ==  'ORDER_CAPACITY_PRINCIPAL':
+        elif self.order_capacity == 'ORDER_CAPACITY_PRINCIPAL':
             return 'Deal'
-        elif self.order_capacity ==  'ORDER_CAPACITY_RISKLESS_PRINCIPAL':
+        elif self.order_capacity == 'ORDER_CAPACITY_RISKLESS_PRINCIPAL':
             return 'Match'
         else:
             return ''
@@ -648,42 +655,42 @@ class FillData(object):
     @property
     def liquidity_provision(self):
         for attr in self.json_data.get('orderAttributes', []):
-                if attr.get('order_attribute_type', -1) == 2: # ORDER_ATTRIBUTE_TYPE_LIQUIDITY_PROVISION_ACTIVITY_ORDER
-                    return attr['order_attribute_type']
+            if attr.get('order_attribute_type', -1) == 2:  # ORDER_ATTRIBUTE_TYPE_LIQUIDITY_PROVISION_ACTIVITY_ORDER
+                return attr['order_attribute_type']
         else:
             return ''
 
     @property
     def commodity_derivative_indicator(self):
         for attr in self.json_data.get('orderAttributes', []):
-                if attr.get('order_attribute_type', -1) == 3: # ORDER_ATTRIBUTE_TYPE_RISK_REDUCTION_ORDER
-                    return attr['order_attribute_type']
+            if attr.get('order_attribute_type', -1) == 3:  # ORDER_ATTRIBUTE_TYPE_RISK_REDUCTION_ORDER
+                return attr['order_attribute_type']
         else:
             return ''
 
     @property
     def invest_dec(self):
         for party in self.json_data.get('parties', []):
-            if party.get('partyRole', -1) == 98: # PARTY_ROLE_INVESTMENT_DECISION_MAKER
-                return party['partyId']
+            if party.get('role', -1) == 98:  # PARTY_ROLE_INVESTMENT_DECISION_MAKER
+                return party['id']
         else:
             return ''
 
     @property
     def exec_dec(self):
         for party in self.json_data.get('parties', []):
-                if party.get('partyRole', -1) == 4: # PARTY_ROLE_EXECUTING_TRADER
-                    return party['partyId']
+            if party.get('role', -1) == 4:  # PARTY_ROLE_EXECUTING_TRADER
+                return party['id']
         else:
             return ''
 
     @property
     def client_id(self):
         for party in self.json_data.get('parties', []):
-            if party.get('partyRole', -1) == 22: # PARTY_ROLE_CLIENT_ID
-                return party['partyId']
-            elif party.get('partyIdSource', -1) == 19: # PARTY_ID_SOURCE_SHORT_CODE_IDENTIFIER
-                return party['partyId']
+            if party.get('role', -1) == 22:  # PARTY_ROLE_CLIENT_ID
+                return party['id']
+            elif party.get('idSource', -1) == 19:  # PARTY_ID_SOURCE_SHORT_CODE_IDENTIFIER
+                return party['id']
         else:
             return ''
 
@@ -762,7 +769,7 @@ def fill_downloader(app_key, app_secret, stop_running, end_time, interval, outpu
     # Create and start token handling thread
     common_lock = Lock()
     token_handler = Thread(name='token_handler', target=retrieve_token,
-        args=(common.tt_environment, app_key, app_secret, common, common_lock, stop_running))
+                           args=(common.tt_environment, app_key, app_secret, common, common_lock, stop_running))
     token_handler.start()
 
     # wait until the first token requests completes before moving on
@@ -820,32 +827,26 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description='',
         formatter_class=argparse.RawTextHelpFormatter,
-        epilog="Example:\n\t"
-"python fill_download.py -e ext_uat_cert -c TradingTech -st 08:00 -et 14:30 -r 1 -o -l /tmp"
+        epilog="Example:\n\tpython fill_download.py -e ext_uat_cert -c TradingTech -st 08:00 -et 14:30 -r 1 -o -l /tmp"
     )
 
-    parser.add_argument('-e', '--env', dest='tt_env', action='store',
-        required=False, default='ext_prod_live',
-        help='The TT order environment to interact with')
+    parser.add_argument('-e', '--env', dest='tt_env', action='store', required=False, default='ext_prod_live',
+                        help='The TT order environment to interact with')
     parser.add_argument('-c', '--company', dest='company', action='store',
-        required=True, help='Company name of the user')
-    parser.add_argument('-st', '--start-time', dest='start_time', action='store',
-        required=False, default='00:00',
-        help='HH:MM formatted input based on a 24 hour clock, determining the '
-             'daily start time of the fill capturing')
-    parser.add_argument('-et', '--end-time', dest='end_time', action='store',
-        required=False, default='23:50',
-        help='HH:MM formatted input based on a 24 hour clock, determining the '
-             'daily start time of the fill capturing')
-    parser.add_argument('-r-', '--rate', dest='rate', action='store',
-        type=int, required=False, default=60,
-        help='Time minutes on how often to perform a fill download')
+                        required=True, help='Company name of the user')
+    parser.add_argument('-st', '--start-time', dest='start_time', action='store', required=False, default='00:00',
+                        help='HH:MM formatted input based on a 24 hour clock, determining the '
+                             'daily start time of the fill capturing')
+    parser.add_argument('-et', '--end-time', dest='end_time', action='store', required=False, default='23:50',
+                        help='HH:MM formatted input based on a 24 hour clock, determining the '
+                             'daily start time of the fill capturing')
+    parser.add_argument('-r-', '--rate', dest='rate', action='store', type=int, required=False, default=60,
+                        help='Time minutes on how often to perform a fill download')
     parser.add_argument('-p', '--output', dest='output', required=False,
-        help='Full file path of where to write the fill data too')
+                        help='Full file path of where to write the fill data too')
     parser.add_argument('-l', '--log-dir', dest='log_dir', action='store',
-        help='If given, will log to a file in the given directory')
-    parser.add_argument('-o', '--stdout', dest='stdout', action='store_true',
-        help='If supplied, will log to console')
+                        help='If given, will log to a file in the given directory')
+    parser.add_argument('-o', '--stdout', dest='stdout', action='store_true', help='If supplied, will log to console')
 
     args = parser.parse_args()
 
@@ -855,10 +856,9 @@ if __name__ == "__main__":
         # setup logging
         initialize_logger(args.log_dir, args.stdout)
 
-    # validate proper TT envionment was given
+    # validate proper TT environment was given
     if args.tt_env not in VALID_TT_ENVIRONMENTS:
-        raise ValueError('Given TT environment value must be one of {}'
-            .format(VALID_TT_ENVIRONMENTS))
+        raise ValueError('Given TT environment value must be one of {}'.format(VALID_TT_ENVIRONMENTS))
 
     common.tt_environment = args.tt_env
 
@@ -874,8 +874,9 @@ if __name__ == "__main__":
     if platform.system() != 'Windows':
         signal.signal(signal.SIGHUP, exit_handler)
 
-    # Determin the output file name
+    # Determine the output file name
     today = datetime.now()
+    output = None
     if not args.output:
         # assuming Linux if not Windows
         temp_folder = 'temp' if platform.system() == 'Windows' else 'tmp'
@@ -918,9 +919,7 @@ if __name__ == "__main__":
         if seconds_until_end > 0:
             # Run the main logic thread
             execution_handler = Thread(target=fill_downloader,
-                args=(app_key, app_secret, stop_running,
-                      time.time() + seconds_until_end,
-                      args.rate, output))
+                args=(app_key, app_secret, stop_running, time.time() + seconds_until_end, args.rate, output))
 
             try:
                 log.info('Running main logic for {} seconds'.format(seconds_until_end))
@@ -940,4 +939,3 @@ if __name__ == "__main__":
     if execution_handler:
         log.info('Main thread waiting for the execution handler thread to stop')
         execution_handler.join()
-
