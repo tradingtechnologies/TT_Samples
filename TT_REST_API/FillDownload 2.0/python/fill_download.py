@@ -1,3 +1,35 @@
+# coding=utf-8
+"""
+    Copyright © 2018-2019 Trading Technologies International, Inc. All Rights Reserved Worldwide
+
+    Redistribution and use in source and binary forms, with or without
+    modification, are permitted provided that the following conditions are met:
+
+    * Redistributions of source code must retain the above copyright notice, this
+    list of conditions and the following disclaimer.
+
+    * Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+
+    * Redistributions of source or binary code must be free of charge.
+
+    * Neither the name of the copyright holder nor the names of its
+    contributors may be used to endorse or promote products derived from
+    this software without specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+    AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+    IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+    DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+    FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+    DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+    SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+    CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+    OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+    OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+"""
+
 import os
 import re
 import sys
@@ -42,10 +74,10 @@ stop_running = Event()
 log = logging.getLogger()
 log.setLevel(logging.INFO)
 
-
 ###############################
 # COMMON UTILITIES
 ###############################
+
 
 def api_request(url, headers, data=None, http_method='get', request_timeout=False):
     log.debug('{} {}'.format(http_method.upper(), url))
@@ -145,7 +177,7 @@ def get_time(datetimestamp):
 @memoize
 def get_instrument_info(instrument_id):
     instrument_download_url = \
-        '{}/pds/{}/instrument/{}'.format(TT_URL_BASE, common.tt_environment, instrument_id)
+        '{}/ttpds/{}/instrument/{}'.format(TT_URL_BASE, common.tt_environment, instrument_id)
     try:
         instrument_info = api_request(instrument_download_url, common.api_http_header)
         return instrument_info['instrument'][0]
@@ -158,16 +190,22 @@ def get_instrument_info(instrument_id):
 @memoize
 def get_account_info(account_id):
     account_download_url = \
-        '{}/risk/{}/account/{}'.format(TT_URL_BASE, common.tt_environment, account_id)
+        '{}/ttaccount/{}/account/{}'.format(TT_URL_BASE, common.tt_environment, account_id)
     account_info = api_request(account_download_url, common.api_http_header)
     return account_info['account'][0]
 
 
 @memoize
 def get_user_info(user_id):
-    user_download_url = '{}/risk/{}/user/{}'.format(TT_URL_BASE, common.tt_environment, user_id)
-    user_info = api_request(user_download_url, common.api_http_header)
-    return user_info['user'][0]
+    user_download_url = '{}/ttuser/{}/user/{}'.format(TT_URL_BASE, common.tt_environment, user_id)
+    try:
+        user_info = api_request(user_download_url, common.api_http_header)
+        return user_info['user'][0]
+    except AssertionError:
+        return {'id': user_id,
+                'alias': "user_id:" + str(user_id),
+                'company': {'name': "user_id:" + str(user_id), 'id': -1, 'abbrevName': "user_id:" + str(user_id)}
+                }
 
 
 def retrieve_token(environment, key, secret, common, lock, stop_running):
@@ -204,17 +242,17 @@ def retrieve_token(environment, key, secret, common, lock, stop_running):
 
 def build_enums(environment, headers):
     # Order Data Enums
-    order_data_download_url = '{}/ledger/{}/orderdata'.format(TT_URL_BASE, environment)
+    order_data_download_url = '{}/ttledger/{}/orderdata'.format(TT_URL_BASE, environment)
     fill_data = api_request(order_data_download_url, headers)
     enums = fill_data['orderData']
 
     # Market Name Enums
-    markets_download_url = '{}/pds/{}/markets'.format(TT_URL_BASE, environment)
+    markets_download_url = '{}/ttpds/{}/markets'.format(TT_URL_BASE, environment)
     response = api_request(markets_download_url, headers)
     enums['markets'] = {info['id']: info['name'] for info in response['markets']}
 
     # Market Code Enums
-    mics_download_url = '{}/pds/{}/mics'.format(TT_URL_BASE, environment)
+    mics_download_url = '{}/ttpds/{}/mics'.format(TT_URL_BASE, environment)
     response = api_request(mics_download_url, headers)
     enums['mics'] = {}
     for mic in response['markets']:
@@ -225,27 +263,40 @@ def build_enums(environment, headers):
                 '{}_All'.format(enums['markets'][mic['marketId']])
 
     # Product Data Enums
-    prod_data_download_url = '{}/pds/{}/productdata'.format(TT_URL_BASE, environment)
+    prod_data_download_url = '{}/ttpds/{}/productdata'.format(TT_URL_BASE, environment)
     prod_data = api_request(prod_data_download_url, headers)
     for enum in prod_data:
-        if enum in ('status', 'message'):
+        if enum in ('status', 'message', 'lastPage', 'nextPageKey'):
             continue
-        enums[enum] = {int(info['id']): info['name'] for info in prod_data[enum]}
+        enum_dict = {}
+        for info in prod_data[enum]:
+            if 'desc' in info:
+                enum_dict[int(info['id'])] = info['desc']
+            else:
+                enum_dict[int(info['id'])] = info['name']
+
+        enums[enum] = enum_dict
 
     # Instrument Date Enums
-    inst_data_download_url = '{}/pds/{}/instrumentdata'.format(TT_URL_BASE, environment)
+    inst_data_download_url = '{}/ttpds/{}/instrumentdata'.format(TT_URL_BASE, environment)
     inst_data = api_request(inst_data_download_url, headers)
     for enum in inst_data:
-        if enum in ('status', 'message'):
+        if enum in ('status', 'message', 'lastPage', 'nextPageKey'):
             continue
-        enum_name = 'desc' if 'desc' in inst_data[enum][0] else 'name'
-        enums[enum] = {int(info['id']): info[enum_name] for info in inst_data[enum]}
+        enum_dict = {}
+        for info in inst_data[enum]:
+            if 'desc' in info:
+                enum_dict[int(info['id'])] = info['desc']
+            else:
+                enum_dict[int(info['id'])] = info['name']
+
+        enums[enum] = enum_dict
 
     return enums
 
 
 def retrieve_fills(environment, headers, min_time_stamp=None, max_time_stamp=None):
-    fill_download_url = '{}/ledger/{}/fills'.format(TT_URL_BASE, environment)
+    fill_download_url = '{}/ttledger/{}/fills'.format(TT_URL_BASE, environment)
     if min_time_stamp:
         fill_download_url += '?minTimestamp={}'.format(min_time_stamp)
     if max_time_stamp:
@@ -253,7 +304,7 @@ def retrieve_fills(environment, headers, min_time_stamp=None, max_time_stamp=Non
     fills = api_request(fill_download_url, headers, request_timeout=True)
     if type(fills) is not dict and fills.status_code == 408:
         max_time = time.time()
-        fill_download_url = '{}/ledger/{}/fills'.format(TT_URL_BASE, environment)
+        fill_download_url = '{}/ttledger/{}/fills'.format(TT_URL_BASE, environment)
         for _ in range(common.max_narrowing_retries):
             max_time = min_time_stamp + ((max_time - min_time_stamp) / 2)
             log.warning(
@@ -391,7 +442,7 @@ class FillData(object):
 
     @property
     def exec_inst(self):
-        return common.enums['execInst'].get(str(self.json_data.get('execInst', -1)), '')
+        return common.enums['execInst'].get(str(self.json_data['execInst']), '')
 
     @property
     def contingency_type(self):
@@ -528,7 +579,7 @@ class FillData(object):
 
     @property
     def manual_fill(self):
-        return self.json_data.get('manualFill', '').capitalize()
+        return str(self.json_data.get('manualFill', ''))
 
     @property
     def symbol(self):
@@ -567,8 +618,8 @@ class FillData(object):
 
     @property
     def put_call(self):
-        return common.enums['optionCodes'].get(str(get_instrument_info(self.json_data['instrumentId']).get
-                                               ('optionCodeId', -1)), '')
+        return common.enums['optionCodes'].get(get_instrument_info(self.json_data['instrumentId']).get
+                                               ('optionCodeId', -1), '')
 
     @property
     def strike(self):
@@ -737,8 +788,7 @@ def fill_downloader(app_key, app_secret, stop_running, end_time, interval, outpu
 
     while not stop_running.is_set() and time.time() < end_time:
         log.info('retrieving fills')
-        fills = retrieve_fills(common.tt_environment, common.api_http_header,
-                               min_time_stamp=min_time_stamp)
+        fills = retrieve_fills(common.tt_environment, common.api_http_header, min_time_stamp=min_time_stamp)
 
         while not stop_running.is_set() and fills and len(fills) % 500 == 0:
             # received the maximum number of fills allowed per request,
@@ -868,9 +918,9 @@ if __name__ == "__main__":
         # after the given end time argument
         if seconds_until_end > 0:
             # Run the main logic thread
-            execution_handler = Thread(target=fill_downloader, args=(app_key, app_secret, stop_running,
-                                                                     time.time() + seconds_until_end, args.rate,
-                                                                     output))
+            execution_handler = Thread(target=fill_downloader,
+                args=(app_key, app_secret, stop_running, time.time() + seconds_until_end, args.rate, output))
+
             try:
                 log.info('Running main logic for {} seconds'.format(seconds_until_end))
                 execution_handler.start()
