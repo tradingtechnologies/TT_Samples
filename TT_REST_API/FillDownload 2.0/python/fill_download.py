@@ -46,6 +46,7 @@ from threading import Thread, Lock, Event
 import requests
 from simplejson import JSONDecodeError
 
+
 ###############################
 # MODULE LEVEL ATTRIBUTES
 ###############################
@@ -73,10 +74,10 @@ stop_running = Event()
 log = logging.getLogger()
 log.setLevel(logging.INFO)
 
-
 ###############################
 # COMMON UTILITIES
 ###############################
+
 
 def api_request(url, headers, data=None, http_method='get', request_timeout=False):
     log.debug('{} {}'.format(http_method.upper(), url))
@@ -89,7 +90,7 @@ def api_request(url, headers, data=None, http_method='get', request_timeout=Fals
     if response.status_code != 200:
         raise AssertionError(
             "Error on API request --> http code: {} message: {}".
-                format(response.status_code, response.text))
+            format(response.status_code, response.text))
 
     try:
         response = response.json()
@@ -154,7 +155,6 @@ def memoize(func):
         result = func(*args)
         cache[args] = result
         return result
-
     return memoized_func
 
 
@@ -177,7 +177,7 @@ def get_time(datetimestamp):
 @memoize
 def get_instrument_info(instrument_id):
     instrument_download_url = \
-        '{}/pds/{}/instrument/{}'.format(TT_URL_BASE, common.tt_environment, instrument_id)
+        '{}/ttpds/{}/instrument/{}'.format(TT_URL_BASE, common.tt_environment, instrument_id)
     try:
         instrument_info = api_request(instrument_download_url, common.api_http_header)
         return instrument_info['instrument'][0]
@@ -190,16 +190,22 @@ def get_instrument_info(instrument_id):
 @memoize
 def get_account_info(account_id):
     account_download_url = \
-        '{}/risk/{}/account/{}'.format(TT_URL_BASE, common.tt_environment, account_id)
+        '{}/ttaccount/{}/account/{}'.format(TT_URL_BASE, common.tt_environment, account_id)
     account_info = api_request(account_download_url, common.api_http_header)
     return account_info['account'][0]
 
 
 @memoize
 def get_user_info(user_id):
-    user_download_url = '{}/risk/{}/user/{}'.format(TT_URL_BASE, common.tt_environment, user_id)
-    user_info = api_request(user_download_url, common.api_http_header)
-    return user_info['user'][0]
+    user_download_url = '{}/ttuser/{}/user/{}'.format(TT_URL_BASE, common.tt_environment, user_id)
+    try:
+        user_info = api_request(user_download_url, common.api_http_header)
+        return user_info['user'][0]
+    except AssertionError:
+        return {'id': user_id,
+                'alias': "user_id:" + str(user_id),
+                'company': {'name': "user_id:" + str(user_id), 'id': -1, 'abbrevName': "user_id:" + str(user_id)}
+                }
 
 
 def retrieve_token(environment, key, secret, common, lock, stop_running):
@@ -217,8 +223,7 @@ def retrieve_token(environment, key, secret, common, lock, stop_running):
 
     while not stop_running.is_set():
         try:
-            login_info = api_request(url=token_url, headers=ttid_headers,
-                                     data=ttid_data, http_method='post')
+            login_info = api_request(url=token_url, headers=ttid_headers, data=ttid_data, http_method='post')
         except AssertionError:
             stop_running.set()
             raise
@@ -231,23 +236,23 @@ def retrieve_token(environment, key, secret, common, lock, stop_running):
         with lock:
             common.api_http_header = {'x-api-key': key, 'Authorization': token}
 
-        while time.time() < token_expiry - 10 and not stop_running.is_set():
+        while time.time() < token_expiry-10 and not stop_running.is_set():
             time.sleep(1)
 
 
 def build_enums(environment, headers):
     # Order Data Enums
-    order_data_download_url = '{}/ledger/{}/orderdata'.format(TT_URL_BASE, environment)
+    order_data_download_url = '{}/ttledger/{}/orderdata'.format(TT_URL_BASE, environment)
     fill_data = api_request(order_data_download_url, headers)
     enums = fill_data['orderData']
 
     # Market Name Enums
-    markets_download_url = '{}/pds/{}/markets'.format(TT_URL_BASE, environment)
+    markets_download_url = '{}/ttpds/{}/markets'.format(TT_URL_BASE, environment)
     response = api_request(markets_download_url, headers)
     enums['markets'] = {info['id']: info['name'] for info in response['markets']}
 
     # Market Code Enums
-    mics_download_url = '{}/pds/{}/mics'.format(TT_URL_BASE, environment)
+    mics_download_url = '{}/ttpds/{}/mics'.format(TT_URL_BASE, environment)
     response = api_request(mics_download_url, headers)
     enums['mics'] = {}
     for mic in response['markets']:
@@ -258,27 +263,40 @@ def build_enums(environment, headers):
                 '{}_All'.format(enums['markets'][mic['marketId']])
 
     # Product Data Enums
-    prod_data_download_url = '{}/pds/{}/productdata'.format(TT_URL_BASE, environment)
+    prod_data_download_url = '{}/ttpds/{}/productdata'.format(TT_URL_BASE, environment)
     prod_data = api_request(prod_data_download_url, headers)
     for enum in prod_data:
-        if enum in ('status', 'message'):
+        if enum in ('status', 'message', 'lastPage', 'nextPageKey'):
             continue
-        enums[enum] = {int(info['id']): info['name'] for info in prod_data[enum]}
+        enum_dict = {}
+        for info in prod_data[enum]:
+            if 'desc' in info:
+                enum_dict[int(info['id'])] = info['desc']
+            else:
+                enum_dict[int(info['id'])] = info['name']
+
+        enums[enum] = enum_dict
 
     # Instrument Date Enums
-    inst_data_download_url = '{}/pds/{}/instrumentdata'.format(TT_URL_BASE, environment)
+    inst_data_download_url = '{}/ttpds/{}/instrumentdata'.format(TT_URL_BASE, environment)
     inst_data = api_request(inst_data_download_url, headers)
     for enum in inst_data:
-        if enum in ('status', 'message'):
+        if enum in ('status', 'message', 'lastPage', 'nextPageKey'):
             continue
-        enum_name = 'desc' if 'desc' in inst_data[enum][0] else 'name'
-        enums[enum] = {int(info['id']): info[enum_name] for info in inst_data[enum]}
+        enum_dict = {}
+        for info in inst_data[enum]:
+            if 'desc' in info:
+                enum_dict[int(info['id'])] = info['desc']
+            else:
+                enum_dict[int(info['id'])] = info['name']
+
+        enums[enum] = enum_dict
 
     return enums
 
 
 def retrieve_fills(environment, headers, min_time_stamp=None, max_time_stamp=None):
-    fill_download_url = '{}/ledger/{}/fills'.format(TT_URL_BASE, environment)
+    fill_download_url = '{}/ttledger/{}/fills'.format(TT_URL_BASE, environment)
     if min_time_stamp:
         fill_download_url += '?minTimestamp={}'.format(min_time_stamp)
     if max_time_stamp:
@@ -286,7 +304,7 @@ def retrieve_fills(environment, headers, min_time_stamp=None, max_time_stamp=Non
     fills = api_request(fill_download_url, headers, request_timeout=True)
     if type(fills) is not dict and fills.status_code == 408:
         max_time = time.time()
-        fill_download_url = '{}/ledger/{}/fills'.format(TT_URL_BASE, environment)
+        fill_download_url = '{}/ttledger/{}/fills'.format(TT_URL_BASE, environment)
         for _ in range(common.max_narrowing_retries):
             max_time = min_time_stamp + ((max_time - min_time_stamp) / 2)
             log.warning(
@@ -294,7 +312,7 @@ def retrieve_fills(environment, headers, min_time_stamp=None, max_time_stamp=Non
             fills = api_request(
                 fill_download_url + '?minTimestamp={}'.format(min_time_stamp) + '?maxTimestamp={}'.format(
                     max_time), headers, request_timeout=True)
-            if type(fills) is not dict and fills.status_code == 408:
+            if fills.status_code == 408:
                 continue
             break
         else:
@@ -303,55 +321,55 @@ def retrieve_fills(environment, headers, min_time_stamp=None, max_time_stamp=Non
 
 
 def output_fill_data_to_file(fills, output_file):
-    csv_header = r'' \
-                 'Date (UTC),' \
-                 'Time (UTC),' \
-                 'Exchange,' \
-                 'Contract,' \
-                 'B/S,' \
-                 'FillQty,' \
-                 'Price,' \
-                 'P/F,' \
-                 'Type,' \
-                 'Modifier,' \
-                 'Route,' \
-                 'O/C,' \
-                 'Broker,' \
-                 'Account,' \
-                 'AcctType,' \
-                 'GiveUp,' \
-                 'TextA,' \
-                 'TextB,' \
-                 'TextC,' \
-                 'TextTT,' \
-                 'Originator,' \
-                 'CurrentUser,' \
-                 'ClOrderID,' \
-                 'TTOrderID,' \
-                 'ParentID,' \
-                 'OMAOrderID,' \
-                 'ExchOrderID,' \
-                 'ExchTransID,' \
-                 'ExchAcct,' \
-                 'ExchDate (UTC),' \
-                 'ExchTime (UTC),' \
-                 'ManualFill,' \
-                 'Product,' \
-                 'Prod Type,' \
-                 'Fill Type,' \
-                 'ExeQty,' \
-                 'WorkQty,' \
-                 'P/A,' \
-                 'ConnectionID,' \
-                 'P/C,' \
-                 'Strike,' \
-                 'D.E.A.,' \
-                 'TrdgCap,' \
-                 'LiqProv,' \
-                 'C.D.I.,' \
-                 'InvestDec,' \
-                 'ExecDec,' \
-                 'Client'
+    csv_header = r''\
+        'Date (UTC),'\
+        'Time (UTC),'\
+        'Exchange,'\
+        'Contract,'\
+        'B/S,'\
+        'FillQty,'\
+        'Price,'\
+        'P/F,'\
+        'Type,'\
+        'Modifier,'\
+        'Route,'\
+        'O/C,'\
+        'Broker,'\
+        'Account,'\
+        'AcctType,'\
+        'GiveUp,'\
+        'TextA,'\
+        'TextB,'\
+        'TextC,'\
+        'TextTT,'\
+        'Originator,'\
+        'CurrentUser,'\
+        'ClOrderID,'\
+        'TTOrderID,'\
+        'ParentID,'\
+        'OMAOrderID,'\
+        'ExchOrderID,'\
+        'ExchTransID,'\
+        'ExchAcct,'\
+        'ExchDate (UTC),'\
+        'ExchTime (UTC),'\
+        'ManualFill,'\
+        'Product,'\
+        'Prod Type,'\
+        'Fill Type,'\
+        'ExeQty,'\
+        'WorkQty,'\
+        'P/A,'\
+        'ConnectionID,'\
+        'P/C,'\
+        'Strike,'\
+        'D.E.A.,'\
+        'TrdgCap,'\
+        'LiqProv,'\
+        'C.D.I.,'\
+        'InvestDec,'\
+        'ExecDec,'\
+        'Client'
 
     write_header = True if not os.path.exists(output_file) else False
 
@@ -424,7 +442,7 @@ class FillData(object):
 
     @property
     def exec_inst(self):
-        return common.enums['execInst'].get(str(self.json_data.get('execInst', -1)), '')
+        return common.enums['execInst'].get(str(self.json_data['execInst']), '')
 
     @property
     def contingency_type(self):
@@ -453,8 +471,8 @@ class FillData(object):
 
     @property
     def route(self):
-        if self.order_cross_prevention_type in (
-                'POSITION_TRANSFER_FILL', 'ORDER_REDUCED_PARTIAL_POSITION_TRANSFER_FILL'):
+        if self.order_cross_prevention_type in \
+                ('POSITION_TRANSFER_FILL', 'ORDER_REDUCED_PARTIAL_POSITION_TRANSFER_FILL'):
             return 'Internal'
         else:
             return 'Direct'
@@ -480,16 +498,16 @@ class FillData(object):
     @property
     def account_type(self):
         for party in self.json_data.get('parties', []):
-            if party.get('partyRole', -1) == 85:  # PARTY_ROLE_ACCOUNT_CODE
-                return party['partyId']
+            if party.get('role', -1) == 85:  # PARTY_ROLE_ACCOUNT_CODE
+                return party['id']
         else:
             return ''
 
     @property
     def give_up(self):
         for party in self.json_data.get('parties', []):
-            if party.get('partyRole', -1) == 6:  # PARTY_ROLE_GIVEUP_CLEARING_FIRM
-                return party['partyId']
+            if party.get('role', -1) == 6:  # PARTY_ROLE_GIVEUP_CLEARING_FIRM
+                return party['id']
         else:
             return ''
 
@@ -561,7 +579,7 @@ class FillData(object):
 
     @property
     def manual_fill(self):
-        return self.json_data.get('manualFill', '').capitalize()
+        return str(self.json_data.get('manualFill', ''))
 
     @property
     def symbol(self):
@@ -569,8 +587,8 @@ class FillData(object):
 
     @property
     def product_type(self):
-        return common.enums['productTypes'].get(
-            get_instrument_info(self.json_data['instrumentId']).get('productTypeId', -1), '')
+        return common.enums['productTypes'].get(get_instrument_info(self.json_data['instrumentId']).get
+                                                ('productTypeId', -1), '')
 
     @property
     def fill_type(self):
@@ -600,8 +618,8 @@ class FillData(object):
 
     @property
     def put_call(self):
-        return common.enums['optionCodes'].get(
-            get_instrument_info(self.json_data['instrumentId']).get('optionCodeId', -1), '')
+        return common.enums['optionCodes'].get(get_instrument_info(self.json_data['instrumentId']).get
+                                               ('optionCodeId', -1), '')
 
     @property
     def strike(self):
@@ -653,26 +671,26 @@ class FillData(object):
     @property
     def invest_dec(self):
         for party in self.json_data.get('parties', []):
-            if party.get('partyRole', -1) == 98:  # PARTY_ROLE_INVESTMENT_DECISION_MAKER
-                return party['partyId']
+            if party.get('role', -1) == 98:  # PARTY_ROLE_INVESTMENT_DECISION_MAKER
+                return party['id']
         else:
             return ''
 
     @property
     def exec_dec(self):
         for party in self.json_data.get('parties', []):
-            if party.get('partyRole', -1) == 4:  # PARTY_ROLE_EXECUTING_TRADER
-                return party['partyId']
+            if party.get('role', -1) == 4:  # PARTY_ROLE_EXECUTING_TRADER
+                return party['id']
         else:
             return ''
 
     @property
     def client_id(self):
         for party in self.json_data.get('parties', []):
-            if party.get('partyRole', -1) == 22:  # PARTY_ROLE_CLIENT_ID
-                return party['partyId']
-            elif party.get('partyIdSource', -1) == 19:  # PARTY_ID_SOURCE_SHORT_CODE_IDENTIFIER
-                return party['partyId']
+            if party.get('role', -1) == 22:  # PARTY_ROLE_CLIENT_ID
+                return party['id']
+            elif party.get('idSource', -1) == 19:  # PARTY_ID_SOURCE_SHORT_CODE_IDENTIFIER
+                return party['id']
         else:
             return ''
 
@@ -766,26 +784,18 @@ def fill_downloader(app_key, app_secret, stop_running, end_time, interval, outpu
     # use midnight of the current day as the min time stamp for the first request
     dt_now = datetime.now()
     midnight_today = dt_now.replace(hour=0, minute=0, second=0, microsecond=0)
-    min_time_stamp = int(time.mktime(midnight_today.timetuple())) * 10 ** 9
-    new_fills = []
-    fills = []
+    min_time_stamp = int(time.mktime(midnight_today.timetuple())) * 10**9
+
     while not stop_running.is_set() and time.time() < end_time:
-        log.info('retrieving fills with min_time_stamp {}'.format(min_time_stamp))
-        try:
-            fills = retrieve_fills(common.tt_environment, common.api_http_header,
-                                   min_time_stamp=min_time_stamp)
-        except AssertionError:
-            log.warning("Max Retries exceeded")
+        log.info('retrieving fills')
+        fills = retrieve_fills(common.tt_environment, common.api_http_header, min_time_stamp=min_time_stamp)
 
         while not stop_running.is_set() and fills and len(fills) % 500 == 0:
             # received the maximum number of fills allowed per request,
             # therefore grab the remaining for the time span being requested
             min_time_stamp = int(fills[-1]['timeStamp']) + 1
-            try:
-                new_fills = retrieve_fills(common.tt_environment, common.api_http_header,
-                                           min_time_stamp=min_time_stamp)
-            except AssertionError:
-                log.warning("Max Retries exceeded")
+            new_fills = retrieve_fills(common.tt_environment, common.api_http_header,
+                                       min_time_stamp=min_time_stamp)
             if new_fills:
                 fills += new_fills
             else:
@@ -794,7 +804,7 @@ def fill_downloader(app_key, app_secret, stop_running, end_time, interval, outpu
         if fills:
             # sort fills by when they occurred on the TT system, oldest first
             fills = sorted([FillData(fill) for fill in fills],
-                           key=lambda f1: f1.json_data["timeStamp"])
+                           lambda f1, f2: f1.json_data['timeStamp'] > f2.json_data['timeStamp'])
 
             min_time_stamp = int(fills[-1].json_data['timeStamp']) + 1
             output_fill_data_to_file(fills, output)
@@ -802,7 +812,7 @@ def fill_downloader(app_key, app_secret, stop_running, end_time, interval, outpu
         else:
             min_time_stamp = min_time_stamp + (interval * 60)
 
-        pause(interval * 60, stop_running, 'fill downloader')
+        pause(interval*60, stop_running, 'fill downloader')
 
     token_handler.join()
 
@@ -817,32 +827,26 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description='',
         formatter_class=argparse.RawTextHelpFormatter,
-        epilog="Example:\n\t"
-               "python fill_download.py -e ext_uat_cert -c TradingTech -st 08:00 -et 14:30 -r 1 -o -l /tmp"
+        epilog="Example:\n\tpython fill_download.py -e ext_uat_cert -c TradingTech -st 08:00 -et 14:30 -r 1 -o -l /tmp"
     )
 
-    parser.add_argument('-e', '--env', dest='tt_env', action='store',
-                        required=False, default='ext_prod_live',
+    parser.add_argument('-e', '--env', dest='tt_env', action='store', required=False, default='ext_prod_live',
                         help='The TT order environment to interact with')
     parser.add_argument('-c', '--company', dest='company', action='store',
                         required=True, help='Company name of the user')
-    parser.add_argument('-st', '--start-time', dest='start_time', action='store',
-                        required=False, default='00:00',
+    parser.add_argument('-st', '--start-time', dest='start_time', action='store', required=False, default='00:00',
                         help='HH:MM formatted input based on a 24 hour clock, determining the '
                              'daily start time of the fill capturing')
-    parser.add_argument('-et', '--end-time', dest='end_time', action='store',
-                        required=False, default='23:50',
+    parser.add_argument('-et', '--end-time', dest='end_time', action='store', required=False, default='23:50',
                         help='HH:MM formatted input based on a 24 hour clock, determining the '
                              'daily start time of the fill capturing')
-    parser.add_argument('-r-', '--rate', dest='rate', action='store',
-                        type=int, required=False, default=60,
+    parser.add_argument('-r-', '--rate', dest='rate', action='store', type=int, required=False, default=60,
                         help='Time minutes on how often to perform a fill download')
     parser.add_argument('-p', '--output', dest='output', required=False,
                         help='Full file path of where to write the fill data too')
     parser.add_argument('-l', '--log-dir', dest='log_dir', action='store',
                         help='If given, will log to a file in the given directory')
-    parser.add_argument('-o', '--stdout', dest='stdout', action='store_true',
-                        help='If supplied, will log to console')
+    parser.add_argument('-o', '--stdout', dest='stdout', action='store_true', help='If supplied, will log to console')
 
     args = parser.parse_args()
 
@@ -854,19 +858,16 @@ if __name__ == "__main__":
 
     # validate proper TT environment was given
     if args.tt_env not in VALID_TT_ENVIRONMENTS:
-        raise ValueError('Given TT environment value must be one of {}'
-                         .format(VALID_TT_ENVIRONMENTS))
+        raise ValueError('Given TT environment value must be one of {}'.format(VALID_TT_ENVIRONMENTS))
 
     common.tt_environment = args.tt_env
 
     # setup quitting logic if an interrupt signal is received
     stop_running = Event()
 
-
     def exit_handler(signal_type, _):
         log.info('Quitting due to signal {}'.format(signal_type))
         stop_running.set()
-
 
     signal.signal(signal.SIGTERM, exit_handler)
     signal.signal(signal.SIGINT, exit_handler)
@@ -883,12 +884,12 @@ if __name__ == "__main__":
         output = '{}_{}.csv'.format(output, today.strftime("%Y_%m_%d"))
     else:
         if '.' in args.output:
-            file_name, file_ext = os.path.splitext(args.output)
+            file_name, file_ext = os.path.splitext(output)
         else:
             file_name = args.output
             file_ext = 'csv'
         output = '{}_{}.{}'.format(file_name, today.strftime("%Y_%m_%d"), file_ext)
-    log.info('Outputting fills to {}'.format(output))
+        log.info('Outputting fills to {}'.format(output))
 
     # validate proper start and end times
     time_arg_regex = re.compile('^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$')
@@ -918,9 +919,7 @@ if __name__ == "__main__":
         if seconds_until_end > 0:
             # Run the main logic thread
             execution_handler = Thread(target=fill_downloader,
-                                       args=(app_key, app_secret, stop_running,
-                                             time.time() + seconds_until_end,
-                                             args.rate, output))
+                args=(app_key, app_secret, stop_running, time.time() + seconds_until_end, args.rate, output))
 
             try:
                 log.info('Running main logic for {} seconds'.format(seconds_until_end))
