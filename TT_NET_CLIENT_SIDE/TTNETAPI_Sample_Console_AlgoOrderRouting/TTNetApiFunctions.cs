@@ -155,10 +155,6 @@ namespace TTNETAPI_Sample_Console_AlgoOrderRouting
             // Get the accounts
             m_accounts = m_api.Accounts;
 
-            // Start Algo Trading thread.
-            Thread algoThread = new Thread(() => this.StartAlgo());
-            algoThread.Name = "Algo Trading Thread";
-            algoThread.Start();
         }
 
         private void AlgoLookupSubscription_OnData(object sender, AlgoLookupEventArgs e)
@@ -250,6 +246,11 @@ namespace TTNETAPI_Sample_Console_AlgoOrderRouting
         void m_algoTradeSubscription_OrderBookDownload(object sender, OrderBookDownloadEventArgs e)
         {
             Console.WriteLine("Orderbook downloaded...");
+
+            // Start Algo Trading thread.
+            Thread algoThread = new Thread(() => this.StartAlgo());
+            algoThread.Name = "Algo Trading Thread";
+            algoThread.Start();
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
