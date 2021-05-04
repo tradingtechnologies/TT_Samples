@@ -184,6 +184,7 @@ def get_instrument_info(instrument_id):
     except AssertionError:
         return {'alias': '',
                 'productSymbol': '',
+                'strike': '',
                 'instrumentId': instrument_id}
 
 
@@ -623,7 +624,7 @@ class FillData(object):
 
     @property
     def strike(self):
-        return str(self.json_data.get('strike', ''))
+        return str(get_instrument_info(self.json_data['instrumentId']).get('strike', ''))
 
     @property
     def order_origination(self):
