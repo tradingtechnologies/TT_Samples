@@ -62,11 +62,21 @@ namespace TTNETAPI_Sample_GUI_Market_Explorer
             }
             else if (ex.IsRecoverable)
             {
-                // Initialization failed but retry is in progress...
+                // this is in informational update from the SDK
+                Console.WriteLine("TT.NET SDK Initialization Message: {0}", ex.Message);
+                if (ex.Code == ApiCreationException.ApiCreationError.NewAPIVersionAvailable)
+                {
+                    // a newer version of the SDK is available - notify someone to upgrade
+                }
             }
             else
             {
-                MessageBox.Show("API Initialization Failed: " + ex.Message);
+                Console.WriteLine("TT.NET SDK Initialization Failed: {0}", ex.Message);
+                if (ex.Code == ApiCreationException.ApiCreationError.NewAPIVersionRequired)
+                {
+                    // do something to upgrade the SDK package since it will not start until it is upgraded 
+                    // to the minimum version noted in the exception message
+                }
             }
         }
 

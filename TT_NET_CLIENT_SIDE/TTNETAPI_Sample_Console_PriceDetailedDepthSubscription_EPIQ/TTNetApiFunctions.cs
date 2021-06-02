@@ -70,7 +70,6 @@ namespace TTNETAPI_Sample_Console_PriceDetailedDepthSubscription_EPIQ
             if (ex == null)
             {
                 Console.WriteLine("TT.NET SDK Initialization Complete");
-
                 // Authenticate your credentials
                 m_api = api;
                 m_api.TTAPIStatusUpdate += new EventHandler<TTAPIStatusUpdateEventArgs>(m_api_TTAPIStatusUpdate);
@@ -78,11 +77,21 @@ namespace TTNETAPI_Sample_Console_PriceDetailedDepthSubscription_EPIQ
             }
             else if (ex.IsRecoverable)
             {
-                // Initialization failed but retry is in progress...
+                // this is in informational update from the SDK
+                Console.WriteLine("TT.NET SDK Initialization Message: {0}", ex.Message);
+                if (ex.Code == ApiCreationException.ApiCreationError.NewAPIVersionAvailable)
+                {
+                    // a newer version of the SDK is available - notify someone to upgrade
+                }
             }
             else
             {
                 Console.WriteLine("TT.NET SDK Initialization Failed: {0}", ex.Message);
+                if (ex.Code == ApiCreationException.ApiCreationError.NewAPIVersionRequired)
+                {
+                    // do something to upgrade the SDK package since it will not start until it is upgraded 
+                    // to the minimum version noted in the exception message
+                }
                 Dispose();
             }
         }
