@@ -1,0 +1,9 @@
+﻿<Application x:Class="TTNETAPI_Sample_WPF_VolumeRatio.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:TTNETAPI_Sample_WPF_VolumeRatio"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>
