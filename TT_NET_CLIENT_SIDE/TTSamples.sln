@@ -21,9 +21,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTNETAPI_Sample_Console_Alg
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTNETAPI_Sample_Console_PriceDetailedDepthSubscription_EPIQ", "TTNETAPI_Sample_Console_PriceDetailedDepthSubscription_EPIQ\TTNETAPI_Sample_Console_PriceDetailedDepthSubscription_EPIQ.csproj", "{FF3A52E7-BEE5-4AF7-BBD9-6351A39F2E5C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTNETAPI_Sample_WPF_VolumeRatio", "TTNETAPI_Sample_WPF_VolumeRatio\TTNETAPI_Sample_WPF_VolumeRatio.csproj", "{3A69FD09-6842-4655-99CE-6CD1FD5555CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
@@ -63,6 +67,10 @@ Global
 		{FF3A52E7-BEE5-4AF7-BBD9-6351A39F2E5C}.Debug|x64.Build.0 = Debug|x64
 		{FF3A52E7-BEE5-4AF7-BBD9-6351A39F2E5C}.Release|x64.ActiveCfg = Release|x64
 		{FF3A52E7-BEE5-4AF7-BBD9-6351A39F2E5C}.Release|x64.Build.0 = Release|x64
+		{3A69FD09-6842-4655-99CE-6CD1FD5555CE}.Debug|x64.ActiveCfg = Debug|x64
+		{3A69FD09-6842-4655-99CE-6CD1FD5555CE}.Debug|x64.Build.0 = Debug|x64
+		{3A69FD09-6842-4655-99CE-6CD1FD5555CE}.Release|x64.ActiveCfg = Release|x64
+		{3A69FD09-6842-4655-99CE-6CD1FD5555CE}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
