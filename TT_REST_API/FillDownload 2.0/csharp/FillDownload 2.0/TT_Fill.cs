@@ -598,7 +598,10 @@ private string GetPartyWithRole(string role)
         {
             get
             {
-                return GetDate(GetData("transactTime")).ToString("yyyy/MM/dd");
+                if (GetDataOrDefault("transactTime", "") != "")
+                    return GetDate(GetData("transactTime")).ToString("yyyy/MM/dd");
+                else
+                    return "";
             }
         }
 
@@ -606,7 +609,10 @@ private string GetPartyWithRole(string role)
         {
             get
             {
-                return GetTime(GetDataOrDefault("transactTime", "")).ToString("HH:mm:ss.ffff");
+                if (GetDataOrDefault("transactTime", "") != "")
+                    return GetTime(GetData("transactTime")).ToString("HH:mm:ss.ffff");
+                else
+                    return "";
             }
         }
 
