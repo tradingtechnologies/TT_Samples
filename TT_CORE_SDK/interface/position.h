@@ -53,5 +53,22 @@ namespace ttsdk
 
     };
 
+    struct PositionReserveBucket
+    {
+        uint64_t account_id = 0;
+        uint64_t instrument_id = 0;
+        InstrumentPtr instrument = nullptr;
+
+        struct BucketSide
+        {
+            double positionLimit = -1.0;    // -1 indicated no position has been reserved
+            double maxClipSize = -1.0;      // -1 indicated no position has been reserved
+            double workingPosition = 0.0;   // qty currently working in the market covered by this bucket
+            double filledQty = 0.0;         // qty filled that was included in this bucket
+        };
+        BucketSide buySide;
+        BucketSide sellSide;
+        char parent_id[38];
+    };
 
 }

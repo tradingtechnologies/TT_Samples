@@ -142,6 +142,7 @@ namespace ttsdk {
         virtual MarketId GetMarket() const noexcept = 0;
         virtual CurrencyCode GetCurrencyCode() const noexcept = 0;
         virtual const char* GetProductName() const noexcept = 0;
+        virtual const char* GetProductSymbol() const noexcept = 0;
 
         virtual double  GetTickValue() const noexcept = 0;
         virtual double  GetTickSize() const noexcept = 0;
@@ -155,7 +156,7 @@ namespace ttsdk {
         virtual uint64_t GetLastTradingDate() const noexcept = 0;
         virtual uint64_t GetFirstDeliveryDate() const noexcept = 0;
         virtual uint64_t GetMaturityDate() const noexcept = 0;
-
+        
         virtual size_t GetNumberLegs() const noexcept = 0;
         virtual InstrumentLegPtr GetLeg(const uint32_t index) const noexcept = 0;
 
@@ -166,8 +167,5 @@ namespace ttsdk {
     };
 
     using InstrumentPtr = shared_ptr<const Instrument>;
-
-
-
 
 }

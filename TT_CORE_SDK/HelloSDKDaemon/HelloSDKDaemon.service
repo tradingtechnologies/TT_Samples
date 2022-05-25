@@ -1,0 +1,28 @@
+
+# Quick HowTo:
+# 1. Update file appropriately
+# 2. Copy this file to /etc/systemd/system/
+#
+# . Run 'service HelloSDKDaemon start' to start daemon
+# . Run 'service HelloSDKDaemon stop' to stop daemon
+#
+# . Run 'systemctl enable HelloSDKDaemon' to config daemon to run at boot startup
+#
+
+[Unit]
+Description=TT HelloSDKDaemon Example
+StartLimitIntervalSec=30
+StartLimitBurst=10
+
+[Service]
+Type=forking
+Restart=on-failure
+RestartSec=1
+ExecStart=<path executable>/HelloSDKDaemon  -k <appkey:secret> -e <environment UatCert|ProdSim|ProdLive>
+
+
+[Install]
+WantedBy=multi-user.target
+
+
+

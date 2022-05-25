@@ -17,6 +17,7 @@
 #pragma once
 
 #include "execution_report.h"
+#include "extended_rejection_information.h"
 #include "enums/CxlRejReason.h"
 
 namespace ttsdk
@@ -35,6 +36,7 @@ namespace ttsdk
         virtual ttsdk::OrderType GetOrderType() const noexcept = 0;
         virtual ttsdk::OrderSide GetSide() const noexcept = 0;
         virtual ttsdk::TimeInForce GetTimeInForce() const noexcept = 0;
+        virtual uint32_t GetClientIp() const noexcept = 0;
          //!@}
 
         //!@{ User information

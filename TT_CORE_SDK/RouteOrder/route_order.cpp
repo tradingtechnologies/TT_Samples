@@ -49,7 +49,7 @@ public:
         {
             // cancelorder if working
             auto execRpt = order_->GetCurrentState();
-            if (execRpt->IsWorking())
+            if (execRpt && execRpt->IsWorking())
                 SendCancel();
             order_->Unsubscribe();
         }
@@ -233,6 +233,12 @@ public:
         std::cout << "Order send failed. RequestId=" << profile.request_id<<
             " TTOrderId=" << order->GetOrderId() << " SendCode=" << (int)code << std::endl;
     }
+    virtual void OnEpiqUpdate(ttsdk::OrderPtr order, double epiq) override
+    {
+        std::string order_id = order->GetOrderId();
+        double e = epiq;
+        std::cout << "\n OnEpiqUpdate::orderId=" << order_id  << " EPIQ=" << e << std::endl;
+    }    
 
     const ttsdk::MarketId market_;
     const std::string product_;
@@ -247,7 +253,51 @@ public:
     uint16_t requoteCnt_;
     uint64_t subId_;
 };
+ 
 
+class MyOrderBookHandler : public ttsdk::IOrderBookEventHandler
+{
+public:
+    MyOrderBookHandler() : IOrderBookEventHandler() {};
+    virtual ~MyOrderBookHandler() {};
+    virtual void OnExecutionReport(ttsdk::OrderPtr order, ttsdk::ExecutionReportPtr execRpt) override
+    {
+        std::cout << "MyOrderBookHandler::OnExecutionReport TTOrderId=" << order->GetOrderId() <<
+            " OrderStatus=" << ttsdk::ToString(execRpt->GetOrderStatus()) << std::endl;
+
+    };
+    virtual void OnEpiqUpdate(ttsdk::OrderPtr order, double epiq) override
+    {
+        std::string order_id = order->GetOrderId();
+        double e = epiq;
+        std::cout << "\nOnEpiqUpdate::orderId=" << order_id << " EPIQ=" << e << std::endl;
+    }
+    virtual void OnReject(ttsdk::OrderPtr order, ttsdk::RejectResponsePtr rejResp) override
+    {
+    }
+    virtual void OnSendFailed(ttsdk::OrderPtr order, const ttsdk::OrderProfile& profile, const SendCode code) override
+    {
+    }
+    virtual void OnUnsubscribed(const char* orderId) override
+    {
+    }
+    virtual void OnAccountDownloadEnd(const uint64_t accountId) override
+    {
+    };
+    virtual void OnOrderBookDownloadEnd() override
+    {
+        std::cout << "OnOrderBookDownloadEnd -- orders are ready to use" << std::endl;
+        sdkReadyCondition.notify_one();
+    };
+    virtual void OnRiskReserved(const uint64_t instrumentId, const uint64_t accountId,
+        const ttsdk::RiskSide side, const bool successful)
+    {
+    };
+    virtual void OnRiskReleased(const uint64_t instrumentId, const uint64_t accountId,
+        const ttsdk::RiskSide side, const bool successful)
+    {
+    };
+};
 
 class SDKEventHandler : public ttsdk::IEventHandler
 {
@@ -256,16 +306,7 @@ public:
     virtual ~SDKEventHandler() {};
     virtual void OnStatus(const ttsdk::IEventHandler::Status status)
     {
-        if (status == ttsdk::IEventHandler::Status::INITIALIZED)
-        {
-            std::cout << "---SDK is initialize. Prices are ready to use." << std::endl;
-            std::lock_guard<std::mutex> lock(mutex);
-            sdkReadyCondition.notify_one();
-        }
-        else
-        {
-            std::cout << "SDKEventHandler::OnStatus (" << (uint32_t)status << ")" << std::endl;
-        }
+        std::cout << "SDKEventHandler::OnStatus (" << (uint32_t)status << ")" << std::endl;
     };
 };
 
@@ -285,16 +326,19 @@ int main()
     // these are the options for the SDK
     ttsdk::TTSDKOptions options;
     // set the environment the app needs to run (where your machine is located)
-    options.environment = ttsdk::Environment::DevCert;
+    options.environment = ttsdk::Environment::UatCert;
     // set your app secret Key here. It looks like: 00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000
     options.app_key_secret = app_key;
     // the number of threads to use for orders and prices
     options.num_order_threads = 2;
     options.num_price_threads = 2;
+    options.enable_synthetics = true;
+    options.enable_epiq = true;
 
 
+    MyOrderBookHandler myOBHandler;
     SDKEventHandler sdkObserver;
-    if (!ttsdk::Initialize(options, &sdkObserver, nullptr))
+    if (!ttsdk::Initialize(options, &sdkObserver, &myOBHandler))
     {
         std::cout << "Unable to initialize SDK!" << std::endl;
         return -1;
@@ -306,7 +350,6 @@ int main()
         std::cout << "Timeout waiting for SDK to initialize!" << std::endl;
         return -1;
     }
-
 
     std::cout << "Stategy starting... " << std::endl;
     PlaceOrderStrategy myStrategy;

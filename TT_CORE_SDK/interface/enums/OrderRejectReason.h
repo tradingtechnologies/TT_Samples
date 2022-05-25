@@ -130,6 +130,8 @@ namespace ttsdk
         NoPriceSubForDeviationCalc                        = 104,
         ServerOverload                                    = 105,
         PendingNew                                        = 106,
+        ReviewStatusInvalidTransition                     = 107,
+        OrderTimedOut                                     = 108,
         ApiNotReady                                       = 200,
     };
 
@@ -343,6 +345,10 @@ namespace ttsdk
             return "ServerOverload";
         case OrderRejectReason::PendingNew:
             return "PendingNew";
+        case OrderRejectReason::ReviewStatusInvalidTransition:
+            return "ReviewStatusInvalidTransition";
+        case OrderRejectReason::OrderTimedOut:
+            return "OrderTimedOut";
         case OrderRejectReason::ApiNotReady:
             return "ApiNotReady";
         default:

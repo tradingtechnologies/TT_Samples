@@ -48,6 +48,8 @@ namespace ttsdk
         ClosingPriceCross     = 19,
         ImmediateOrCancelPlus = 20,
         FillOrKillPlus        = 21,
+        MorningAtTheClose     = 22,
+        AfternoonAtTheClose   = 23,
     };
 
     inline const char* ToString(const TimeInForce value)
@@ -96,6 +98,10 @@ namespace ttsdk
             return "ImmediateOrCancelPlus";
         case TimeInForce::FillOrKillPlus:
             return "FillOrKillPlus";
+        case TimeInForce::MorningAtTheClose:
+            return "MorningAtTheClose";
+        case TimeInForce::AfternoonAtTheClose:
+            return "AfternoonAtTheClose";
         default:
             return "Unknown";
         }

@@ -15,6 +15,16 @@
  *
  ***************************************************************************/
 #pragma once
+
+
+#ifndef DEPRECATE_SUPER_STRING
+    #define DEPRECATE_SUPER_STRING
+#endif
+#ifndef SUPER_STRING_IS_STD_STRING
+    #define SUPER_STRING_IS_STD_STRING
+#endif 
+
+
 #include <sys/types.h>
 #include "consts.h"
 #include "sdk_options.h"
@@ -27,6 +37,7 @@
 #include "position.h"
 #include "connection.h"
 #include "enums/MarketId.h"
+#include "sdkalgo.h"
 
 
 namespace ttsdk {
@@ -43,8 +54,12 @@ namespace ttsdk {
             RECOMMEND_UPDATE, // SDK should be upgraded
             REQUIRES_UPDATE,  // SDK must be upgraded
             FORCED_SHUTDOWN,  // SDK is being forced to shutdown due to error
-            DOWN,             // SDK is down
+            SDKALGO_CONNECTED,  // SDK Algo support is connected and ready
+            EDGE_NOT_CONNECTED,  // SDK could not connect to the edge for synthetic and position data
+            SDKALGO_NOT_CONNECTED,  // SDK could not connect to the edge for SDK Algo support
+            DOWN,                // SDK is down
             INVALID_PRICE_CONFIG,     // Invalid Price Config file was downloaded
+            ORDER_THROTTLE_LIMIT_EXCEEDED,  // Number of orders sent in 1 second exceeded the limit
         };
 
         IEventHandler() {};
@@ -66,7 +81,7 @@ namespace ttsdk {
     //!          order book event handler must have a lifespan that is valid for the life 
     //!          of the SDK (until shutdown is completed).
     bool Initialize(const TTSDKOptions& options, IEventHandlerPtr sdkEventObserver, 
-                    IOrderBookEventHandlerPtr orderHandler) noexcept;
+                    IOrderBookEventHandlerPtr orderHandler, ISDKAlgoManagerPtr algoManager = nullptr) noexcept;
 
     //! \brief Shutdown the TT CoreSDK shared library
     //! \details Invoke a graceful shutdown for the library.  Note that once called, any
@@ -137,7 +152,7 @@ namespace ttsdk {
     OrderPtr CreateOrderFromPriceSub(uint64_t priceSubscriptionId);
     OrderPtr CreateOrder(InstrumentPtr instrument);
     OrderPtr CreateOrder(uint64_t instrumentId);
-
+    
     bool DownloadFills(IFillDownloadCallbackHandlerPtr obj,
                        const uint64_t accountId = 0,
                        const ttsdk::MarketId marketId = ttsdk::MarketId::INVALID,
@@ -167,6 +182,19 @@ namespace ttsdk {
     //! this method starts the order/fill/positions subscriptions for the given account. If
     //! filter_accounts is false, this method has not affect.
     void StartAccount(const uint64_t accountId);
+
+
+    // Position Reserve Order support 
+    //! \brief Reserves a quantity of risk for the given instrumentId/accountId/side to be used to by this app to avoid the quantity checks in bouncer
+    //!        when an order is sent.
+    //!        maxClipSize indicates the max lot size for orders sent. This value can not exceed any max order qty values defined in TT Setup 
+    bool ReserveRisk(InstrumentPtr instrument, const uint64_t accountId, const RiskSide side, 
+                     const double quantity, const double maxClipSize) noexcept;
+    //! \brief Releases the previously allocated quantity of risk for the given instrumentId/accountId/side.
+    bool ReleaseRisk(InstrumentPtr instrument, const uint64_t accountId, const RiskSide side) noexcept;
+    //! \brief Returns the current position reserve bucket for the instrument and account
+    PositionReserveBucket GetRiskBucket(InstrumentPtr instrument, const uint64_t accountId) noexcept;
+
 
 
 }

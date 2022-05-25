@@ -24,6 +24,7 @@
 #include "enums/TradeType.h"
 #include "enums/TradeQualifier.h"
 #include "instrument.h"
+#include "consts.h"
 #include <math.h>
 
 namespace ttsdk {
@@ -88,6 +89,7 @@ namespace ttsdk {
         double volume = NAN;              //!< Total contract volume
         double cum_last_trade_quantity = NAN; //!<Cum Last traded quantity (NAN when unavailable)
         double settlement_price = NAN;    //!< Settlement price (NAN when unavailable)
+        uint64_t settlement_time = U64NAN;  //!< Settlement time in nanos past the epoch (U64NAN when unavailable)
         double open_interest = NAN;       //!< Open interest
         uint64_t epoch_transact_time_nano = 0;
         //!@}

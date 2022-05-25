@@ -25,6 +25,7 @@
 #include "reject_response.h"
 #include "position.h"
 #include "shared_ptr.h"
+#include "sdkalgo.h"
 
  // Example computing the expire date in C++ for December 19, 2026.
  // timespec now;
@@ -71,6 +72,11 @@ namespace ttsdk
         char text_c[128] = { 0 };
         char text_tt[128] = { 0 };
         char sender_sub_id[128] = { 0 };
+        //!< indicator to the SDK whether or not to cancel this
+        //!  order if it is working when the SDK restarts. 
+        //!  the TTSDKOptions.sdk_instance_id needs to remain the same from
+        //!  run to run to remove the orders placed by the previous run
+        bool leave_on_restart = true;
 
         //!< Time variables which can be populated to store on the outbound order
         //! for performance measuring of order reactions to price updates
@@ -127,12 +133,19 @@ namespace ttsdk
             ORDER_MISSING_MARKET_DATA,
             INVALID_ACCOUNT_ID,
             RESTRICTED_ACCOUNT,
+            EXCEEDED_PREALLOCATED_RISK,
+            ORDER_THROTTLE_EXCEEDED,
+            CHANGE_ACCOUNT_ID_NOT_ALLOWED,
+            EXCEEDED_PREALLOCATED_RISK_CLIP_SIZE,
+            INVALID_CLIP_SIZE,
         };
 
         virtual ~IOrderEventHandler() noexcept = default;
 
         //! \brief Callback delivering execution report messages
         virtual void OnExecutionReport(OrderPtr order, ExecutionReportPtr execRpt) = 0;
+
+        virtual void OnEpiqUpdate(OrderPtr order, double epiq) {};
 
         //! \brief Callback delivering order reject messages
         virtual void OnReject(OrderPtr order, RejectResponsePtr rejResp) = 0;
@@ -158,6 +171,7 @@ namespace ttsdk
         ~Order() {};
 
         virtual const char* GetOrderId() const noexcept = 0;
+        virtual const double GetEpiq() const noexcept = 0;
         virtual void Subscribe(IOrderEventHandler& listener) noexcept = 0;
         virtual void Unsubscribe() noexcept = 0;
         virtual ExecutionReportPtr GetCurrentState() const noexcept = 0;
@@ -167,6 +181,11 @@ namespace ttsdk
         virtual void SendChange(const OrderProfile& profile) noexcept = 0;
         virtual void SendChange(const OrderPrcQtyProfile& profile) noexcept = 0;
         virtual void SendCancel(const OrderProfile& profile) noexcept = 0;
+
+        virtual void SetParent(SDKAlgoPtr parent = nullptr) noexcept = 0;
+        //! \brief Method which indicates if this order is a SDK Algo order that
+        //!        is/was being managed by this application instance
+        virtual bool IsAppsSDKAlgoOrder() noexcept = 0;
 
     private:
         Order(const Order&) = delete;
@@ -202,6 +221,16 @@ namespace ttsdk
         //! \brief Indicates all orders and positions for all accounts are
         //!        downloaded and synchronized with the realtime stream.
         virtual void OnOrderBookDownloadEnd() {};
+
+
+        //! \brief Callback for a reserve risk request. Orders sent before a PR is acked will be rejected.
+        virtual void OnRiskReserved(const uint64_t instrumentId, const uint64_t accountId,
+            const RiskSide side, const bool successful) {};
+        //! \brief Callback for a release reserve risk request.
+        virtual void OnRiskReleased(const uint64_t instrumentId, const uint64_t accountId,
+            const RiskSide side, const bool successful) {};
+
+
     };
     using IOrderBookEventHandlerPtr = IOrderBookEventHandler*;
 

@@ -91,6 +91,9 @@ namespace ttsdk
         TooLateToAmend                            = 60,
         ModifyForbidden                           = 61,
         TradingDisabledMic                        = 62,
+        ReviewStatusInvalidTransition             = 63,
+        StagedOrderCancelRejectedChildNosUnacked  = 64,
+        ClearingAccountModifyForbidden            = 65,
     };
 
     inline const char* ToString(const RejectCode value)
@@ -225,6 +228,12 @@ namespace ttsdk
             return "ModifyForbidden";
         case RejectCode::TradingDisabledMic:
             return "TradingDisabledMic";
+        case RejectCode::ReviewStatusInvalidTransition:
+            return "ReviewStatusInvalidTransition";
+        case RejectCode::StagedOrderCancelRejectedChildNosUnacked:
+            return "StagedOrderCancelRejectedChildNosUnacked";
+        case RejectCode::ClearingAccountModifyForbidden:
+            return "ClearingAccountModifyForbidden";
         default:
             return "Unknown";
         }

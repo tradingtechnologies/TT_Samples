@@ -186,7 +186,8 @@ void displayHelp()
 int main(int argc, char* argv[])
 {
     // this example is loading the app key secret from the command line or environment rather than hard coding.
-    ttsdk::Environment env = ttsdk::Environment::DevCert;
+    ttsdk::Environment env = ttsdk::Environment::UatCert;
+    std::string sEnv("UatCert");
     std::string app_key;
     for (int i = 1; i < argc; ++i) 
     {
@@ -209,15 +210,15 @@ int main(int argc, char* argv[])
             if (i + 1 < argc) 
             { 
                 i++;
-                auto sEnv = argv[i];
-                if (::strcmp(sEnv, "ProdLive") == 0) env = ttsdk::Environment::ProdLive;
-                else if (::strcmp(sEnv, "ProdSim") == 0) env = ttsdk::Environment::ProdSim;
-                else if (::strcmp(sEnv, "ProdDelayed") == 0) env = ttsdk::Environment::ProdDelayed;
-                else if (::strcmp(sEnv, "UatCert") == 0) env = ttsdk::Environment::UatCert;
-                else if (::strcmp(sEnv, "DevCert") == 0) env = ttsdk::Environment::DevCert;
+                sEnv = argv[i];
+                if (sEnv == "ProdLive") env = ttsdk::Environment::ProdLive;
+                else if (sEnv == "ProdSim") env = ttsdk::Environment::ProdSim;
+                else if (sEnv == "ProdDelayed") env = ttsdk::Environment::ProdDelayed;
+                else if (sEnv == "UatCert") env = ttsdk::Environment::UatCert;
+                else if (sEnv == "DevCert")env = ttsdk::Environment::DevCert;
                 else {
                     std::cerr << "Invalid env argument: " << sEnv << std::endl;
-                    return 1;                    
+                    return 1;
                 }
             } 
             else 
@@ -237,7 +238,7 @@ int main(int argc, char* argv[])
         }
         app_key = env_app_key;
     }
-    std::cout << "using app_key: " << app_key << std::endl;   
+    std::cout << "using app_key: " << app_key << " in " << sEnv << std::endl;
 
 
     // these are the options for the SDK

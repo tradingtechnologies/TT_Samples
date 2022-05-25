@@ -134,6 +134,7 @@ namespace ttsdk
         NoPriceSubForDeviationCalc                        = 103,
         ServerOverload                                    = 104,
         PendingNew                                        = 105,
+        OrderExceedsThrottleLimit                         = 106,
     };
 
     inline const char* ToString(const CxlRejReason value)
@@ -354,6 +355,8 @@ namespace ttsdk
             return "ServerOverload";
         case CxlRejReason::PendingNew:
             return "PendingNew";
+        case CxlRejReason::OrderExceedsThrottleLimit:
+            return "OrderExceedsThrottleLimit";
         default:
             return "Unknown";
         }

@@ -45,6 +45,7 @@ namespace ttsdk
         EPEX           = 14,
         GARBAN         = 15,
         LIFFEEO        = 16,
+        SGXGIFT        = 17,
         ISE            = 18,
         INSTINET       = 19,
         NASDAQ         = 20,
@@ -93,7 +94,9 @@ namespace ttsdk
         NASDAQOMXEU    = 95,
         AGGREGATOR     = 96,
         TTEX           = 97,
+        // ESPEED has been deprecated. Please use NFI
         ESPEED         = 98,
+        NFI            = 98,
         KCG            = 99,
         EEX            = 100,
         CMEMDP         = 101,
@@ -143,12 +146,20 @@ namespace ttsdk
         DERIBIT        = 149,
         MYSTEEL        = 150,
         XBTG           = 151,
+        CMEBTEC        = 152,
+        TADAWUL        = 153,
+        CEDX           = 154,
+        JPX            = 155,
+        OPRA           = 156,
+        LMENTP         = 157,
+        NASDAQNED      = 158,
         PME            = 600,
         DV             = 601,
         TT             = 602,
         EUREXDEV       = 802,
         LSEDEV         = 804,
         CMEUC          = 807,
+        SGXGIFTDEV     = 817,
         BTECDEV        = 822,
         BITMEXDEV      = 823,
         ASXDEV         = 824,
@@ -162,7 +173,9 @@ namespace ttsdk
         DIRECTMATCHDEV = 838,
         EEXDEV         = 839,
         ERISDEV        = 840,
+        // ESPEEDDEV has been deprecated. Please use NFIDEV
         ESPEEDDEV      = 841,
+        NFIDEV         = 841,
         FENICSDEV      = 842,
         FEXDEV         = 843,
         GDAXDEV        = 844,
@@ -212,8 +225,11 @@ namespace ttsdk
         TFEXDEV2       = 925,
         MYSTEELDEV     = 926,
         CBOEDEV        = 927,
+        CEDXDEV        = 928,
+        JPXDEV         = 929,
         ALGO           = 1001,
         BANKALGO       = 1004,
+        SDKALGO        = 1005,
         INVALID        = 134217726,
     };
 
@@ -257,6 +273,8 @@ namespace ttsdk
             return "GARBAN";
         case MarketId::LIFFEEO:
             return "LIFFEEO";
+        case MarketId::SGXGIFT:
+            return "SGXGIFT";
         case MarketId::ISE:
             return "ISE";
         case MarketId::INSTINET:
@@ -353,8 +371,8 @@ namespace ttsdk
             return "AGGREGATOR";
         case MarketId::TTEX:
             return "TTEX";
-        case MarketId::ESPEED:
-            return "ESPEED";
+        case MarketId::NFI:
+            return "NFI";
         case MarketId::KCG:
             return "KCG";
         case MarketId::EEX:
@@ -453,6 +471,20 @@ namespace ttsdk
             return "MYSTEEL";
         case MarketId::XBTG:
             return "XBTG";
+        case MarketId::CMEBTEC:
+            return "CMEBTEC";
+        case MarketId::TADAWUL:
+            return "TADAWUL";
+        case MarketId::CEDX:
+            return "CEDX";
+        case MarketId::JPX:
+            return "JPX";
+        case MarketId::OPRA:
+            return "OPRA";
+        case MarketId::LMENTP:
+            return "LMENTP";
+        case MarketId::NASDAQNED:
+            return "NASDAQNED";
         case MarketId::PME:
             return "PME";
         case MarketId::DV:
@@ -465,6 +497,8 @@ namespace ttsdk
             return "LSEDEV";
         case MarketId::CMEUC:
             return "CMEUC";
+        case MarketId::SGXGIFTDEV:
+            return "SGXGIFTDEV";
         case MarketId::BTECDEV:
             return "BTECDEV";
         case MarketId::BITMEXDEV:
@@ -491,8 +525,8 @@ namespace ttsdk
             return "EEXDEV";
         case MarketId::ERISDEV:
             return "ERISDEV";
-        case MarketId::ESPEEDDEV:
-            return "ESPEEDDEV";
+        case MarketId::NFIDEV:
+            return "NFIDEV";
         case MarketId::FENICSDEV:
             return "FENICSDEV";
         case MarketId::FEXDEV:
@@ -591,14 +625,428 @@ namespace ttsdk
             return "MYSTEELDEV";
         case MarketId::CBOEDEV:
             return "CBOEDEV";
+        case MarketId::CEDXDEV:
+            return "CEDXDEV";
+        case MarketId::JPXDEV:
+            return "JPXDEV";
         case MarketId::ALGO:
             return "ALGO";
         case MarketId::BANKALGO:
             return "BANKALGO";
+        case MarketId::SDKALGO:
+            return "SDKALGO";
         case MarketId::INVALID:
             return "INVALID";
         default:
             return "Unknown";
+        }
+    }
+    inline const char* ToTTName(const MarketId value)
+    {
+        switch (value)
+        {
+        case MarketId::NotSet:
+            return "";
+        case MarketId::ASE:
+            return "TT_MARKET_ID_SYNTHETIC";
+        case MarketId::XETRA:
+            return "TT_MARKET_ID_XETRA";
+        case MarketId::EUREX:
+            return "TT_MARKET_ID_EUREX";
+        case MarketId::NYSELIFFE:
+            return "TT_MARKET_ID_NYSE_LIFFE";
+        case MarketId::LSE:
+            return "TT_MARKET_ID_LSE";
+        case MarketId::OM:
+            return "TT_MARKET_ID_OM";
+        case MarketId::CBOT:
+            return "TT_MARKET_ID_CBOT";
+        case MarketId::CME:
+            return "TT_MARKET_ID_CME";
+        case MarketId::CFFE:
+            return "TT_MARKET_ID_CFFE";
+        case MarketId::SEHK:
+            return "TT_MARKET_ID_SEHK";
+        case MarketId::ENXTFUT:
+            return "TT_MARKET_ID_ENXTFUT";
+        case MarketId::ENXTOPT:
+            return "TT_MARKET_ID_ENXTOPT";
+        case MarketId::SYCOM:
+            return "TT_MARKET_ID_SYCOM";
+        case MarketId::NQLX:
+            return "TT_MARKET_ID_NQLX";
+        case MarketId::EPEX:
+            return "TT_MARKET_ID_EPEX";
+        case MarketId::GARBAN:
+            return "TT_MARKET_ID_GARBAN";
+        case MarketId::LIFFEEO:
+            return "TT_MARKET_ID_LIFFE_EO";
+        case MarketId::SGXGIFT:
+            return "TT_MARKET_ID_SGX_GIFT";
+        case MarketId::ISE:
+            return "TT_MARKET_ID_ISE";
+        case MarketId::INSTINET:
+            return "TT_MARKET_ID_INSTINET";
+        case MarketId::NASDAQ:
+            return "TT_MARKET_ID_NASDAQ";
+        case MarketId::BTECFUTURES:
+            return "TT_MARKET_ID_BTECFUTURES";
+        case MarketId::BTEC:
+            return "TT_MARKET_ID_BTEC";
+        case MarketId::ISLAND:
+            return "TT_MARKET_ID_ISLAND";
+        case MarketId::ASX:
+            return "TT_MARKET_ID_ASX";
+        case MarketId::EUREXUS:
+            return "TT_MARKET_ID_EUREXUS";
+        case MarketId::CBOE:
+            return "TT_MARKET_ID_CBOE";
+        case MarketId::ARCHIPELAGO:
+            return "TT_MARKET_ID_ARCHIPELAGO";
+        case MarketId::IB:
+            return "TT_MARKET_ID_IB";
+        case MarketId::EURONEXT:
+            return "TT_MARKET_ID_EURONEXT";
+        case MarketId::ICE:
+            return "TT_MARKET_ID_ICE";
+        case MarketId::COREEX:
+            return "TT_MARKET_ID_COREEX";
+        case MarketId::NYMEX:
+            return "TT_MARKET_ID_NYMEX";
+        case MarketId::HOTSPOT:
+            return "TT_MARKET_ID_HOTSPOT";
+        case MarketId::MONTREAL:
+            return "TT_MARKET_ID_MONTREAL";
+        case MarketId::SGX:
+            return "TT_MARKET_ID_SGX";
+        case MarketId::IDEM:
+            return "TT_MARKET_ID_IDEM";
+        case MarketId::MEFF:
+            return "TT_MARKET_ID_MEFF";
+        case MarketId::TFX:
+            return "TT_MARKET_ID_TFX";
+        case MarketId::TOCOM:
+            return "TT_MARKET_ID_TOCOM";
+        case MarketId::TSE:
+            return "TT_MARKET_ID_TSE";
+        case MarketId::HKFE:
+            return "TT_MARKET_ID_HKFE";
+        case MarketId::OSE:
+            return "TT_MARKET_ID_OSE";
+        case MarketId::MEXDER:
+            return "TT_MARKET_ID_MEXDER";
+        case MarketId::KRX:
+            return "TT_MARKET_ID_KRX";
+        case MarketId::CCX:
+            return "TT_MARKET_ID_CCX";
+        case MarketId::ECX:
+            return "TT_MARKET_ID_ECX";
+        case MarketId::CCFE:
+            return "TT_MARKET_ID_CCFE";
+        case MarketId::NSE:
+            return "TT_MARKET_ID_NSE";
+        case MarketId::LME:
+            return "TT_MARKET_ID_LME";
+        case MarketId::FXMS:
+            return "TT_MARKET_ID_FXMS";
+        case MarketId::USFE:
+            return "TT_MARKET_ID_USFE";
+        case MarketId::DME:
+            return "TT_MARKET_ID_DME";
+        case MarketId::EBS:
+            return "TT_MARKET_ID_EBS";
+        case MarketId::SSE:
+            return "TT_MARKET_ID_SSE";
+        case MarketId::MCX:
+            return "TT_MARKET_ID_MCX";
+        case MarketId::SIMEX:
+            return "TT_MARKET_ID_SIMEX";
+        case MarketId::TMX:
+            return "TT_MARKET_ID_TMX";
+        case MarketId::BVMF:
+            return "TT_MARKET_ID_BVMF";
+        case MarketId::MX:
+            return "TT_MARKET_ID_MX";
+        case MarketId::ICEL:
+            return "TT_MARKET_ID_ICE_L";
+        case MarketId::CFE:
+            return "TT_MARKET_ID_CFE";
+        case MarketId::ERIS:
+            return "TT_MARKET_ID_ERIS";
+        case MarketId::NASDAQOMXEU:
+            return "TT_MARKET_ID_NASDAQ_OMX_EU";
+        case MarketId::AGGREGATOR:
+            return "TT_MARKET_ID_AGGREGATOR";
+        case MarketId::TTEX:
+            return "TT_MARKET_ID_TTEX";
+        case MarketId::NFI:
+            return "TT_MARKET_ID_NFI";
+        case MarketId::KCG:
+            return "TT_MARKET_ID_KCG";
+        case MarketId::EEX:
+            return "TT_MARKET_ID_EEX";
+        case MarketId::CMEMDP:
+            return "TT_MARKET_ID_CME_MDP";
+        case MarketId::NFX:
+            return "TT_MARKET_ID_NFX";
+        case MarketId::NLX:
+            return "TT_MARKET_ID_NLX";
+        case MarketId::NORDIC:
+            return "TT_MARKET_ID_NORDIC";
+        case MarketId::GMEX:
+            return "TT_MARKET_ID_GMEX";
+        case MarketId::NDAQEU:
+            return "TT_MARKET_ID_NDAQ_EU";
+        case MarketId::HKEX:
+            return "TT_MARKET_ID_HKEX";
+        case MarketId::FEX:
+            return "TT_MARKET_ID_FEX";
+        case MarketId::ASX2:
+            return "TT_MARKET_ID_ASX2";
+        case MarketId::OTCME:
+            return "TT_MARKET_ID_OT_CME";
+        case MarketId::OTDGCX:
+            return "TT_MARKET_ID_OT_DGCX";
+        case MarketId::DGCX:
+            return "TT_MARKET_ID_DGCX";
+        case MarketId::FIXGW2:
+            return "TT_MARKET_ID_FIX_GW2";
+        case MarketId::FIXGW3:
+            return "TT_MARKET_ID_FIX_GW3";
+        case MarketId::FIXGW4:
+            return "TT_MARKET_ID_FIX_GW4";
+        case MarketId::FIXGW5:
+            return "TT_MARKET_ID_FIX_GW5";
+        case MarketId::FIXGW6:
+            return "TT_MARKET_ID_FIX_GW6";
+        case MarketId::FIXGW7:
+            return "TT_MARKET_ID_FIX_GW7";
+        case MarketId::FIXGW8:
+            return "TT_MARKET_ID_FIX_GW8";
+        case MarketId::FIXGW9:
+            return "TT_MARKET_ID_FIX_GW9";
+        case MarketId::DIRECTMATCH:
+            return "TT_MARKET_ID_DIRECTMATCH";
+        case MarketId::FENICS:
+            return "TT_MARKET_ID_FENICS";
+        case MarketId::NODAL:
+            return "TT_MARKET_ID_NODAL";
+        case MarketId::BIST:
+            return "TT_MARKET_ID_BIST";
+        case MarketId::TFEX:
+            return "TT_MARKET_ID_TFEX";
+        case MarketId::GDAX:
+            return "TT_MARKET_ID_GDAX";
+        case MarketId::SAFEX:
+            return "TT_MARKET_ID_SAFEX";
+        case MarketId::WSE:
+            return "TT_MARKET_ID_WSE";
+        case MarketId::CURVEGLOBAL:
+            return "TT_MARKET_ID_CURVEGLOBAL";
+        case MarketId::COINFLOOREX:
+            return "TT_MARKET_ID_COINFLOOREX";
+        case MarketId::KRAKEN:
+            return "TT_MARKET_ID_KRAKEN";
+        case MarketId::BITMEX:
+            return "TT_MARKET_ID_BITMEX";
+        case MarketId::MOEX:
+            return "TT_MARKET_ID_MOEX";
+        case MarketId::TAIFEX:
+            return "TT_MARKET_ID_TAIFEX";
+        case MarketId::ATHEX:
+            return "TT_MARKET_ID_ATHEX";
+        case MarketId::COINFLOORUK:
+            return "TT_MARKET_ID_COINFLOORUK";
+        case MarketId::INE:
+            return "TT_MARKET_ID_INE";
+        case MarketId::DCE:
+            return "TT_MARKET_ID_DCE";
+        case MarketId::ZCE:
+            return "TT_MARKET_ID_ZCE";
+        case MarketId::SHFE:
+            return "TT_MARKET_ID_SHFE";
+        case MarketId::JUMP:
+            return "TT_MARKET_ID_JUMP";
+        case MarketId::GRAYSTONE:
+            return "TT_MARKET_ID_GRAYSTONE";
+        case MarketId::CHFFE:
+            return "TT_MARKET_ID_CHFFE";
+        case MarketId::BITSO:
+            return "TT_MARKET_ID_BITSO";
+        case MarketId::DERIBIT:
+            return "TT_MARKET_ID_DERIBIT";
+        case MarketId::MYSTEEL:
+            return "TT_MARKET_ID_MYSTEEL";
+        case MarketId::XBTG:
+            return "TT_MARKET_ID_XBTG";
+        case MarketId::CMEBTEC:
+            return "TT_MARKET_ID_CME_BTEC";
+        case MarketId::TADAWUL:
+            return "TT_MARKET_ID_TADAWUL";
+        case MarketId::CEDX:
+            return "TT_MARKET_ID_CEDX";
+        case MarketId::JPX:
+            return "TT_MARKET_ID_JPX";
+        case MarketId::OPRA:
+            return "TT_MARKET_ID_OPRA";
+        case MarketId::LMENTP:
+            return "TT_MARKET_ID_LME_NTP";
+        case MarketId::NASDAQNED:
+            return "TT_MARKET_ID_NASDAQ_NED";
+        case MarketId::PME:
+            return "TT_MARKET_ID_PME";
+        case MarketId::DV:
+            return "TT_MARKET_ID_DV";
+        case MarketId::TT:
+            return "TT_MARKET_ID_TT";
+        case MarketId::EUREXDEV:
+            return "TT_MARKET_ID_EUREX_DEV";
+        case MarketId::LSEDEV:
+            return "TT_MARKET_ID_LSE_DEV";
+        case MarketId::CMEUC:
+            return "TT_MARKET_ID_CME_UC";
+        case MarketId::SGXGIFTDEV:
+            return "TT_MARKET_ID_SGX_GIFT_DEV";
+        case MarketId::BTECDEV:
+            return "TT_MARKET_ID_BTEC_DEV";
+        case MarketId::BITMEXDEV:
+            return "TT_MARKET_ID_BITMEX_DEV";
+        case MarketId::ASXDEV:
+            return "TT_MARKET_ID_ASX_DEV";
+        case MarketId::EURONEXTDEV:
+            return "TT_MARKET_ID_EURONEXT_DEV";
+        case MarketId::ICEDEV:
+            return "TT_MARKET_ID_ICE_DEV";
+        case MarketId::ASEDEV:
+            return "TT_MARKET_ID_ASE_DEV";
+        case MarketId::BISTDEV:
+            return "TT_MARKET_ID_BIST_DEV";
+        case MarketId::CLEARPORTDEV:
+            return "TT_MARKET_ID_CLEARPORT_DEV";
+        case MarketId::CMEDEV:
+            return "TT_MARKET_ID_CME_DEV";
+        case MarketId::DGCXDEV:
+            return "TT_MARKET_ID_DGCX_DEV";
+        case MarketId::DIRECTMATCHDEV:
+            return "TT_MARKET_ID_DIRECTMATCH_DEV";
+        case MarketId::EEXDEV:
+            return "TT_MARKET_ID_EEX_DEV";
+        case MarketId::ERISDEV:
+            return "TT_MARKET_ID_ERIS_DEV";
+        case MarketId::NFIDEV:
+            return "TT_MARKET_ID_NFDEV";
+        case MarketId::FENICSDEV:
+            return "TT_MARKET_ID_FENICS_DEV";
+        case MarketId::FEXDEV:
+            return "TT_MARKET_ID_FEX_DEV";
+        case MarketId::GDAXDEV:
+            return "TT_MARKET_ID_GDAX_DEV";
+        case MarketId::HKEXDEV:
+            return "TT_MARKET_ID_HKEX_DEV";
+        case MarketId::IDEMDEV:
+            return "TT_MARKET_ID_IDEM_DEV";
+        case MarketId::ISEDEV:
+            return "TT_MARKET_ID_ISE_DEV";
+        case MarketId::KRXDEV:
+            return "TT_MARKET_ID_KRX_DEV";
+        case MarketId::MCXDEV:
+            return "TT_MARKET_ID_MCX_DEV";
+        case MarketId::MEXDERDEV:
+            return "TT_MARKET_ID_MEXDER_DEV";
+        case MarketId::NDAQEUDEV:
+            return "TT_MARKET_ID_NDAQ_EU_DEV";
+        case MarketId::NFXDEV:
+            return "TT_MARKET_ID_NFX_DEV";
+        case MarketId::NODALDEV:
+            return "TT_MARKET_ID_NODAL_DEV";
+        case MarketId::NSEDEV:
+            return "TT_MARKET_ID_NSE_DEV";
+        case MarketId::SAFEXDEV:
+            return "TT_MARKET_ID_SAFEX_DEV";
+        case MarketId::SEHKDEV:
+            return "TT_MARKET_ID_SEHK_DEV";
+        case MarketId::TFEXDEV:
+            return "TT_MARKET_ID_TFEX_DEV";
+        case MarketId::TSEDEV:
+            return "TT_MARKET_ID_TSE_DEV";
+        case MarketId::WSEDEV:
+            return "TT_MARKET_ID_WSE_DEV";
+        case MarketId::CURVEGLOBALDEV:
+            return "TT_MARKET_ID_CURVEGLOBAL_DEV";
+        case MarketId::COINFLOOREXDEV:
+            return "TT_MARKET_ID_COINFLOOREX_DEV";
+        case MarketId::KRAKENDEV:
+            return "TT_MARKET_ID_KRAKEN_DEV";
+        case MarketId::SGXDEV:
+            return "TT_MARKET_ID_SGX_DEV";
+        case MarketId::MEFFDEV:
+            return "TT_MARKET_ID_MEFF_DEV";
+        case MarketId::TFXDEV:
+            return "TT_MARKET_ID_TFX_DEV";
+        case MarketId::TOCOMDEV:
+            return "TT_MARKET_ID_TOCOM_DEV";
+        case MarketId::OSEDEV:
+            return "TT_MARKET_ID_OSE_DEV";
+        case MarketId::LMEDEV:
+            return "TT_MARKET_ID_LME_DEV";
+        case MarketId::BVMFDEV:
+            return "TT_MARKET_ID_BVMF_DEV";
+        case MarketId::MXDEV:
+            return "TT_MARKET_ID_MX_DEV";
+        case MarketId::ICELDEV:
+            return "TT_MARKET_ID_ICE_L_DEV";
+        case MarketId::CFEDEV:
+            return "TT_MARKET_ID_CFE_DEV";
+        case MarketId::KCGDEV:
+            return "TT_MARKET_ID_KCG_DEV";
+        case MarketId::NLXDEV:
+            return "TT_MARKET_ID_NLX_DEV";
+        case MarketId::ASX2DEV:
+            return "TT_MARKET_ID_ASX2_DEV";
+        case MarketId::MOEXDEV:
+            return "TT_MARKET_ID_MOEX_DEV";
+        case MarketId::TAIFEXDEV:
+            return "TT_MARKET_ID_TAIFEX_DEV";
+        case MarketId::ATHEXDEV:
+            return "TT_MARKET_ID_ATHEX_DEV";
+        case MarketId::COINFLOORUKDEV:
+            return "TT_MARKET_ID_COINFLOORUK_DEV";
+        case MarketId::INEDEV:
+            return "TT_MARKET_ID_INE_DEV";
+        case MarketId::DCEDEV:
+            return "TT_MARKET_ID_DCE_DEV";
+        case MarketId::ZCEDEV:
+            return "TT_MARKET_ID_ZCE_DEV";
+        case MarketId::SHFEDEV:
+            return "TT_MARKET_ID_SHFE_DEV";
+        case MarketId::JUMPDEV:
+            return "TT_MARKET_ID_JUMP_DEV";
+        case MarketId::GRAYSTONEDEV:
+            return "TT_MARKET_ID_GRAYSTONE_DEV";
+        case MarketId::CHFFEDEV:
+            return "TT_MARKET_ID_CHFFE_DEV";
+        case MarketId::DERIBITDEV:
+            return "TT_MARKET_ID_DERIBIT_DEV";
+        case MarketId::TFEXDEV2:
+            return "TT_MARKET_ID_TFEX_DEV2";
+        case MarketId::MYSTEELDEV:
+            return "TT_MARKET_ID_MYSTEEL_DEV";
+        case MarketId::CBOEDEV:
+            return "TT_MARKET_ID_CBOE_DEV";
+        case MarketId::CEDXDEV:
+            return "TT_MARKET_ID_CEDX_DEV";
+        case MarketId::JPXDEV:
+            return "TT_MARKET_ID_JPX_DEV";
+        case MarketId::ALGO:
+            return "TT_MARKET_ID_ALGO_INSTRUMENT";
+        case MarketId::BANKALGO:
+            return "TT_MARKET_ID_BANK_ALGO";
+        case MarketId::SDKALGO:
+            return "TT_MARKET_ID_SDK_ALGO";
+        case MarketId::INVALID:
+            return "TT_MARKET_ID_INVALID";
+        default:
+            return "";
         }
     }
 }

@@ -1,0 +1,22 @@
+
+# Copy this file to /etc/cron.d to start and stop the deamon
+# Update appropriately 
+#
+# This schedule will be executed in the following timezone.
+# Time zone names come from the IANA tz database
+# https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+CRON_TZ=America/Chicago
+
+# Start on Sunday at 2pm Chicago time.
+SHELL=/bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+HOME=/
+30 14 * * 0 root service HelloSDKDaemon start
+
+# Stop on Friday at 5pm Chicago time.
+SHELL=/bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+HOME=/
+0 17 * * 5 root service HelloSDKDaemon stop
+
+

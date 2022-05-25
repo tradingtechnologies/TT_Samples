@@ -49,7 +49,7 @@ bool TTWrapper::Start(const char* appkey)
     ttsdk::TTSDKOptions options;
     options.environment = ttsdk::Environment::DevCert;
     options.app_key_secret = appkey;
-    if (!ttsdk::Initialize(options, this, this))
+    if (!ttsdk::Initialize(options, this, this, nullptr))
     {
         return false;
     }

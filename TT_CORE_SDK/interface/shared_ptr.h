@@ -16,6 +16,7 @@
  ***************************************************************************/
 #pragma once
 #include "shared_base.h"
+#include <cstddef>
 
 namespace ttsdk
 {
@@ -151,4 +152,30 @@ namespace ttsdk
         friend class shared_ptr;
         mutable T *object;
     };
+
+
+    // equivalence operators
+    template<typename T>
+    inline bool operator==(const shared_ptr<T>& p, std::nullptr_t)
+    {
+        return p.get() == 0;
+    }
+
+    template<class T>
+    inline bool operator!=(const shared_ptr<T>& p, std::nullptr_t)
+    {
+        return p.get() != 0;
+    }
+
+    template<class T>
+    inline bool operator==(shared_ptr<T>& a, shared_ptr<T>& b) 
+    {
+        return a.get() == b.get();
+    }
+
+    template<class T>
+    inline bool operator!=(shared_ptr<T>& a, shared_ptr<T>& b) 
+    {
+        return a.get() != b.get();
+    }
 }

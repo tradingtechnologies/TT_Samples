@@ -6,6 +6,10 @@
 #include <tt_cplus_sdk.h>
 #include <condition_variable>
 
+#include <sys/stat.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <signal.h>
 
 std::mutex mutex;
 std::condition_variable sdkReadyCondition;
@@ -19,15 +23,12 @@ public:
     // however, time comsuming tasks can delay the delivery of another status event.
     virtual void OnStatus(const ttsdk::IEventHandler::Status status) override
     {
-        std::cout << "SDKEventHandler::OnStatus (" << (uint32_t)status << ")" << std::endl;
+        ttsdk::TTLogInfo("SDKEventHandler::OnStatus (%d)", (uint32_t)status);
     };
     virtual void OnAccountStatus(const ttsdk::AccountConnectionStatus& status) override
     {
-        std::cout << "Account connections status changed: " << std::endl;
+        ttsdk::TTLogInfo("Account connections status changed for account_id=%llu", status.account_id);
         std::ostringstream ss;
-        ss << "account_id=" << status.account_id
-            << " conn count=" << status.count
-            << '\n';
         if (status.count > 0)
         {
             ss << "  market  |  connId  |  status\n";
@@ -41,7 +42,7 @@ public:
                 << "|"
                 << std::setw(10) << ttsdk::ToString(info.status) << "\n";
         }
-        std::cout << ss.str() << std::endl;
+        ttsdk::TTLogInfo(ss.str().c_str());
     };
 };
 
@@ -55,28 +56,27 @@ public:
     // each order will be sequenced on a given thread from the sdk's collection of order thread
     virtual void OnExecutionReport(ttsdk::OrderPtr order, ttsdk::ExecutionReportPtr execRpt) override
     {
-        std::cout << "---Received ExecutionReport for TTOrderId=" << order->GetOrderId() 
-                  << " ExecType=" << ttsdk::ToString(execRpt->GetExecType())
-                  << " OrderStatus=" << ttsdk::ToString(execRpt->GetOrderStatus()) << std::endl;
+        ttsdk::TTLogInfo("---Received ExecutionReport for TTOrderId=%s ExecType=%s OrderStatus=%s", order->GetOrderId() , 
+                    ttsdk::ToString(execRpt->GetExecType()), ttsdk::ToString(execRpt->GetOrderStatus()));
     };
     virtual void OnReject(ttsdk::OrderPtr order, ttsdk::RejectResponsePtr rejResp) override
     {
-        std::cout << "---Received reject response for TTOrderId=" << rejResp->GetOrderId() << std::endl;
+        ttsdk::TTLogInfo("---Received reject response for TTOrderId=%s", rejResp->GetOrderId());
     }
     virtual void OnSendFailed(ttsdk::OrderPtr order, const ttsdk::OrderProfile& profile, const SendCode code) override
     {
-        std::cout << "---Order TTOrderId=" << order->GetOrderId() << "failed to send (SendCode:" << code << ")" << std::endl;
+        ttsdk::TTLogInfo("---Order TTOrderId=%s failed to send (SendCode:%d)", order->GetOrderId(), code);
     }
     virtual void OnUnsubscribed(const char* orderId) override
     {
-        std::cout << "---OnUnsubscribe completed. Safe to delete this object now." << std::endl;
+        ttsdk::TTLogInfo("---OnUnsubscribe completed. Safe to delete this object now.");
     }
 
     // account and book sync events are sent on the position thread so they are sequence
     // properly with the position update events
     virtual void OnOrderBookDownloadEnd() override
     {
-        std::cout << "---All assigned accounts are ready to use." << std::endl;
+        ttsdk::TTLogInfo("---All assigned accounts are ready to use.");
         std::lock_guard<std::mutex> lock(mutex);
         sdkReadyCondition.notify_one();
     };    
@@ -85,32 +85,98 @@ public:
     // ready before trading
     virtual void OnAccountDownloadEnd(const uint64_t accountId) override
     {
-        std::cout << "---Account accountId:" << accountId << " is synchronized and ready to use." << std::endl;
+        ttsdk::TTLogInfo("---Account accountId:%llu is synchronized and ready to use.", accountId);
     };
     virtual void OnAccountDownloadFailed(const uint64_t accountId, const char* msg) override
     {
-        std::cout << "---Account accountId:" << accountId <<" download failed details: " << msg << std::endl;
+        ttsdk::TTLogInfo("---Account accountId:%llu download failed detaila: %s", accountId,  msg);
     };
     // all position events are received on the SDK position processing thread. holding up processing
     // for a given position event will impact all subsequent position updates
     virtual void OnPositionUpdate(const ttsdk::Position& updatedPosition) override
     {
-        std::cout << "---OnPositionUpdate for AccountId:" << updatedPosition.account_id << " Instrument:" << updatedPosition.instrument->GetAlias() << std::endl;
-        std::cout 
-            << " SOD:" << updatedPosition.sod_quantity << "@" << updatedPosition.sod_price 
-            << " Buys:" <<  updatedPosition.buy_quantity << "@" << updatedPosition.buy_average_price 
-            << " Sells:" << updatedPosition.sell_quantity << "@" << updatedPosition.sell_average_price
-            << " Net:" << updatedPosition.net_position 
-            << " P/L:" << updatedPosition.native_currency_pnl 
-            << " AvgPrc:" << updatedPosition.open_average_price << std::endl;
+        ttsdk::TTLogInfo("---OnPositionUpdate for accountId:%llu Instrument: %s", updatedPosition.account_id, updatedPosition.instrument->GetAlias());
+        ttsdk::TTLogInfo(" SOD:%f@%f Buys:%f@%f Sells:%f@%f Net:%f P/L:%f AvgPrc:%f", updatedPosition.sod_quantity, updatedPosition.sod_price 
+            ,updatedPosition.buy_quantity, updatedPosition.buy_average_price 
+            ,updatedPosition.sell_quantity, updatedPosition.sell_average_price
+            ,updatedPosition.net_position  ,updatedPosition.native_currency_pnl ,updatedPosition.open_average_price);
     }
 
 };
 
 
+bool Daemonize()
+{
+    pid_t pid, sid;
+
+    // Fork off the parent process
+    pid = fork();
+    if (pid < 0)
+    {
+        exit(EXIT_FAILURE);
+    }
+
+    // If we got a good PID, then return true to indicate this is the parent process.
+    if (pid > 0)
+    {
+        return true;
+    }
+
+    // Change the file mode mask
+    umask(0);
+
+    // Create a new SID for the child process
+    sid = setsid();
+    if (sid < 0)
+    {
+        exit(EXIT_FAILURE);
+    }
+
+    // Change the current working directory:
+    if ((chdir("/")) < 0)
+    {
+        exit(EXIT_FAILURE);
+    }
+
+    int fd = open("/dev/null",O_RDWR, 0);
+
+    if (fd != -1)
+    {
+        dup2 (fd, STDIN_FILENO);
+        dup2 (fd, STDOUT_FILENO);
+        dup2 (fd, STDERR_FILENO);
+    }
+    else
+    {
+        close (fd);
+        throw std::runtime_error(
+            std::string("Failed to redirect standard output to /dev/null: ") +
+            strerror(errno));
+    }
+
+    close (fd);
+
+    return false;
+}
+
+
+void HandleStandardShutdownSignal(int signal)
+{
+    std::lock_guard<std::mutex> lock(mutex);
+    sdkReadyCondition.notify_one();
+}
 
 int main(int argc, char* argv[])
 {
+    // Handle signals that are meant to shutdown the process.
+     if (signal(SIGINT, HandleStandardShutdownSignal) == SIG_ERR  ||
+         signal(SIGTERM, HandleStandardShutdownSignal) == SIG_ERR)
+    {
+        return EXIT_FAILURE;
+    }
+
+    bool daemonize = true;
+
     // this example is loading the app key secret from the command line or environment rather than hard coding.
     ttsdk::Environment env = ttsdk::Environment::UatCert;
     std::string sEnv("UatCert");
@@ -153,18 +219,25 @@ int main(int argc, char* argv[])
                 return 1;
             } 
         }   
-    }
+        else if ((arg == "-c") || (arg == "--console")) 
+        {
+            daemonize = false; 
+        }
+   }
     if (app_key.empty())
     {
         auto env_app_key = std::getenv("TT_APP_KEY");
         if (!env_app_key || strcmp(env_app_key, "") == 0)
         {
-            std::cout << "app_key is invalid. " << std::endl;
+            std::cerr << "app_key is invalid. " << std::endl;
             return 1;
         }
         app_key = env_app_key;
     }
-    std::cout << "using app_key: " << app_key << " in " << sEnv << std::endl;
+    if (daemonize && Daemonize())
+    {
+        return EXIT_SUCCESS;
+    }
 
     SDKEventHandler myObserver;
     MyOrderBookHandler myOrderObserver;
@@ -180,30 +253,27 @@ int main(int argc, char* argv[])
 
     if (!ttsdk::Initialize(options, &myObserver, &myOrderObserver))
     {
-        std::cout << "Unable to initialize SDK!" << std::endl;
+        std::cerr << "Unable to initialize SDK!" << std::endl;
         return -1;
     }  
 
-    std::unique_lock<std::mutex> lock(mutex);
-    if (sdkReadyCondition.wait_for(lock, std::chrono::seconds(300)) == std::cv_status::timeout)
     {
-        std::cout << "Timeout waiting for SDK to sync the order book!" << std::endl;
-        return -1;
-    }
-
-    std::cout << std::endl;
-    std::cout << "<<<<< Hello world. TT CORE SDK is initialized, orderbook downloaded and all accounts ready for trading. >>>>>" << std::endl;
-    std::cout << "<<<<< Orderbook and position events will be output to the console while the application is running. >>>>>" << std::endl;
-    std::cout << std::endl << "Press q to exit....." << std::endl;
-    std::string command;
-    while (std::cin >> command)
-    {
-        if (command == "q")
+        std::unique_lock<std::mutex> lock(mutex);
+        if (sdkReadyCondition.wait_for(lock, std::chrono::seconds(300)) == std::cv_status::timeout)
         {
-            std::cout << "Quitting...\n";
-            break;
+            ttsdk::TTLogInfo("Timeout waiting for SDK to sync the order book!");
+            return -1;
         }
     }
-    std::cout << "Exiting..." << std::endl;
+
+
+    ttsdk::TTLogInfo("<<<<< Hello world. TT CORE SDK is initialized, orderbook downloaded and all accounts ready for trading. >>>>>");
+    ttsdk::TTLogInfo("<<<<< Orderbook and position events will be output to the log while the application is running. >>>>>");
+
+    {
+        std::unique_lock<std::mutex> lock(mutex);
+        sdkReadyCondition.wait(lock);
+    }
+    ttsdk::TTLogInfo("<<<<< Initiating shutdown process. >>>>>");
     ttsdk::Shutdown();
 }

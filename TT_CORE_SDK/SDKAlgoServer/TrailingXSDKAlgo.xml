@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Strategy xmlns="http://www.fixprotocol.org/FIXatdl-1-1/Core" xmlns:val="http://www.fixprotocol.org/FIXatdl-1-1/Validation" xmlns:lay="http://www.fixprotocol.org/FIXatdl-1-1/Layout" xmlns:flow="http://www.fixprotocol.org/FIXatdl-1-1/Flow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.fixprotocol.org/FIXatdl-1-1/Core tt-fixatdl-core-1-1.xsd" name="TrailingXSDKAlgo" version="1.0.1" algoVersion="1.0.1" uiRep="TrailingXSDKAlgo">
+  <lay:StrategyLayout>
+    <lay:StrategyPanel orientation="VERTICAL">
+      <lay:StrategyPanel class="orderParameters">
+        <lay:Control ID="__side_ctrl" label="Order Side" parameterRef="__side" xsi:type="DropDownList_t">
+          <lay:ListItem enumID="eBid" uiRep="Bid"/>
+          <lay:ListItem enumID="eAsk" uiRep="Ask"/>
+        </lay:Control>
+      </lay:StrategyPanel>
+      <lay:StrategyPanel>
+        <lay:StrategyPanel>
+          <lay:Control ID="Qty_ctrl" label="Qty" parameterRef="__order_quantity" xsi:type="SingleSpinner_t"/>
+        </lay:StrategyPanel>
+        <lay:StrategyPanel>
+          <lay:Control ID="Inst0_ctrl" label="Instrument" parameterRef="__instr_id" xsi:type="MarketExplorer_t"/>
+          <lay:Control ID="Inst0__account_ctrl" label="  Account" parameterRef="__account" xsi:type="TTAccounts_t" dependentParam="Inst0"/>
+        </lay:StrategyPanel>
+        <lay:StrategyPanel>
+          <lay:Control ID="TicksAway_ctrl" label="TicksAway" parameterRef="TicksAway" xsi:type="SingleSpinner_t"/>
+        </lay:StrategyPanel>
+        <lay:StrategyPanel>
+          <lay:Control ID="MaxRequotes_ctrl" label="MaxRequotes" parameterRef="MaxRequotes" xsi:type="SingleSpinner_t"/>
+        </lay:StrategyPanel>
+      </lay:StrategyPanel>
+    </lay:StrategyPanel>
+  </lay:StrategyLayout>
+  <Parameter dir="in" initValue="0" name="__order_quantity" required="true" uiRep="Qty" updateable="true" xsi:type="Qty_t"/>
+  <Parameter dir="in" initValue="" name="__instr_id" required="true" uiRep="Instrument" updateable="true" xsi:type="String_t"/>
+  <Parameter dir="in" initValue="" name="__account" required="true" uiRep="Order Account" updateable="false" xsi:type="Int_t"/>
+  <Parameter dir="in" initValue="1" name="TicksAway" required="true" uiRep="TicksAway" updateable="true" xsi:type="Int_t" minValue="-999" maxValue="999"/>
+  <Parameter dir="in" initValue="3" name="MaxRequotes" required="true" uiRep="MaxRequotes" updateable="true" xsi:type="Int_t" minValue="0" maxValue="999"/>
+  <Parameter dir="in" initValue="eBid" name="__side" refValue="OrderSide" required="true" uiRep="Order Side" updateable="false" xsi:type="Int_t">
+    <EnumPair enumID="eBid" wireValue="1"/>
+    <EnumPair enumID="eAsk" wireValue="2"/>
+  </Parameter>
+  
+  
+</Strategy>
