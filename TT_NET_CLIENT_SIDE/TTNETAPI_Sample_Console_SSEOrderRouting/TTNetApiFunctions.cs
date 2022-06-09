@@ -211,7 +211,7 @@ namespace TTNETAPI_Sample_Console_SSEOrderRouting
                 Console.WriteLine("Unrecoverable price subscription error: {0}", e.Error.Message);
                 Dispose();
             }
-            else if (e.Fields.GetBestBidPriceField().Value != null)
+            else if (e.Fields.GetBestBidPriceField().HasValue)
                 m_price = e.Fields.GetBestBidPriceField().Value - 1;
         }
 
