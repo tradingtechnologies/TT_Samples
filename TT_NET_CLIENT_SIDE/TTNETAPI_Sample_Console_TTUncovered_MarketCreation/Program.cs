@@ -205,18 +205,17 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                     optionInstrumentsBidPrice.Add(option.InstrumentDetails.Id, new Price());
                     optionInstrumentsAskPrice.Add(option.InstrumentDetails.Id, new Price());
                     CreatePriceSubscription(option);
-                    //CreatePriceSubscription(hedge);
+                    CreatePriceSubscription(hedge);
 
-                    //CrateTradeSubscription(option);
-                    //CrateTradeSubscription(hedge);
+                    CrateTradeSubscription(option);
+                    CrateTradeSubscription(hedge);
 
 
                     foreach (var uds in dictElement.Value.uds)
                     { 
                         //Console.WriteLine($"PriceSubscription started for {uds} | {option} | {hedge}");
                         CreatePriceSubscription(uds);
-                        //CrateTradeSubscription(uds);
-                        break;
+                        CrateTradeSubscription(uds);
                     }
                 }
             }
@@ -233,17 +232,17 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                     optionInstrumentsAskPrice.Add(option.InstrumentDetails.Id, new Price());
 
                     CreatePriceSubscription(option);
-                    //CreatePriceSubscription(hedge);
+                    CreatePriceSubscription(hedge);
 
-                    //CrateTradeSubscription(option);
-                    //CrateTradeSubscription(hedge);
+                    CrateTradeSubscription(option);
+                    CrateTradeSubscription(hedge);
 
 
                     foreach (var uds in dictElement.Value.uds)
                     {
                         //Console.WriteLine($"PriceSubscription started for {uds} | {option} | {hedge}");
                         CreatePriceSubscription(uds);
-                        //CrateTradeSubscription(uds);
+                        CrateTradeSubscription(uds);
                     }
                 }
 
@@ -411,17 +410,17 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                         Console.WriteLine("{e.Fields.instrumentID} : Can't set bid price, please set manually.");
                     }
 
-                    //foreach (var price in askPrices)
-                    //{
-                    //    SendOrder(ps.Fields.Instrument, price, BuySell.Sell);
-                    //    break;
-                    //}
+                    foreach (var price in askPrices)
+                    {
+                        SendOrder(ps.Fields.Instrument, price, BuySell.Sell);
+                        break;
+                    }
 
-                    //foreach (var price in bidPrices)
-                    //{
-                    //    SendOrder(ps.Fields.Instrument, price, BuySell.Buy);
-                    //    break;
-                    //}
+                    foreach (var price in bidPrices)
+                    {
+                        SendOrder(ps.Fields.Instrument, price, BuySell.Buy);
+                        break;
+                    }
                 }
             }
             else
@@ -443,7 +442,7 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                 BuySell = side,
 
                 Account = api.Accounts.ElementAt(0),
-                OrderQuantity = Quantity.FromDecimal(instrument, 1),
+                OrderQuantity = Quantity.FromDecimal(instrument, 20),
                 OrderType = OrderType.Limit,
                 LimitPrice = price - 1
             };
