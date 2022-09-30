@@ -19,8 +19,9 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
         private readonly string market;
         private readonly string product;
         List<string> syntheticOrders = new();
-        private readonly Dictionary<UInt64, Price> optionInstrumentsAskPrice = new();
-        private readonly Dictionary<UInt64, Price> optionInstrumentsBidPrice = new();
+        private readonly Dictionary<Instrument, List<Price>> instrumentBidPrices = new();
+        private readonly Dictionary<Instrument, List<Price>> instrumentAskPrices = new();
+        private readonly List<UInt64> optionInstruments = new();
 
         public struct Instruments 
         {
@@ -197,55 +198,46 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
         {
             if (e.Event == ProductDataEvent.Found)
             {
-                Dictionary<string, Instruments> instrumentsFound = GetExistingInstruments(e.Added);
-                foreach (var dictElement in instrumentsFound)
-                {
-                    Instrument option = dictElement.Value.option;
-                    Instrument hedge = dictElement.Value.hedge;
-                    optionInstrumentsBidPrice.Add(option.InstrumentDetails.Id, new Price());
-                    optionInstrumentsAskPrice.Add(option.InstrumentDetails.Id, new Price());
-                    CreatePriceSubscription(option);
-                    CreatePriceSubscription(hedge);
-
-                    CrateTradeSubscription(option);
-                    CrateTradeSubscription(hedge);
-
-
-                    foreach (var uds in dictElement.Value.uds)
-                    { 
-                        //Console.WriteLine($"PriceSubscription started for {uds} | {option} | {hedge}");
-                        CreatePriceSubscription(uds);
-                        CrateTradeSubscription(uds);
-                    }
-                }
+                HandleInstrumentUpdate(e.Added);
             }
             else if (e.Event == ProductDataEvent.InstrumentCreated)
             {
                 ReadSyntheticOrders();
-                Dictionary<string, Instruments> instrumentsFound = GetExistingInstruments(e.Added);
+                HandleInstrumentUpdate(e.Added);
+            }
+        }
 
-                foreach (var dictElement in instrumentsFound)
+        private void HandleInstrumentUpdate(IEnumerable<Instrument> allInstruments)
+        {
+            Dictionary<string, Instruments> instrumentsFound = GetExistingInstruments(allInstruments);
+
+            foreach (var dictElement in instrumentsFound)
+            {
+                Instrument option = dictElement.Value.option;
+                Instrument hedge = dictElement.Value.hedge;
+                optionInstruments.Add(option.InstrumentDetails.Id);
+
+                instrumentBidPrices.Add(key: option, new());
+                instrumentAskPrices.Add(key: option, new());
+
+                instrumentBidPrices.Add(hedge, new());
+                instrumentAskPrices.Add(hedge, new());
+
+                CreatePriceSubscription(option);
+                CreatePriceSubscription(hedge);
+
+                CrateTradeSubscription(option); 
+                CrateTradeSubscription(hedge);
+
+
+                foreach (var uds in dictElement.Value.uds)
                 {
-                    Instrument option = dictElement.Value.option;
-                    Instrument hedge = dictElement.Value.hedge;
-                    optionInstrumentsBidPrice.Add(option.InstrumentDetails.Id, new Price());
-                    optionInstrumentsAskPrice.Add(option.InstrumentDetails.Id, new Price());
-
-                    CreatePriceSubscription(option);
-                    CreatePriceSubscription(hedge);
-
-                    CrateTradeSubscription(option);
-                    CrateTradeSubscription(hedge);
-
-
-                    foreach (var uds in dictElement.Value.uds)
-                    {
-                        //Console.WriteLine($"PriceSubscription started for {uds} | {option} | {hedge}");
-                        CreatePriceSubscription(uds);
-                        CrateTradeSubscription(uds);
-                    }
+                    //Console.WriteLine($"PriceSubscription started for {uds} | {option} | {hedge}");
+                    instrumentBidPrices.Add(uds, new());
+                    instrumentAskPrices.Add(uds, new());
+                    CreatePriceSubscription(uds); 
+                    CrateTradeSubscription(uds);
                 }
-
             }
         }
 
@@ -301,29 +293,15 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                     PriceField settlementPriceField = e.Fields.GetSettlementPriceField();
                     Price settlementPrice = settlementPriceField.Value;
                     Console.WriteLine("settlementPrice: {0}", settlementPrice);
-                    
-                    if(optionInstrumentsBidPrice.ContainsKey(e.Fields.instrumentID))
+                                        
+                    if (bestBidPrice.HasValidValue)
                     {
-                        if (bestBidPrice.HasValidValue)
-                        {
-                            optionInstrumentsBidPrice[e.Fields.instrumentID] = bestBidPrice.Value;
-                        }
-                        else if (settlementPriceField.HasValidValue)
-                        {
-                            optionInstrumentsBidPrice[e.Fields.instrumentID] = settlementPriceField.Value;
-                        }
+                        settlementPrice = bestBidPrice.Value;
                     }
 
-                    if (optionInstrumentsAskPrice.ContainsKey(e.Fields.instrumentID))
+                    if (bestAskPrice.HasValidValue)
                     {
-                        if (bestAskPrice.HasValidValue)
-                        {
-                            optionInstrumentsAskPrice[e.Fields.instrumentID] = bestAskPrice.Value;
-                        }
-                        else if (settlementPriceField.HasValidValue)
-                        {
-                            optionInstrumentsAskPrice[e.Fields.instrumentID] = settlementPriceField.Value;
-                        }
+                        settlementPrice = bestAskPrice.Value;
                     }
 
                     int ladderInterval = 3;
@@ -343,49 +321,41 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                             askPrices.Add(askPrice);
                         }
                     }
-                    else if (!optionInstrumentsAskPrice.ContainsKey(e.Fields.instrumentID))
+                    else if (instrumentAskPrices.ContainsKey(e.Fields.Instrument) && instrumentAskPrices[e.Fields.Instrument].Count == 0)
                     {
                         LegList legs = e.Fields.Instrument.GetLegs();
                         if (legs.Count == 2)
                         {
-                            Instrument instrToUse = null;
-                            if (optionInstrumentsAskPrice.ContainsKey(legs[0].Instrument.InstrumentDetails.Id))
+                            Instrument optionLeg = null;
+                            if (optionInstruments.Contains(legs[0].Instrument.InstrumentDetails.Id))
                             {
-                                instrToUse = legs[0].Instrument;
+                                optionLeg = legs[0].Instrument;
                             }
-                            else if (optionInstrumentsAskPrice.ContainsKey(legs[1].Instrument.InstrumentDetails.Id))
+                            else if (optionInstruments.Contains(legs[1].Instrument.InstrumentDetails.Id))
                             {
-                                instrToUse = legs[1].Instrument;
+                                optionLeg = legs[1].Instrument;
                             }
 
-                            if (instrToUse != null)
+                            if (optionLeg != null)
                             {
-                                Price askPrice = optionInstrumentsAskPrice[instrToUse.InstrumentDetails.Id];
-                                Price bidPrice = optionInstrumentsBidPrice[instrToUse.InstrumentDetails.Id];
-
-                                if (askPrice.IsValid)
-                                {
-                                    for (int i = 1; i < numberOfPrices; ++i)
-                                    {
-                                        Price nextAskPrice = askPrice.GetTickPrice((i + numberOfPrices) * ladderInterval);
-                                        askPrices.Add(nextAskPrice);
-                                    }
-                                }
-
-                                if (bidPrice.IsValid)
-                                {
-                                    for (int i = 1; i < numberOfPrices; ++i)
-                                    {
-                                        Price nextBidPrice = bidPrice.GetTickPrice(i * ladderInterval);
-                                        bidPrices.Add(nextBidPrice);
-                                    }
-                                }
+                                askPrices = instrumentAskPrices[optionLeg];
+                                bidPrices = instrumentBidPrices[optionLeg];
                             }
                         }
+                    }
+                    else if (instrumentAskPrices.ContainsKey(e.Fields.Instrument))
+                    {
+                        askPrices = instrumentAskPrices[e.Fields.Instrument];
+                        bidPrices = instrumentBidPrices[e.Fields.Instrument];
                     }
 
                     if (askPrices.Count > 0)
                     {
+                        if (instrumentAskPrices.ContainsKey(e.Fields.Instrument))
+                        {
+                            instrumentAskPrices[e.Fields.Instrument] = askPrices;
+                        }
+
                         Console.WriteLine("Ask Prices: ");
                         foreach (var price in askPrices)
                         {
@@ -394,11 +364,16 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                     }
                     else
                     {
-                        Console.WriteLine("{e.Fields.instrumentID} : Can't set ask price, please set manually.");
+                        Console.WriteLine("{0} : Can't set ask price, please set manually.", e.Fields.instrumentID);
                     }
 
                     if (bidPrices.Count > 0)
                     {
+                        if (instrumentBidPrices.ContainsKey(e.Fields.Instrument))
+                        {
+                            instrumentBidPrices[e.Fields.Instrument] = bidPrices;
+                        }
+
                         Console.WriteLine("Bid Prices: ");
                         foreach (var price in bidPrices)
                         {
@@ -410,17 +385,17 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                         Console.WriteLine("{e.Fields.instrumentID} : Can't set bid price, please set manually.");
                     }
 
-                    foreach (var price in askPrices)
-                    {
-                        SendOrder(ps.Fields.Instrument, price, BuySell.Sell);
-                        break;
-                    }
+                    //foreach (var price in askPrices)
+                    //{
+                    //    SendOrder(ps.Fields.Instrument, price, BuySell.Sell);
+                    //    break;
+                    //}
 
-                    foreach (var price in bidPrices)
-                    {
-                        SendOrder(ps.Fields.Instrument, price, BuySell.Buy);
-                        break;
-                    }
+                    //foreach (var price in bidPrices)
+                    //{
+                    //    SendOrder(ps.Fields.Instrument, price, BuySell.Buy);
+                    //    break;
+                    //}
                 }
             }
             else
@@ -435,7 +410,7 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
             }
         }
 
-        void SendOrder(Instrument instrument, Price price, BuySell side)
+        private void SendOrder(Instrument instrument, Price price, BuySell side)
         {
             OrderProfile op = new OrderProfile(instrument)
             {
@@ -464,6 +439,34 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                 Console.WriteLine("Please set market manually for {(ps.Fields.Instrument}");
             }
         }
+
+        public void SendOrders()
+        {
+            foreach (var instrumentElement in instrumentAskPrices)
+            {
+                foreach (var price in instrumentElement.Value)
+                {
+                    //Console.WriteLine(instrumentElement.Key);
+                    //string q = Console.ReadLine();
+                    //if (q == "q")
+                    //    break;
+                    SendOrder(instrumentElement.Key, price, BuySell.Sell);
+                }
+            }
+
+            foreach (var instrumentElement in instrumentBidPrices)
+            {
+                foreach (var price in instrumentElement.Value)
+                {
+                    //Console.WriteLine(instrumentElement.Key);
+                    //string q = Console.ReadLine();
+                    //if (q == "q")
+                    //    break;
+                    SendOrder(instrumentElement.Key, price, BuySell.Buy);
+                }
+            }
+        }
+
     }
 
     class Program
@@ -495,6 +498,10 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                     string input = System.Console.ReadLine();
                     if (input == "q")
                         break;
+                    if (input == "o")
+                    {
+                        apiFunctions.SendOrders();
+                    }
                 }
 
                 apiFunctions.Dispose();
