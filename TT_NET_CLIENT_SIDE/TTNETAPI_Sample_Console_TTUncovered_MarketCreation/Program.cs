@@ -226,8 +226,8 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                 CreatePriceSubscription(option);
                 CreatePriceSubscription(hedge);
 
-                CrateTradeSubscription(option); 
-                CrateTradeSubscription(hedge);
+                CreateTradeSubscription(option);
+                CreateTradeSubscription(hedge);
 
 
                 foreach (var uds in dictElement.Value.uds)
@@ -235,8 +235,8 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                     //Console.WriteLine($"PriceSubscription started for {uds} | {option} | {hedge}");
                     instrumentBidPrices.Add(uds, new());
                     instrumentAskPrices.Add(uds, new());
-                    CreatePriceSubscription(uds); 
-                    CrateTradeSubscription(uds);
+                    CreatePriceSubscription(uds);
+                    CreateTradeSubscription(uds);
                 }
             }
         }
@@ -251,7 +251,7 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
             priceSubscriptions.Add(priceSub);
         }
 
-        private void CrateTradeSubscription(Instrument instrument)
+        private void CreateTradeSubscription(Instrument instrument)
         {
             var tradeSub = new InstrumentTradeSubscription(tt_net_sdk.Dispatcher.Current, instrument);
             //tradeSub.OrderAdded += new EventHandler<OrderAddedEventArgs>(OnOrderAdded);
@@ -291,17 +291,18 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                     Console.WriteLine("Best XXX price: {0}", e.Fields.GetOpenPriceField().FormattedValue);
 
                     PriceField settlementPriceField = e.Fields.GetSettlementPriceField();
-                    Price settlementPrice = settlementPriceField.Value;
-                    Console.WriteLine("settlementPrice: {0}", settlementPrice);
+                    Price settlementBidPrice = settlementPriceField.Value;
+                    Price settlementAskPrice = settlementPriceField.Value;
+                    Console.WriteLine("settlementPrice: {0}", settlementBidPrice);
                                         
                     if (bestBidPrice.HasValidValue)
                     {
-                        settlementPrice = bestBidPrice.Value;
+                        settlementBidPrice = bestBidPrice.Value;
                     }
 
                     if (bestAskPrice.HasValidValue)
                     {
-                        settlementPrice = bestAskPrice.Value;
+                        settlementAskPrice = bestAskPrice.Value;
                     }
 
                     int ladderInterval = 3;
@@ -310,14 +311,14 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                     List<Price> bidPrices = new();
                     List<Price> askPrices = new();
 
-                    if (settlementPriceField.HasValidValue)
+                    if (settlementBidPrice.IsValid)
                     {
                         for (int i = 1; i < numberOfPrices; ++i)
                         {
-                            Price bidPrice = settlementPrice.GetTickPrice(i * ladderInterval);
+                            Price bidPrice = settlementBidPrice.GetTickPrice(i * ladderInterval);
                             bidPrices.Add(bidPrice);
 
-                            Price askPrice = settlementPrice.GetTickPrice((i + numberOfPrices) * ladderInterval);
+                            Price askPrice = settlementBidPrice.GetTickPrice((i + numberOfPrices) * ladderInterval);
                             askPrices.Add(askPrice);
                         }
                     }
@@ -382,7 +383,7 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                     }
                     else
                     {
-                        Console.WriteLine("{e.Fields.instrumentID} : Can't set bid price, please set manually.");
+                        Console.WriteLine("{0} : Can't set bid price, please set manually.", e.Fields.instrumentID);
                     }
 
                     //foreach (var price in askPrices)
@@ -419,7 +420,7 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                 Account = api.Accounts.ElementAt(0),
                 OrderQuantity = Quantity.FromDecimal(instrument, 20),
                 OrderType = OrderType.Limit,
-                LimitPrice = price - 1
+                LimitPrice = price
             };
 
             if (tradeSubscriptions.TryGetValue(instrument.InstrumentDetails.Id, out InstrumentTradeSubscription tradeSub))
@@ -436,7 +437,7 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
             }
             else
             {
-                Console.WriteLine("Please set market manually for {(ps.Fields.Instrument}");
+                Console.WriteLine("Please set market manually for {0}", instrument);
             }
         }
 
