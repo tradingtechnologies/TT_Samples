@@ -20,8 +20,8 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
         private readonly string market;
         private readonly string product;
         List<string> syntheticOrders = new();
-        private readonly Dictionary<Instrument, List<Price>> instrumentBidPrices = new();
-        private readonly Dictionary<Instrument, List<Price>> instrumentAskPrices = new();
+        private readonly Dictionary<Instrument, Price> instrumentBidPrices = new();
+        private readonly Dictionary<Instrument, Price> instrumentAskPrices = new();
 
         public struct Instruments 
         {
@@ -297,39 +297,46 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                     {
                         settlementBidPrice = bestBidPrice.Value;
                     }
-
+                    else if (lastTradedPrice.HasValidValue)
+                    {
+                        settlementBidPrice = lastTradedPrice.Value;
+                    }
+                    
                     if (bestAskPrice.HasValidValue)
                     {
                         settlementAskPrice = bestAskPrice.Value;
                     }
+                    else if (lastTradedPrice.HasValidValue)
+                    {
+                        settlementAskPrice = lastTradedPrice.Value.GetTickPrice(1);
+                    }
 
-                    int ladderInterval = 3;
-                    int numberOfPrices = 4;
 
-                    List<Price> bidPrices = new();
-                    List<Price> askPrices = new();
+                    Price bidPrice = new();
+                    Price askPrice = new();
 
                     if (settlementBidPrice.IsValid)
                     {
-                        bidPrices.Add(settlementBidPrice);
-                        for (int i = 1; i < numberOfPrices; ++i)
-                        {
-                            Price bidPrice = settlementBidPrice.GetTickPrice(i * ladderInterval);
-                            bidPrices.Add(bidPrice);
-                        }
+                        bidPrice = settlementBidPrice;
+                        //settlementBidPrice.Offset(1, Rounding.Nearest);
+                        //for (int i = 1; i < numberOfPrices; ++i)
+                        //{
+                        //    Price bidPrice = settlementBidPrice.GetTickPrice(i * ladderInterval);
+                        //    bidPrices.Add(bidPrice);
+                        //}
                     }
               
                     if (settlementAskPrice.IsValid)
                     {
-                        askPrices.Add(settlementAskPrice);
-                        for (int i = 1; i < numberOfPrices; ++i)
-                        {
-                            Price askPrice = settlementAskPrice.GetTickPrice(i * ladderInterval);
-                            askPrices.Add(askPrice);
-                        }
+                        askPrice = settlementAskPrice;
+                        //for (int i = 1; i < numberOfPrices; ++i)
+                        //{
+                        //    Price askPrice = settlementAskPrice.GetTickPrice(i * ladderInterval);
+                        //    askPrices.Add(askPrice);
+                        //}
                     }
 
-                    if (e.Fields.Instrument.Product.Type == ProductType.OptionStrategy && (bidPrices.Count == 0 || askPrices.Count ==0))
+                    if (e.Fields.Instrument.Product.Type == ProductType.OptionStrategy && (!bidPrice.IsValid || !askPrice.IsValid))
                     {
                         LegList legs = e.Fields.Instrument.GetLegs();
                         if (legs.Count == 2)
@@ -347,15 +354,8 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
 
                             if (optionLeg != null)
                             {
-                                if (askPrices.Count == 0)
-                                {
-                                    askPrices = instrumentAskPrices[optionLeg];
-                                }
-
-                                if (bidPrices.Count == 0)
-                                {
-                                    bidPrices = instrumentBidPrices[optionLeg];
-                                }
+                                askPrice = instrumentAskPrices[optionLeg];
+                                bidPrice = instrumentBidPrices[optionLeg];
                             }
                         }
                     }
@@ -365,11 +365,11 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                     //    bidPrices = instrumentBidPrices[e.Fields.Instrument];
                     //}
 
-                    if (askPrices.Count > 0)
+                    if (askPrice.IsValid)
                     {
                         if (instrumentAskPrices.ContainsKey(e.Fields.Instrument))
                         {
-                            instrumentAskPrices[e.Fields.Instrument] = askPrices;
+                            instrumentAskPrices[e.Fields.Instrument] = askPrice;
                         }
 
                         //Console.WriteLine("Ask Prices: ");
@@ -383,11 +383,11 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                         Console.WriteLine("{0} : Can't set ask price, please set manually.", e.Fields.instrumentID);
                     }
 
-                    if (bidPrices.Count > 0)
+                    if (bidPrice.IsValid)
                     {
                         if (instrumentBidPrices.ContainsKey(e.Fields.Instrument))
                         {
-                            instrumentBidPrices[e.Fields.Instrument] = bidPrices;
+                            instrumentBidPrices[e.Fields.Instrument] = bidPrice;
                         }
 
                         //Console.WriteLine("Bid Prices: ");
@@ -468,11 +468,9 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
             {
                 if (productType == ProductType.NotSet || instrumentElement.Key.Product.Type == productType)
                 {
-                    foreach (var price in instrumentElement.Value)
-                    {
-                        //Console.WriteLine(instrumentElement.Key);
-                        SendOrder(instrumentElement.Key, price, BuySell.Sell);
-                    }
+                    Instrument instrument = instrumentElement.Key;
+                    Price askPrice = instrumentElement.Value;
+                    SendOrder(instrument, askPrice, BuySell.Sell);
                 }
             }
 
@@ -480,11 +478,9 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
             {
                 if (productType == ProductType.NotSet || instrumentElement.Key.Product.Type == productType)
                 {
-                    foreach (var price in instrumentElement.Value)
-                    {
-                        Console.WriteLine(instrumentElement.Key);
-                        SendOrder(instrumentElement.Key, price, BuySell.Buy);
-                    }
+                    Instrument instrument = instrumentElement.Key;
+                    Price bidPrice = instrumentElement.Value;
+                    SendOrder(instrument, bidPrice, BuySell.Sell);
                 }
             }
         }
@@ -492,6 +488,20 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
         public bool ShouldPrint()
         {
             return print;
+        }
+
+        public void ShowInstruments()
+        {
+            int legCounter = 0;
+            foreach (var instrumentElement in instrumentAskPrices)
+            {
+                Instrument instrument = instrumentElement.Key;
+                Price askPrice = instrumentElement.Value;
+                Price bidPrice = instrumentBidPrices[instrument];
+               
+                Console.WriteLine("[{0}] [{1}] {2}, bid: {3} ask: {4}", 
+                    legCounter++, instrument.Product.Type, instrument, bidPrice, askPrice); ;
+            }
         }
 
     }
@@ -532,6 +542,7 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                     Console.WriteLine("\t'f'. To send future orders");
                     Console.WriteLine("\t'o'. To send option orders");
                     Console.WriteLine("\t's'. To send option strategy orders");
+                    Console.WriteLine("\t'd'. To display all instruments names and price");
                     Console.WriteLine("\t'q'. To Quit");
                     string input = System.Console.ReadLine();
                     if (input == "q")
@@ -553,6 +564,10 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                     else if (input =="s")
                     {
                         apiFunctions.SendOrders(ProductType.OptionStrategy);
+                    }
+                    else if (input == "d")
+                    {
+                        apiFunctions.ShowInstruments();
                     }
                 }
 
