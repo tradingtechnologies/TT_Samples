@@ -528,7 +528,7 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                 {
                     Instrument instrument = instrumentElement.Key;
                     Price bidPrice = instrumentElement.Value;
-                    SendOrder(instrument, bidPrice, BuySell.Sell);
+                    SendOrder(instrument, bidPrice, BuySell.Buy);
                 }
             }
         }
