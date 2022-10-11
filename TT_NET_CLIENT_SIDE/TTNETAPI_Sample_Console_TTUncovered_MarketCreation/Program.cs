@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,12 +17,14 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
         private readonly Dictionary<UInt64, InstrumentTradeSubscription> tradeSubscriptions = new();
         private readonly ManualResetEvent manualResetPriceSubscriptionEvent = new(false);
         private int ps_counter;
-        private bool print = false;
         private readonly string market;
         private readonly string product;
         List<string> syntheticOrders = new();
         private readonly Dictionary<Instrument, Price> instrumentBidPrices = new();
         private readonly Dictionary<Instrument, Price> instrumentAskPrices = new();
+        private readonly List<Instrument> allAvailableInstruments = new();
+        Int32 numberOfPriceSubscription = 0;
+        private FileSystemWatcher watcher = null;
 
         public struct Instruments 
         {
@@ -33,17 +36,18 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
         public TTNetApiFunctions()
         {
             ReadSyntheticOrders();
+            WatchSpreadDefinitionFile();
 
             Console.WriteLine("Market: CME");
             market = "CME";
             Console.WriteLine("Enter product name(e.g.GE):");
             product = Console.ReadLine();
         }
-
+ 
         private void ReadSyntheticOrders()
         {
-            string cacheFile = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) +
-                           "\\TradingTechnologies\\logs\\TTUncovered\\option_spread_definitions.txt";
+            syntheticOrders.Clear();
+            string cacheFile = GetCacheFilePath();
 
             if (System.IO.File.Exists(cacheFile))
             {
@@ -57,6 +61,47 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
 
                 fileStream.Close();
             }
+        }
+
+        private static string GetCacheFilePath()
+        {
+            return System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) +
+                           "\\TradingTechnologies\\logs\\TTUncovered\\option_spread_definitions.txt";
+        }
+
+
+        private void WatchSpreadDefinitionFile()
+        {
+            // Create a new FileSystemWatcher and set its properties.
+            watcher = new()
+            {
+                Path = Path.GetDirectoryName(GetCacheFilePath()),
+                NotifyFilter = NotifyFilters.LastWrite,
+                Filter = "option_spread_definitions.txt"
+            };
+
+            // Add event handlers.
+            watcher.Changed += new FileSystemEventHandler(OnFileChanged);
+            //watcher.Created += new FileSystemEventHandler(OnFileChanged);
+
+            // Begin watching.
+            watcher.EnableRaisingEvents = true;
+        }
+
+        private void OnFileChanged(object sender, FileSystemEventArgs e)
+        {
+            if (e.ChangeType != WatcherChangeTypes.Changed)
+            {
+                return;
+            }
+
+            dispatcher.DispatchAction(() =>
+            {
+                ReadSyntheticOrders();
+                HandleInstrumentUpdate(allAvailableInstruments);
+            });
+           
+            //Console.WriteLine($"Changed: {e.FullPath}");
         }
 
         public void Start(TTAPIOptions config)
@@ -131,7 +176,7 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
             Console.WriteLine("Product Type: " + productType.ToString());
 
             instrumentCatalogSubscription = new InstrumentCatalogSubscription(marketId, productType, product, Dispatcher.Current);
-            instrumentCatalogSubscription.OnData += instrumentsUpdated;
+            instrumentCatalogSubscription.OnData += InstrumentsUpdated;
             instrumentCatalogSubscription.Start();
 
             // Get the accounts
@@ -141,52 +186,42 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
         private Dictionary<string, Instruments> GetExistingInstruments(IEnumerable<Instrument> allInstruments)
         {
             var myDictionary = new Dictionary<string, Instruments>();
+            //Dictionary<string, List<Instrument>> instruments = new();
+
             foreach (var v in syntheticOrders)
             {
-                string[] tags = v.Split(',');
-                UInt64 optionInstrumentId = Convert.ToUInt64(tags[1]);
-                UInt64 hedgeInstrumentId = Convert.ToUInt64(tags[2]);
-
                 foreach (var instrument in allInstruments)
                 {
                     LegList legs = instrument.GetLegs();
                     if (legs.Count == 2)
                     {
-                        var firstInstrumentId = legs[0].Instrument.InstrumentDetails.Id;
-                        var secondInstrumentId = legs[1].Instrument.InstrumentDetails.Id;
-                        string key = tags[1] + "," + tags[2];
-
-                        if (optionInstrumentId == firstInstrumentId && hedgeInstrumentId == secondInstrumentId)
+                        Leg optionLeg = legs.ToList().Find(l => l.Instrument.Product.Type == ProductType.Option);
+                        Leg hedgeLeg = legs.ToList().Find(l => l.Instrument.Product.Type == ProductType.Future);
+                        if (optionLeg == null || hedgeLeg == null)
                         {
-                            if (myDictionary.ContainsKey(key))
-                            {
-                                myDictionary[key].uds.Add(instrument);
-                            }
-                            else
-                            {
-                                Instruments instr = new();
-                                instr.uds = new();
-                                instr.option = legs[0].Instrument;
-                                instr.hedge = legs[1].Instrument;
-                                instr.uds.Add(instrument);
-                                myDictionary.Add(key, instr);
-                            }
+                            continue;
                         }
-                        else if (optionInstrumentId == secondInstrumentId && hedgeInstrumentId == firstInstrumentId)
+
+                        string[] tags = v.Split(',');
+                        UInt64 optionInstrumentId = Convert.ToUInt64(tags[1]);
+                        UInt64 hedgeInstrumentId = Convert.ToUInt64(tags[2]);
+
+                        if (optionLeg.Instrument.InstrumentDetails.Id == optionInstrumentId &&
+                            hedgeLeg.Instrument.InstrumentDetails.Id == hedgeInstrumentId)
                         {
-                            if (myDictionary.ContainsKey(key))
-                            {
-                                myDictionary[key].uds.Add(instrument);
-                            }
-                            else
+                            string key = tags[1] + "," + tags[2];
+
+                            if (!myDictionary.ContainsKey(key))
                             {
                                 Instruments instr = new();
                                 instr.uds = new();
-                                instr.option = legs[0].Instrument;
-                                instr.hedge = legs[1].Instrument;
-                                instr.uds.Add(instrument);
+                                instr.option = optionLeg.Instrument;
+                                instr.hedge = hedgeLeg.Instrument;
                                 myDictionary.Add(key, instr);
                             }
+                                
+                            myDictionary[key].uds.Add(instrument);
+
                         }
                     }
                 }
@@ -195,16 +230,18 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
             return myDictionary;
         }
 
-        private void instrumentsUpdated(object sender, InstrumentCatalogEventArgs e)
+        private void InstrumentsUpdated(object sender, InstrumentCatalogEventArgs e)
         {
             if (e.Event == ProductDataEvent.Found)
             {
                 HandleInstrumentUpdate(e.Added);
+                allAvailableInstruments.AddRange(e.Added);
             }
             else if (e.Event == ProductDataEvent.InstrumentCreated)
             {
                 ReadSyntheticOrders();
                 HandleInstrumentUpdate(e.Added);
+                allAvailableInstruments.AddRange(e.Added);
             }
         }
 
@@ -212,6 +249,8 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
         {
             Console.WriteLine("Updating instruments...");
             Dictionary<string, Instruments> instrumentsFound = GetExistingInstruments(allInstruments);
+            instrumentAskPrices.Clear();
+            instrumentBidPrices.Clear();
 
             foreach (var dictElement in instrumentsFound)
             {
@@ -238,8 +277,16 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                     CreatePriceSubscription(uds);
                     CreateTradeSubscription(uds);
                 }
+
+                numberOfPriceSubscription = 2 + dictElement.Value.uds.Count;
             }
+
             Console.WriteLine("Instruments Updated");
+
+            if (instrumentsFound.Count == 0)
+            {
+                Console.WriteLine("\n\nCould not find strategies, press q to exit or create strategies...");
+            }
         }
 
         private void CreatePriceSubscription(Instrument instrument)
@@ -380,7 +427,7 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                     }
                     else
                     {
-                        Console.WriteLine("{0} : Can't set ask price, please set manually.", e.Fields.instrumentID);
+                        Console.WriteLine("{0} : Can't set ask price, please set manually.", e.Fields.Instrument);
                     }
 
                     if (bidPrice.IsValid)
@@ -398,7 +445,7 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                     }
                     else
                     {
-                        Console.WriteLine("{0} : Can't set bid price, please set manually.", e.Fields.instrumentID);
+                        Console.WriteLine("{0} : Can't set bid price, please set manually.", e.Fields.Instrument);
                     }
 
                     //foreach (var price in askPrices)
@@ -414,10 +461,11 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                     //}
                 }
                 
-                if (ps_counter >= instrumentBidPrices.Count)
+                if (ps_counter >= numberOfPriceSubscription)
                 {
-                    print = true;
+                    PrintUserChoice();
                     ps_counter = 0;
+                    numberOfPriceSubscription = 0;
                 }
             }
             else
@@ -485,9 +533,15 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
             }
         }
 
-        public bool ShouldPrint()
+        public void PrintUserChoice()
         {
-            return print;
+            Console.WriteLine("\n\n\nPress one of the following key.");
+            Console.WriteLine("\t'a'. To send all orders");
+            Console.WriteLine("\t'f'. To send future orders");
+            Console.WriteLine("\t'o'. To send option orders");
+            Console.WriteLine("\t's'. To send option strategy orders");
+            Console.WriteLine("\t'd'. To display all instruments names and price");
+            Console.WriteLine("\t'q'. To Quit");
         }
 
         public void ShowInstruments()
@@ -498,9 +552,14 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                 Instrument instrument = instrumentElement.Key;
                 Price askPrice = instrumentElement.Value;
                 Price bidPrice = instrumentBidPrices[instrument];
-               
+
                 Console.WriteLine("[{0}] [{1}] {2}, bid: {3} ask: {4}", 
                     legCounter++, instrument.Product.Type, instrument, bidPrice, askPrice); ;
+            }
+
+            if (instrumentAskPrices.Count == 0)
+            {
+                Console.WriteLine("No instrument");
             }
         }
 
@@ -532,18 +591,6 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
 
                 while (true)
                 {
-                    if (!apiFunctions.ShouldPrint())
-                    {
-                        continue;
-                    }
-
-                    Console.WriteLine("\n\n\nPress one of the following key.");
-                    Console.WriteLine("\t'a'. To send all orders");
-                    Console.WriteLine("\t'f'. To send future orders");
-                    Console.WriteLine("\t'o'. To send option orders");
-                    Console.WriteLine("\t's'. To send option strategy orders");
-                    Console.WriteLine("\t'd'. To display all instruments names and price");
-                    Console.WriteLine("\t'q'. To Quit");
                     string input = System.Console.ReadLine();
                     if (input == "q")
                     {
