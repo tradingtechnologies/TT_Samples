@@ -287,6 +287,10 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
             {
                 Console.WriteLine("\n\nCould not find strategies, press q to exit or create strategies...");
             }
+            else
+            {
+                PrintUserChoice();
+            }
         }
 
         private void CreatePriceSubscription(Instrument instrument)
@@ -463,7 +467,6 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                 
                 if (ps_counter >= numberOfPriceSubscription)
                 {
-                    PrintUserChoice();
                     ps_counter = 0;
                     numberOfPriceSubscription = 0;
                 }
@@ -663,6 +666,8 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                     {
                         apiFunctions.ShowInstruments();
                     }
+
+                    apiFunctions.PrintUserChoice();
                 }
 
                 apiFunctions.Dispose();
