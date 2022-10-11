@@ -403,6 +403,10 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                     if (settlementAskPrice.IsValid)
                     {
                         askPrice = settlementAskPrice;
+                        if (askPrice == bidPrice)
+                        {
+                            askPrice = askPrice.GetTickPrice(1);
+                        }
                         //for (int i = 1; i < numberOfPrices; ++i)
                         //{
                         //    Price askPrice = settlementAskPrice.GetTickPrice(i * ladderInterval);
