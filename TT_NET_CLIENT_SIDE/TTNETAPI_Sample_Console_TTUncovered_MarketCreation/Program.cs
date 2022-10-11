@@ -565,17 +565,51 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
 
     }
 
+   
+
     class Program
     {
+        static string GetDescription<EnumType>(EnumType value)
+        {
+            var type = typeof(EnumType);
+            var memInfo = type.GetMember(value.ToString());
+            var attributes = memInfo[0].GetCustomAttributes(typeof(System.ComponentModel.DescriptionAttribute), false);
+            var description = ((System.ComponentModel.DescriptionAttribute)attributes[0]).Description;
+            return description;
+        }
         static void Main(string[] args)
         {
             try
             {
-                //string appSecretKey = "f8710ecf-f581-9bbb-ff33-e71f294f09d4:aec599a1-c784-585f-af28-318047ced955";
                 string appSecretKey = "834ac713-e67f-49b0-845f-a22c6f61d0c4:22b22302-edf8-365f-2541-aebc28715def";
                 ServiceEnvironment environment = ServiceEnvironment.DevCert;
                 TTAPIOptions.SDKMode sdkMode = TTAPIOptions.SDKMode.Client;
-                
+
+                Console.WriteLine("Enter environment[default: int_dev_cert]");
+                string env = Console.ReadLine();
+
+                Dictionary<string, ServiceEnvironment> environmentsMap = new();
+                foreach (ServiceEnvironment environment1 in (ServiceEnvironment[])Enum.GetValues(typeof(ServiceEnvironment)))
+                {
+                    if (environment1 == ServiceEnvironment.NotSet) continue;
+
+                    string name = GetDescription<ServiceEnvironment>(environment1);
+                    Console.WriteLine(name);
+
+                    environmentsMap.Add(name, environment1);
+                }
+
+                if (environmentsMap.ContainsKey(env))
+                {
+                    Console.WriteLine("Enter secret key for {0}", env);
+                    appSecretKey = Console.ReadLine();
+                }
+                else
+                {
+                    Console.WriteLine("Invalid environment");
+                    return;
+                }
+
                 TTAPIOptions apiConfig = new TTAPIOptions(
                         sdkMode,
                         environment,
