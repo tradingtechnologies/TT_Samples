@@ -614,6 +614,8 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                 {
                     Console.WriteLine("Enter secret key for {0}", env);
                     appSecretKey = Console.ReadLine();
+
+                    environment = environmentsMap[env];
                 }
                 else
                 {
