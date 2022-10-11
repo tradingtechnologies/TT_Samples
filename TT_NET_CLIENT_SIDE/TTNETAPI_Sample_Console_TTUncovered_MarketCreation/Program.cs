@@ -257,11 +257,26 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
                 Instrument option = dictElement.Value.option;
                 Instrument hedge = dictElement.Value.hedge;
 
-                instrumentBidPrices.Add(key: option, new());
-                instrumentAskPrices.Add(key: option, new());
+                if (!instrumentBidPrices.ContainsKey(option))
+                {
+                    instrumentBidPrices.Add(option, new());
+                }
 
-                instrumentBidPrices.Add(hedge, new());
-                instrumentAskPrices.Add(hedge, new());
+                if (!instrumentAskPrices.ContainsKey(option))
+                {
+                    instrumentAskPrices.Add(option, new());
+                }
+
+                if (!instrumentBidPrices.ContainsKey(hedge))
+                {
+                    instrumentBidPrices.Add(hedge, new());
+                }
+
+                if (!instrumentAskPrices.ContainsKey(hedge))
+                {
+                    instrumentAskPrices.Add(hedge, new());
+                }
+
 
                 CreatePriceSubscription(option);
                 CreatePriceSubscription(hedge);
@@ -272,8 +287,16 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
 
                 foreach (var uds in dictElement.Value.uds)
                 {
-                    instrumentBidPrices.Add(uds, new());
-                    instrumentAskPrices.Add(uds, new());
+                    if (!instrumentBidPrices.ContainsKey(uds))
+                    {
+                        instrumentBidPrices.Add(uds, new());
+                    }
+
+                    if (!instrumentAskPrices.ContainsKey(uds))
+                    {
+                        instrumentAskPrices.Add(uds, new());
+                    }
+
                     CreatePriceSubscription(uds);
                     CreateTradeSubscription(uds);
                 }
