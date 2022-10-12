@@ -234,14 +234,14 @@ namespace TTNETAPI_Sample_Console_TTUncovered_MarketCreation
         {
             if (e.Event == ProductDataEvent.Found)
             {
-                HandleInstrumentUpdate(e.Added);
                 allAvailableInstruments.AddRange(e.Added);
+                HandleInstrumentUpdate(allAvailableInstruments);
             }
             else if (e.Event == ProductDataEvent.InstrumentCreated)
             {
                 ReadSyntheticOrders();
-                HandleInstrumentUpdate(e.Added);
                 allAvailableInstruments.AddRange(e.Added);
+                HandleInstrumentUpdate(allAvailableInstruments);
             }
         }
 
