@@ -225,8 +225,12 @@ if __name__ == '__main__':
             print('Status: setting user parameters')
             for param in userparams_response['userParameters']:
                 if param['displayName'] in ALGO_USER_PARAMETERS:
-                    user_parameter = {'displayName': param['displayName'], 'name': param['name'], 'type': param['type'],
-                                      'value': ALGO_USER_PARAMETERS[param['displayName']]}
+                    user_parameter = {
+                        'displayName': param['displayName'],
+                        'name': param['name'],
+                        'type': param['type'],
+                        param['value']: ALGO_USER_PARAMETERS[param['displayName']]
+                    }
                     # print(user_parameter)
                     user_parameters.append(user_parameter)
                 else:
