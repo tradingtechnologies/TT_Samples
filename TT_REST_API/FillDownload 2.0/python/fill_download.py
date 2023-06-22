@@ -300,8 +300,12 @@ def retrieve_fills(environment, headers, min_time_stamp=None, max_time_stamp=Non
     fill_download_url = '{}/ttledger/{}/fills'.format(TT_URL_BASE, environment)
     if min_time_stamp:
         fill_download_url += '?minTimestamp={}'.format(min_time_stamp)
-    if max_time_stamp:
+
+    if min_time_stamp and max_time_stamp:
+        fill_download_url += '&maxTimestamp={}'.format(max_time_stamp)
+    elif max_time_stamp:
         fill_download_url += '?maxTimestamp={}'.format(max_time_stamp)
+
     fills = api_request(fill_download_url, headers, request_timeout=True)
     if type(fills) is not dict and fills.status_code == 408:
         max_time = time.time()
@@ -811,7 +815,7 @@ def fill_downloader(app_key, app_secret, stop_running, end_time, interval, outpu
             output_fill_data_to_file(fills, output)
 
         else:
-            min_time_stamp = min_time_stamp + (interval * 60)
+            min_time_stamp = min_time_stamp + int(interval * 60 * (10**9))
 
         pause(interval*60, stop_running, 'fill downloader')
 
