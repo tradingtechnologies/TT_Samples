@@ -55,7 +55,7 @@ namespace FillDownload
         private DateTime m_nextRequest = default(DateTime);
         private static readonly TimeSpan MinSpace = new TimeSpan(0, 0, 0, 0, 333);
 
-        public static void Init (string app_key, string secret_key, string api_env, string api_url = "https://apigateway.trade.tt/")
+        public static void Init (string app_key, string secret_key, string api_env, string api_url = "https://ttrestapi.trade.tt/")
         {
             RestManager rest_man = privInstance;
             lock(rest_man)

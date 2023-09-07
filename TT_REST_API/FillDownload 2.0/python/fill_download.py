@@ -51,7 +51,7 @@ from simplejson import JSONDecodeError
 # MODULE LEVEL ATTRIBUTES
 ###############################
 
-TT_URL_BASE = 'https://apigateway.trade.tt'
+TT_URL_BASE = 'https://ttrestapi.trade.tt'
 
 VALID_TT_ENVIRONMENTS = (
     'ext_uat_cert',

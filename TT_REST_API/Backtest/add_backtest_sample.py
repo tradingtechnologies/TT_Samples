@@ -72,9 +72,9 @@ class Backtest:
         self.access_token = access_token
         self.local_host = socket.gethostname()
 
-        self.backtest_url = 'https://apigateway.trade.tt/ttbacktest/' + environment
+        self.backtest_url = 'https://ttrestapi.trade.tt/ttbacktest/' + environment
 
-        self.pds_url = 'https://apigateway.trade.tt/ttpds/' + environment
+        self.pds_url = 'https://ttrestapi.trade.tt/ttpds/' + environment
 
     def _get_header(self):
         header = {'x-api-key': self.api_key,
@@ -145,7 +145,7 @@ class Backtest:
 
 
 def get_token(environment, key, secret):
-    url = 'https://apigateway.trade.tt/ttid/' + environment
+    url = 'https://ttrestapi.trade.tt/ttid/' + environment
 
     request_id = 'RESTTEST-GetToken--{}'.format(uuid1())
     url += '/token?requestId=' + request_id

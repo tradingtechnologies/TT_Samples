@@ -25,7 +25,7 @@ namespace FillDownload.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://apigateway.trade.tt")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://ttrestapi.trade.tt")]
         public string ApiURL {
             get {
                 return ((string)(this["ApiURL"]));
