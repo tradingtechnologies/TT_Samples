@@ -1,7 +1,6 @@
 # TT CORE SDK
 
-This is a public place for sample projects related to the TT CORE SDK. It includes the SDK header files in the interface folder. Libraries required to build the SDK are not included in this repo. Please contact TT to get the SDK libraries.
-
+This is a public place for sample projects related to the TT CORE SDK. It includes the SDK header files in the interface folder. Libraries required to build the SDK are not included in this repo. Please see the TT CORE SDK online documentation for [![Downloads](https://library.tradingtechnologies.com/tt-core-sdk/gs-developer-support.html)
 ## Samples Details
 HelloSDK - This is the most basic example which initializes the SDK and listens to the global updates. 
 
