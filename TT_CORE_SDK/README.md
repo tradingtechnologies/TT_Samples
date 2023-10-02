@@ -1,8 +1,12 @@
 # TT CORE SDK
 
 This is a public place for sample projects related to the TT CORE SDK. It includes the SDK header files in the interface folder. Libraries required to build the SDK are not included in this repo. Please see the TT CORE SDK online documentation for [Downloads](https://library.tradingtechnologies.com/tt-core-sdk/gs-developer-support.html#download-packages)
+Please note the TT CORE SDK will only run on a TT Hosted server machine. 
+
 ## Samples Details
 HelloSDK - This is the most basic example which initializes the SDK and listens to the global updates. 
+
+HelloSDK - This is a basic samples of a daemon application.
 
 PriceSubscription - This is a basic example which demonstrates how to make a price subscription and receive the price callback events.
 
@@ -10,9 +14,11 @@ RouteOrder - This example routes an order on the specified contract which follow
 
 StrategyServer - This sample demostrates how a TT CORE SDK application can be controlled remotely using Excel.
 
+SDKAlgoServer - This samples demostrates how to write a SDK Algo server which can be driven by order submissions by TTW or FA.
+
 
 ## Contributing
-Contributions to this repository are only done by employees of Trading Technologies International.  If wanting to propose updates to any samples, please fork this repository, then create a pull request, tagging the desired TT employees.
+Contributions to this repository are only done by employees of Trading Technologies International.  
 
 ## Disclaimer
 Sample code is provided on the website subject to a limited, revocable, non-transferable license solely for testing purposes and not for commercial use.
