@@ -6,7 +6,7 @@ Please note the TT CORE SDK will only run on a TT Hosted server machine.
 ## Samples Details
 HelloSDK - This is the most basic example which initializes the SDK and listens to the global updates. 
 
-HelloSDK - This is a basic samples of a daemon application.
+HelloSDKDaemon - This is a basic samples of a daemon application.
 
 PriceSubscription - This is a basic example which demonstrates how to make a price subscription and receive the price callback events.
 
