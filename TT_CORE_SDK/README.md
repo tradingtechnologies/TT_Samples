@@ -12,8 +12,6 @@ PriceSubscription - This is a basic example which demonstrates how to make a pri
 
 RouteOrder - This example routes an order on the specified contract which follows the market for a while and then crosses to be filled.
 
-StrategyServer - This sample demostrates how a TT CORE SDK application can be controlled remotely using Excel.
-
 SDKAlgoServer - This samples demostrates how to write a SDK Algo server which can be driven by order submissions by TTW or FA.
 
 
