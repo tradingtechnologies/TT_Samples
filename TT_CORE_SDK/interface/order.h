@@ -20,12 +20,15 @@
 #include "enums/OrderType.h"
 #include "enums/OrderSide.h"
 #include "enums/TimeInForce.h"
+#include "enums/MarketId.h"
 #include "instrument.h"
 #include "execution_report.h"
 #include "reject_response.h"
 #include "position.h"
 #include "shared_ptr.h"
 #include "sdkalgo.h"
+#include "export_value.h"
+#include <vector>
 
  // Example computing the expire date in C++ for December 19, 2026.
  // timespec now;
@@ -33,6 +36,7 @@
  // tm utc, local;
  // gmtime_r(&now.tv_sec, &utc);
  // localtime_r(&now.tv_sec, &local);
+ // 
  // utc.tm_isdst = -1;  // This assumes time_t unit is seconds.  True
  // time_t bias = now.tv_sec - mktime(&utc); // on all known systems.
  // Bias is the offset in seconds from local time to UTC time.
@@ -53,6 +57,12 @@ namespace ttsdk
     //! \brief Definition of an order to provide when submitting
     struct OrderProfile
     {
+        enum class Instruction
+        {
+            Work = 0,
+            Hold = 1,
+        };
+
         uint64_t request_id = 0;
         uint64_t price_subscription_id = 0;
         OrderType type = OrderType::NotSet;
@@ -60,6 +70,7 @@ namespace ttsdk
         OrderSide side = OrderSide::NotSet;
         TimeInForce tif = TimeInForce::NotSet;
         uint64_t account_id = 0;
+        uint32_t order_tag_default_id = 0;
         char clearing_acct_override[128] = {0};
         double price = NAN;
         double trigger_price = NAN;
@@ -72,13 +83,25 @@ namespace ttsdk
         char text_c[128] = { 0 };
         char text_tt[128] = { 0 };
         char sender_sub_id[128] = { 0 };
-        //!< indicator to the SDK whether or not to cancel this
-        //!  order if it is working when the SDK restarts. 
-        //!  the TTSDKOptions.sdk_instance_id needs to remain the same from
-        //!  run to run to remove the orders placed by the previous run
+        //! indicator to the SDK whether or not to cancel this order if it is working when the SDK restarts. 
+        //! applicable only if the TTSDKOptions.sdkInstanceId is set when the SDK is initialize
+        //! the TTSDKOptions.sdk_instance_id needs to remain the same from run to run to remove the orders 
+        //! placed by the previous run
         bool leave_on_restart = true;
 
-        //!< Time variables which can be populated to store on the outbound order
+        //! BETA FEATURE - This is part of the beta support of Algos in the CORE SDK and is subject to 
+        //! change based on user feedback. Please make note of this if you choose to use it.
+        //! disconnect action for ADL and ASE/AGG orders. 
+        ttsdk::UserDisconnectAction user_disconnect_action = ttsdk::UserDisconnectAction::NotSet;
+        //! colocation value for algo orders
+        ttsdk::MarketId colocation = ttsdk::MarketId::NotSet;
+        //! specific parameters to set on outgoing algo orders
+        std::vector<ttsdk::UserParameter> params;
+
+        Instruction instruction = Instruction::Work;
+
+
+        //! Time variables which can be populated to store on the outbound order
         //! for performance measuring of order reactions to price updates
         uint64_t server_price_time = 0;   //!< Price Server timestamp (mdrc_recv_time);
         uint64_t order_stimulus_received = 0; //!< User listener timestamp (order_stimulus_receieved_oc)
@@ -138,6 +161,7 @@ namespace ttsdk
             CHANGE_ACCOUNT_ID_NOT_ALLOWED,
             EXCEEDED_PREALLOCATED_RISK_CLIP_SIZE,
             INVALID_CLIP_SIZE,
+            CANCEL_INFLIGHT
         };
 
         virtual ~IOrderEventHandler() noexcept = default;
@@ -146,7 +170,9 @@ namespace ttsdk
         virtual void OnExecutionReport(OrderPtr order, ExecutionReportPtr execRpt) = 0;
 
         virtual void OnEpiqUpdate(OrderPtr order, double epiq) {};
-
+        
+        virtual void OnExportValuesUpdate(OrderPtr order, const ttsdk::ExportValues& exports) {};
+        
         //! \brief Callback delivering order reject messages
         virtual void OnReject(OrderPtr order, RejectResponsePtr rejResp) = 0;
 
@@ -181,11 +207,23 @@ namespace ttsdk
         virtual void SendChange(const OrderProfile& profile) noexcept = 0;
         virtual void SendChange(const OrderPrcQtyProfile& profile) noexcept = 0;
         virtual void SendCancel(const OrderProfile& profile) noexcept = 0;
-
+        
         virtual void SetParent(SDKAlgoPtr parent = nullptr) noexcept = 0;
         //! \brief Method which indicates if this order is a SDK Algo order that
         //!        is/was being managed by this application instance
         virtual bool IsAppsSDKAlgoOrder() noexcept = 0;
+
+        //! BETA FEATURE - This is part of the beta support of Algos in the CORE SDK and is subject to 
+        //! change based on user feedback. Please make note of this if you choose to use it.
+        virtual bool SubscribeExportValues() noexcept = 0;
+        virtual bool UnSubscribeExportValues() noexcept = 0;
+        virtual bool IsAlgoOrder() noexcept = 0;
+        //! -------------------
+
+        //! \brief Method which returns the previous order for the use case when TTINT
+        //!        replaces an existing order with a new order. This will return an 
+        //!        empty pointer if the order is not created via this special use case
+        virtual OrderPtr GetPreviousOrder() const noexcept = 0;
 
     private:
         Order(const Order&) = delete;

@@ -26,6 +26,7 @@
 #include "enums/MarketId.h"
 #include "enums/OrderRejectReason.h"
 #include "enums/SynthStatus.h"
+#include "enums/UserDisconnectAction.h"
 #include "user_parameter.h"
 #include "extended_rejection_information.h"
 #include "shared_ptr.h"
@@ -56,11 +57,13 @@ namespace ttsdk
         virtual bool IsReject() const noexcept = 0;
         virtual bool IsTriggerActivated() const noexcept = 0;
         virtual bool IsWorking() const noexcept = 0;
+        virtual uint64_t GetTransactionTime() const noexcept = 0;
 
         //!@{ Order status
         virtual const char* GetOrderId() const noexcept = 0;
         virtual uint64_t GetRequestId() const noexcept = 0;
         virtual const char* GetExecId() const noexcept = 0;
+        virtual const char* GetUniqueExecId() const noexcept = 0;
         virtual ttsdk::OrdStatus GetOrderStatus() const noexcept = 0;
         virtual ttsdk::ExecType GetExecType() const noexcept = 0;
         virtual ttsdk::OrderType GetOrderType() const noexcept = 0;
@@ -105,6 +108,7 @@ namespace ttsdk
         virtual uint64_t GetInstrumentId() const noexcept = 0;
         virtual ttsdk::MarketId GetMarket() const noexcept = 0;
         //!@}
+       
         virtual uint32_t GetUserParameterCount() const noexcept = 0;
         virtual ttsdk::UserParameter GetUserParameter(const uint32_t index) const noexcept = 0;
 
@@ -123,6 +127,10 @@ namespace ttsdk
         virtual const char* GetTextTT() const noexcept = 0;
         //!@}
 
+        //!@{ Synthetic/Algo related fields
+        virtual ttsdk::MarketId GetColocation() const noexcept = 0;
+        virtual ttsdk::UserDisconnectAction GetUserDisconnectAction() const noexcept = 0;
+        //!@}
 
 
     private:

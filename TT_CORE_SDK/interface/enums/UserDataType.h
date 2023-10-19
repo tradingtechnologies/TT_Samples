@@ -29,4 +29,55 @@ namespace ttsdk
         UserDataTypeTimestamp,
         UserDataTypeEmpty,
     };
+
+    inline const char* ToString(const UserDataType value)
+    {
+        switch (value)
+        {
+        case UserDataType::UserDataTypeDouble:
+            return "Double";
+        case UserDataType::UserDataTypePrice:
+            return "Price";
+        case UserDataType::UserDataTypeInteger:
+            return "Integer";
+        case UserDataType::UserDataTypeUnsignedInteger:
+            return "UnsignedInteger";
+        case UserDataType::UserDataTypeBool:
+            return "Bool";
+        case UserDataType::UserDataTypeString:
+            return "String";
+        case UserDataType::UserDataTypeTimestamp:
+            return "Timestamp";
+        default:
+            return "Empty";
+        }
+    }
+
+    enum ExportValueType {
+        ExportValueTypeDouble,
+        ExportValueTypeInteger,
+        ExportValueTypeeBool,
+        ExportValueTypeString,
+        ExportValueTypeTimestamp,
+        ExportValueTypeEmpty,
+    };
+
+    inline const char* ToString(const ExportValueType value)
+    {
+        switch (value)
+        {
+        case ExportValueType::ExportValueTypeDouble:
+            return "Double";
+        case ExportValueType::ExportValueTypeInteger:
+            return "Integer";
+        case ExportValueType::ExportValueTypeeBool:
+            return "Bool";
+        case ExportValueType::ExportValueTypeString:
+            return "String";
+        case ExportValueType::ExportValueTypeTimestamp:
+            return "Timestamp";
+        default:
+            return "Empty";
+        }
+    }
 }

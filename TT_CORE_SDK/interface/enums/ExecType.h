@@ -27,37 +27,50 @@ namespace ttsdk
 {
     enum class ExecType
     {
-        NotSet                               = -1,
-        Unknown                              = 0,
-        New                                  = 1,
-        DoneForDay                           = 2,
-        Canceled                             = 3,
-        Replaced                             = 4,
-        PendingCancel                        = 5,
-        Stopped                              = 6,
-        Rejected                             = 7,
-        Suspended                            = 8,
-        PendingNew                           = 9,
-        Calculated                           = 10,
-        Expired                              = 11,
-        Restated                             = 12,
-        PendingReplace                       = 13,
-        Trade                                = 14,
-        TradeCorrect                         = 15,
-        TradeCancel                          = 16,
-        OrderStatus                          = 17,
-        TradeInAClearingHold                 = 18,
-        TradeHasBeenReleasedToClearing       = 19,
-        TriggeredOrActivatedBySystem         = 20,
-        PositionReserveCancelReject          = 21,
-        PositionReserveReplaceReject         = 22,
-        AlgoMessage                          = 23,
-        ExpiredOrderbook                     = 24,
-        SquareOff                            = 25,
-        ObpStateChange                       = 26,
-        StageOrderApprovalOfPendingAccepted  = 27,
-        StageOrderRejectionOfPendingAccepted = 28,
-        Ordertag                             = 29,
+        NotSet                                            = -1,
+        Unknown                                           = 0,
+        New                                               = 1,
+        DoneForDay                                        = 2,
+        Canceled                                          = 3,
+        Replaced                                          = 4,
+        PendingCancel                                     = 5,
+        Stopped                                           = 6,
+        Rejected                                          = 7,
+        Suspended                                         = 8,
+        PendingNew                                        = 9,
+        Calculated                                        = 10,
+        Expired                                           = 11,
+        Restated                                          = 12,
+        PendingReplace                                    = 13,
+        Trade                                             = 14,
+        TradeCorrect                                      = 15,
+        TradeCancel                                       = 16,
+        OrderStatus                                       = 17,
+        TradeInAClearingHold                              = 18,
+        TradeHasBeenReleasedToClearing                    = 19,
+        TriggeredOrActivatedBySystem                      = 20,
+        PositionReserveCancelReject                       = 21,
+        PositionReserveReplaceReject                      = 22,
+        AlgoMessage                                       = 23,
+        ExpiredOrderbook                                  = 24,
+        SquareOff                                         = 25,
+        ObpStateChange                                    = 26,
+        StageOrderApprovalOfPendingAccepted               = 27,
+        StageOrderRejectionOfPendingAccepted              = 28,
+        Ordertag                                          = 29,
+        CancelledByStp                                    = 30,
+        OrderCancelledDueToCodMechanism                   = 31,
+        OrderCancelledDueToPotentialTradeOutsideFspLimits = 32,
+        OrderCancelledDueToMarketMakerProtection          = 33,
+        OrderCancelledByClearingRiskManager               = 34,
+        OrderCancelledDueToTradePriceValidation           = 35,
+        EliminatedByCorporateEvent                        = 36,
+        CancelledByMemberRiskManager                      = 37,
+        OrderCancelledByMarketOperations                  = 38,
+        CancelledDueToKillCommand                         = 39,
+        RemainingQuantityKilled                           = 40,
+        BeginningOfPakoPeriod                             = 41,
+        RfqPartiallyOrFullyMatchedWithOtherCounterparts   = 42,
     };
 
     inline const char* ToString(const ExecType value)
@@ -126,6 +139,32 @@ namespace ttsdk
             return "StageOrderRejectionOfPendingAccepted";
         case ExecType::Ordertag:
             return "Ordertag";
+        case ExecType::CancelledByStp:
+            return "CancelledByStp";
+        case ExecType::OrderCancelledDueToCodMechanism:
+            return "OrderCancelledDueToCodMechanism";
+        case ExecType::OrderCancelledDueToPotentialTradeOutsideFspLimits:
+            return "OrderCancelledDueToPotentialTradeOutsideFspLimits";
+        case ExecType::OrderCancelledDueToMarketMakerProtection:
+            return "OrderCancelledDueToMarketMakerProtection";
+        case ExecType::OrderCancelledByClearingRiskManager:
+            return "OrderCancelledByClearingRiskManager";
+        case ExecType::OrderCancelledDueToTradePriceValidation:
+            return "OrderCancelledDueToTradePriceValidation";
+        case ExecType::EliminatedByCorporateEvent:
+            return "EliminatedByCorporateEvent";
+        case ExecType::CancelledByMemberRiskManager:
+            return "CancelledByMemberRiskManager";
+        case ExecType::OrderCancelledByMarketOperations:
+            return "OrderCancelledByMarketOperations";
+        case ExecType::CancelledDueToKillCommand:
+            return "CancelledDueToKillCommand";
+        case ExecType::RemainingQuantityKilled:
+            return "RemainingQuantityKilled";
+        case ExecType::BeginningOfPakoPeriod:
+            return "BeginningOfPakoPeriod";
+        case ExecType::RfqPartiallyOrFullyMatchedWithOtherCounterparts:
+            return "RfqPartiallyOrFullyMatchedWithOtherCounterparts";
         default:
             return "Unknown";
         }

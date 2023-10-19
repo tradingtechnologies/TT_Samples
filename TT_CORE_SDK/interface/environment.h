@@ -7,7 +7,6 @@ namespace ttsdk
         NotSet,
         ProdLive,
         ProdSim,
-        ProdDelayed,
         UatCert,
         StageCert,
         StageSim,

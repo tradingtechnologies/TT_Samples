@@ -27,210 +27,253 @@ namespace ttsdk
 {
     enum class MarketId
     {
-        NotSet         = -1,
-        ASE            = 0,
-        XETRA          = 1,
-        EUREX          = 2,
-        NYSELIFFE      = 3,
-        LSE            = 4,
-        OM             = 5,
-        CBOT           = 6,
-        CME            = 7,
-        CFFE           = 8,
-        SEHK           = 9,
-        ENXTFUT        = 10,
-        ENXTOPT        = 11,
-        SYCOM          = 12,
-        NQLX           = 13,
-        EPEX           = 14,
-        GARBAN         = 15,
-        LIFFEEO        = 16,
-        SGXGIFT        = 17,
-        ISE            = 18,
-        INSTINET       = 19,
-        NASDAQ         = 20,
-        BTECFUTURES    = 21,
-        BTEC           = 22,
-        ISLAND         = 23,
-        ASX            = 24,
-        EUREXUS        = 25,
-        CBOE           = 26,
-        ARCHIPELAGO    = 28,
-        IB             = 29,
-        EURONEXT       = 30,
-        ICE            = 32,
-        COREEX         = 43,
-        NYMEX          = 61,
-        HOTSPOT        = 62,
-        MONTREAL       = 63,
-        SGX            = 64,
-        IDEM           = 65,
-        MEFF           = 66,
-        TFX            = 67,
-        TOCOM          = 68,
-        TSE            = 69,
-        HKFE           = 70,
-        OSE            = 71,
-        MEXDER         = 72,
-        KRX            = 73,
-        CCX            = 74,
-        ECX            = 75,
-        CCFE           = 76,
-        NSE            = 77,
-        LME            = 79,
-        FXMS           = 80,
-        USFE           = 81,
-        DME            = 82,
-        EBS            = 83,
-        SSE            = 85,
-        MCX            = 86,
-        SIMEX          = 87,
-        TMX            = 89,
-        BVMF           = 90,
-        MX             = 91,
-        ICEL           = 92,
-        CFE            = 93,
-        ERIS           = 94,
-        NASDAQOMXEU    = 95,
-        AGGREGATOR     = 96,
-        TTEX           = 97,
+        NotSet          = -1,
+        ASE             = 0,
+        XETRA           = 1,
+        EUREX           = 2,
+        NYSELIFFE       = 3,
+        LSE             = 4,
+        OM              = 5,
+        CBOT            = 6,
+        CME             = 7,
+        CFFE            = 8,
+        SEHK            = 9,
+        ENXTFUT         = 10,
+        ENXTOPT         = 11,
+        SYCOM           = 12,
+        NQLX            = 13,
+        EPEX            = 14,
+        GARBAN          = 15,
+        LIFFEEO         = 16,
+        SGXGIFT         = 17,
+        ISE             = 18,
+        INSTINET        = 19,
+        NASDAQ          = 20,
+        BTECFUTURES     = 21,
+        BTEC            = 22,
+        ISLAND          = 23,
+        ASX             = 24,
+        EUREXUS         = 25,
+        CBOE            = 26,
+        ARCHIPELAGO     = 28,
+        IB              = 29,
+        EURONEXT        = 30,
+        ICE             = 32,
+        COREEX          = 43,
+        NYMEX           = 61,
+        HOTSPOT         = 62,
+        MONTREAL        = 63,
+        SGX             = 64,
+        IDEM            = 65,
+        MEFF            = 66,
+        TFX             = 67,
+        TOCOM           = 68,
+        TSE             = 69,
+        HKFE            = 70,
+        OSE             = 71,
+        MEXDER          = 72,
+        KRX             = 73,
+        CCX             = 74,
+        ECX             = 75,
+        CCFE            = 76,
+        NSE             = 77,
+        LME             = 79,
+        FXMS            = 80,
+        USFE            = 81,
+        DME             = 82,
+        EBS             = 83,
+        SSE             = 85,
+        MCX             = 86,
+        SIMEX           = 87,
+        TMX             = 89,
+        BVMF            = 90,
+        MX              = 91,
+        ICEL            = 92,
+        CFE             = 93,
+        ERIS            = 94,
+        NASDAQOMXEU     = 95,
+        AGGREGATOR      = 96,
+        TTEX            = 97,
         // ESPEED has been deprecated. Please use NFI
-        ESPEED         = 98,
-        NFI            = 98,
-        KCG            = 99,
-        EEX            = 100,
-        CMEMDP         = 101,
-        NFX            = 102,
-        NLX            = 103,
-        NORDIC         = 104,
-        GMEX           = 105,
-        NDAQEU         = 106,
-        HKEX           = 107,
-        FEX            = 108,
-        ASX2           = 111,
-        OTCME          = 112,
-        OTDGCX         = 113,
-        DGCX           = 114,
-        FIXGW2         = 115,
-        FIXGW3         = 116,
-        FIXGW4         = 117,
-        FIXGW5         = 118,
-        FIXGW6         = 119,
-        FIXGW7         = 120,
-        FIXGW8         = 121,
-        FIXGW9         = 122,
-        DIRECTMATCH    = 123,
-        FENICS         = 124,
-        NODAL          = 125,
-        BIST           = 126,
-        TFEX           = 127,
-        GDAX           = 128,
-        SAFEX          = 129,
-        WSE            = 130,
-        CURVEGLOBAL    = 131,
-        COINFLOOREX    = 132,
-        KRAKEN         = 133,
-        BITMEX         = 134,
-        MOEX           = 136,
-        TAIFEX         = 137,
-        ATHEX          = 138,
-        COINFLOORUK    = 139,
-        INE            = 140,
-        DCE            = 141,
-        ZCE            = 142,
-        SHFE           = 143,
-        JUMP           = 145,
-        GRAYSTONE      = 146,
-        CHFFE          = 147,
-        BITSO          = 148,
-        DERIBIT        = 149,
-        MYSTEEL        = 150,
-        XBTG           = 151,
-        CMEBTEC        = 152,
-        TADAWUL        = 153,
-        CEDX           = 154,
-        JPX            = 155,
-        OPRA           = 156,
-        LMENTP         = 157,
-        NASDAQNED      = 158,
-        PME            = 600,
-        DV             = 601,
-        TT             = 602,
-        EUREXDEV       = 802,
-        LSEDEV         = 804,
-        CMEUC          = 807,
-        SGXGIFTDEV     = 817,
-        BTECDEV        = 822,
-        BITMEXDEV      = 823,
-        ASXDEV         = 824,
-        EURONEXTDEV    = 830,
-        ICEDEV         = 832,
-        ASEDEV         = 833,
-        BISTDEV        = 834,
-        CLEARPORTDEV   = 835,
-        CMEDEV         = 836,
-        DGCXDEV        = 837,
-        DIRECTMATCHDEV = 838,
-        EEXDEV         = 839,
-        ERISDEV        = 840,
+        ESPEED          = 98,
+        NFI             = 98,
+        KCG             = 99,
+        EEX             = 100,
+        CMEMDP          = 101,
+        NFX             = 102,
+        NLX             = 103,
+        NORDIC          = 104,
+        GMEX            = 105,
+        NDAQEU          = 106,
+        HKEX            = 107,
+        FEX             = 108,
+        ASX2            = 111,
+        OTCME           = 112,
+        OTDGCX          = 113,
+        DGCX            = 114,
+        FIXGW2          = 115,
+        FIXGW3          = 116,
+        FIXGW4          = 117,
+        FIXGW5          = 118,
+        FIXGW6          = 119,
+        FIXGW7          = 120,
+        FIXGW8          = 121,
+        FIXGW9          = 122,
+        DIRECTMATCH     = 123,
+        FENICS          = 124,
+        NODAL           = 125,
+        BIST            = 126,
+        TFEX            = 127,
+        GDAX            = 128,
+        SAFEX           = 129,
+        WSE             = 130,
+        CURVEGLOBAL     = 131,
+        COINFLOOREX     = 132,
+        KRAKEN          = 133,
+        BITMEX          = 134,
+        MOEX            = 136,
+        TAIFEX          = 137,
+        ATHEX           = 138,
+        COINFLOORUK     = 139,
+        INE             = 140,
+        DCE             = 141,
+        ZCE             = 142,
+        SHFE            = 143,
+        JUMP            = 145,
+        GRAYSTONE       = 146,
+        CHFFE           = 147,
+        BITSO           = 148,
+        DERIBIT         = 149,
+        MYSTEEL         = 150,
+        XBTG            = 151,
+        CMEBTEC         = 152,
+        TADAWUL         = 153,
+        CEDX            = 154,
+        JPX             = 155,
+        OPRA            = 156,
+        LMENTP          = 157,
+        NASDAQNED       = 158,
+        BINANCE         = 159,
+        BINANCEUS       = 160,
+        BITFINEX        = 161,
+        BITSTAMP        = 162,
+        BITTREX         = 163,
+        ERISX           = 164,
+        FTX             = 165,
+        FTXUS           = 166,
+        GEMINI          = 167,
+        LMAX            = 168,
+        OKX             = 169,
+        OSL             = 170,
+        POLONIEX        = 171,
+        ALAMEDARESEARCH = 172,
+        B2C2            = 173,
+        CUMBERLAND      = 174,
+        DVCHAIN         = 175,
+        FLOWTRADERS     = 176,
+        GALAXYDIGITAL   = 177,
+        GENESIS         = 178,
+        HEHMEYER        = 179,
+        JANESTREET      = 180,
+        WINTERMUTE      = 181,
+        NZX             = 182,
+        CMEDELAYED      = 183,
+        KUCOIN          = 184,
+        HUOBI           = 185,
+        CBOEDSPOT       = 186,
+        CBOEDDER        = 187,
+        BINANCEFUTURES  = 188,
+        COINBASEPRIME   = 189,
+        NORDPOOL        = 190,
+        FMX             = 191,
+        GFOX            = 192,
+        DEALERWEB       = 193,
+        CMEBTECSTREAM   = 194,
+        BYBIT           = 195,
+        ABAXX           = 196,
+        COINBASEDERIVS  = 197,
+        CBOEFXSWNY      = 198,
+        CBOEFXSWLN      = 199,
+        CBOEFXFANY      = 200,
+        CBOEFXFALN      = 201,
+        PME             = 600,
+        DV              = 601,
+        TT              = 602,
+        EUREXDEV        = 802,
+        LSEDEV          = 804,
+        CMEUC           = 807,
+        SGXGIFTDEV      = 817,
+        BTECDEV         = 822,
+        BITMEXDEV       = 823,
+        ASXDEV          = 824,
+        EURONEXTDEV     = 830,
+        ICEDEV          = 832,
+        ASEDEV          = 833,
+        BISTDEV         = 834,
+        CLEARPORTDEV    = 835,
+        CMEDEV          = 836,
+        DGCXDEV         = 837,
+        DIRECTMATCHDEV  = 838,
+        EEXDEV          = 839,
+        ERISDEV         = 840,
         // ESPEEDDEV has been deprecated. Please use NFIDEV
-        ESPEEDDEV      = 841,
-        NFIDEV         = 841,
-        FENICSDEV      = 842,
-        FEXDEV         = 843,
-        GDAXDEV        = 844,
-        HKEXDEV        = 845,
-        IDEMDEV        = 846,
-        ISEDEV         = 847,
-        KRXDEV         = 848,
-        MCXDEV         = 849,
-        MEXDERDEV      = 850,
-        NDAQEUDEV      = 851,
-        NFXDEV         = 852,
-        NODALDEV       = 853,
-        NSEDEV         = 854,
-        SAFEXDEV       = 855,
-        SEHKDEV        = 856,
-        TFEXDEV        = 857,
-        TSEDEV         = 858,
-        WSEDEV         = 859,
-        CURVEGLOBALDEV = 860,
-        COINFLOOREXDEV = 861,
-        KRAKENDEV      = 862,
-        SGXDEV         = 864,
-        MEFFDEV        = 866,
-        TFXDEV         = 867,
-        TOCOMDEV       = 868,
-        OSEDEV         = 871,
-        LMEDEV         = 879,
-        BVMFDEV        = 890,
-        MXDEV          = 891,
-        ICELDEV        = 892,
-        CFEDEV         = 893,
-        KCGDEV         = 899,
-        NLXDEV         = 903,
-        ASX2DEV        = 911,
-        MOEXDEV        = 912,
-        TAIFEXDEV      = 913,
-        ATHEXDEV       = 914,
-        COINFLOORUKDEV = 915,
-        INEDEV         = 916,
-        DCEDEV         = 917,
-        ZCEDEV         = 918,
-        SHFEDEV        = 919,
-        JUMPDEV        = 921,
-        GRAYSTONEDEV   = 922,
-        CHFFEDEV       = 923,
-        DERIBITDEV     = 924,
-        TFEXDEV2       = 925,
-        MYSTEELDEV     = 926,
-        CBOEDEV        = 927,
-        CEDXDEV        = 928,
-        JPXDEV         = 929,
-        ALGO           = 1001,
-        BANKALGO       = 1004,
-        SDKALGO        = 1005,
-        INVALID        = 134217726,
+        ESPEEDDEV       = 841,
+        NFIDEV          = 841,
+        FENICSDEV       = 842,
+        FEXDEV          = 843,
+        GDAXDEV         = 844,
+        HKEXDEV         = 845,
+        IDEMDEV         = 846,
+        ISEDEV          = 847,
+        KRXDEV          = 848,
+        MCXDEV          = 849,
+        MEXDERDEV       = 850,
+        NDAQEUDEV       = 851,
+        NFXDEV          = 852,
+        NODALDEV        = 853,
+        NSEDEV          = 854,
+        SAFEXDEV        = 855,
+        SEHKDEV         = 856,
+        TFEXDEV         = 857,
+        TSEDEV          = 858,
+        WSEDEV          = 859,
+        CURVEGLOBALDEV  = 860,
+        COINFLOOREXDEV  = 861,
+        KRAKENDEV       = 862,
+        SGXDEV          = 864,
+        MEFFDEV         = 866,
+        TFXDEV          = 867,
+        TOCOMDEV        = 868,
+        OSEDEV          = 871,
+        LMEDEV          = 879,
+        BVMFDEV         = 890,
+        MXDEV           = 891,
+        ICELDEV         = 892,
+        CFEDEV          = 893,
+        KCGDEV          = 899,
+        NLXDEV          = 903,
+        ASX2DEV         = 911,
+        MOEXDEV         = 912,
+        TAIFEXDEV       = 913,
+        ATHEXDEV        = 914,
+        COINFLOORUKDEV  = 915,
+        INEDEV          = 916,
+        DCEDEV          = 917,
+        ZCEDEV          = 918,
+        SHFEDEV         = 919,
+        JUMPDEV         = 921,
+        GRAYSTONEDEV    = 922,
+        CHFFEDEV        = 923,
+        DERIBITDEV      = 924,
+        TFEXDEV2        = 925,
+        MYSTEELDEV      = 926,
+        CBOEDEV         = 927,
+        CEDXDEV         = 928,
+        JPXDEV          = 929,
+        ALGO            = 1001,
+        BANKALGO        = 1004,
+        SDKALGO         = 1005,
+        INVALID         = 134217726,
     };
 
     inline const char* ToString(const MarketId value)
@@ -485,6 +528,92 @@ namespace ttsdk
             return "LMENTP";
         case MarketId::NASDAQNED:
             return "NASDAQNED";
+        case MarketId::BINANCE:
+            return "BINANCE";
+        case MarketId::BINANCEUS:
+            return "BINANCEUS";
+        case MarketId::BITFINEX:
+            return "BITFINEX";
+        case MarketId::BITSTAMP:
+            return "BITSTAMP";
+        case MarketId::BITTREX:
+            return "BITTREX";
+        case MarketId::ERISX:
+            return "ERISX";
+        case MarketId::FTX:
+            return "FTX";
+        case MarketId::FTXUS:
+            return "FTXUS";
+        case MarketId::GEMINI:
+            return "GEMINI";
+        case MarketId::LMAX:
+            return "LMAX";
+        case MarketId::OKX:
+            return "OKX";
+        case MarketId::OSL:
+            return "OSL";
+        case MarketId::POLONIEX:
+            return "POLONIEX";
+        case MarketId::ALAMEDARESEARCH:
+            return "ALAMEDARESEARCH";
+        case MarketId::B2C2:
+            return "B2C2";
+        case MarketId::CUMBERLAND:
+            return "CUMBERLAND";
+        case MarketId::DVCHAIN:
+            return "DVCHAIN";
+        case MarketId::FLOWTRADERS:
+            return "FLOWTRADERS";
+        case MarketId::GALAXYDIGITAL:
+            return "GALAXYDIGITAL";
+        case MarketId::GENESIS:
+            return "GENESIS";
+        case MarketId::HEHMEYER:
+            return "HEHMEYER";
+        case MarketId::JANESTREET:
+            return "JANESTREET";
+        case MarketId::WINTERMUTE:
+            return "WINTERMUTE";
+        case MarketId::NZX:
+            return "NZX";
+        case MarketId::CMEDELAYED:
+            return "CMEDELAYED";
+        case MarketId::KUCOIN:
+            return "KUCOIN";
+        case MarketId::HUOBI:
+            return "HUOBI";
+        case MarketId::CBOEDSPOT:
+            return "CBOEDSPOT";
+        case MarketId::CBOEDDER:
+            return "CBOEDDER";
+        case MarketId::BINANCEFUTURES:
+            return "BINANCEFUTURES";
+        case MarketId::COINBASEPRIME:
+            return "COINBASEPRIME";
+        case MarketId::NORDPOOL:
+            return "NORDPOOL";
+        case MarketId::FMX:
+            return "FMX";
+        case MarketId::GFOX:
+            return "GFOX";
+        case MarketId::DEALERWEB:
+            return "DEALERWEB";
+        case MarketId::CMEBTECSTREAM:
+            return "CMEBTECSTREAM";
+        case MarketId::BYBIT:
+            return "BYBIT";
+        case MarketId::ABAXX:
+            return "ABAXX";
+        case MarketId::COINBASEDERIVS:
+            return "COINBASEDERIVS";
+        case MarketId::CBOEFXSWNY:
+            return "CBOEFXSWNY";
+        case MarketId::CBOEFXSWLN:
+            return "CBOEFXSWLN";
+        case MarketId::CBOEFXFANY:
+            return "CBOEFXFANY";
+        case MarketId::CBOEFXFALN:
+            return "CBOEFXFALN";
         case MarketId::PME:
             return "PME";
         case MarketId::DV:
@@ -893,6 +1022,92 @@ namespace ttsdk
             return "TT_MARKET_ID_LME_NTP";
         case MarketId::NASDAQNED:
             return "TT_MARKET_ID_NASDAQ_NED";
+        case MarketId::BINANCE:
+            return "TT_MARKET_ID_BINANCE";
+        case MarketId::BINANCEUS:
+            return "TT_MARKET_ID_BINANCE_US";
+        case MarketId::BITFINEX:
+            return "TT_MARKET_ID_BITFINEX";
+        case MarketId::BITSTAMP:
+            return "TT_MARKET_ID_BITSTAMP";
+        case MarketId::BITTREX:
+            return "TT_MARKET_ID_BITTREX";
+        case MarketId::ERISX:
+            return "TT_MARKET_ID_ERISX";
+        case MarketId::FTX:
+            return "TT_MARKET_ID_FTX";
+        case MarketId::FTXUS:
+            return "TT_MARKET_ID_FTX_US";
+        case MarketId::GEMINI:
+            return "TT_MARKET_ID_GEMINI";
+        case MarketId::LMAX:
+            return "TT_MARKET_ID_LMAX";
+        case MarketId::OKX:
+            return "TT_MARKET_ID_OKX";
+        case MarketId::OSL:
+            return "TT_MARKET_ID_OSL";
+        case MarketId::POLONIEX:
+            return "TT_MARKET_ID_POLONIEX";
+        case MarketId::ALAMEDARESEARCH:
+            return "TT_MARKET_ID_ALAMEDA_RESEARCH";
+        case MarketId::B2C2:
+            return "TT_MARKET_ID_B2C2";
+        case MarketId::CUMBERLAND:
+            return "TT_MARKET_ID_CUMBERLAND";
+        case MarketId::DVCHAIN:
+            return "TT_MARKET_ID_DV_CHAIN";
+        case MarketId::FLOWTRADERS:
+            return "TT_MARKET_ID_FLOW_TRADERS";
+        case MarketId::GALAXYDIGITAL:
+            return "TT_MARKET_ID_GALAXY_DIGITAL";
+        case MarketId::GENESIS:
+            return "TT_MARKET_ID_GENESIS";
+        case MarketId::HEHMEYER:
+            return "TT_MARKET_ID_HEHMEYER";
+        case MarketId::JANESTREET:
+            return "TT_MARKET_ID_JANE_STREET";
+        case MarketId::WINTERMUTE:
+            return "TT_MARKET_ID_WINTERMUTE";
+        case MarketId::NZX:
+            return "TT_MARKET_ID_NZX";
+        case MarketId::CMEDELAYED:
+            return "TT_MARKET_ID_CME_DELAYED";
+        case MarketId::KUCOIN:
+            return "TT_MARKET_ID_KUCOIN";
+        case MarketId::HUOBI:
+            return "TT_MARKET_ID_HUOBI";
+        case MarketId::CBOEDSPOT:
+            return "TT_MARKET_ID_CBOE_D_SPOT";
+        case MarketId::CBOEDDER:
+            return "TT_MARKET_ID_CBOE_D_DER";
+        case MarketId::BINANCEFUTURES:
+            return "TT_MARKET_ID_BINANCE_FUTURES";
+        case MarketId::COINBASEPRIME:
+            return "TT_MARKET_ID_COINBASE_PRIME";
+        case MarketId::NORDPOOL:
+            return "TT_MARKET_ID_NORDPOOL";
+        case MarketId::FMX:
+            return "TT_MARKET_ID_FMX";
+        case MarketId::GFOX:
+            return "TT_MARKET_ID_GFO_X";
+        case MarketId::DEALERWEB:
+            return "TT_MARKET_ID_DEALERWEB";
+        case MarketId::CMEBTECSTREAM:
+            return "TT_MARKET_ID_CME_BTEC_STREAM";
+        case MarketId::BYBIT:
+            return "TT_MARKET_ID_BYBIT";
+        case MarketId::ABAXX:
+            return "TT_MARKET_ID_ABAXX";
+        case MarketId::COINBASEDERIVS:
+            return "TT_MARKET_ID_COINBASE_DERIVS";
+        case MarketId::CBOEFXSWNY:
+            return "TT_MARKET_ID_CBOEFX_SW_NY";
+        case MarketId::CBOEFXSWLN:
+            return "TT_MARKET_ID_CBOEFX_SW_LN";
+        case MarketId::CBOEFXFANY:
+            return "TT_MARKET_ID_CBOEFX_FA_NY";
+        case MarketId::CBOEFXFALN:
+            return "TT_MARKET_ID_CBOEFX_FA_LN";
         case MarketId::PME:
             return "TT_MARKET_ID_PME";
         case MarketId::DV:

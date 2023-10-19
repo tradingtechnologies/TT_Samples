@@ -43,6 +43,7 @@ namespace ttsdk
         LimitCloseToday                  = 39,
         LimitReduceOnly                  = 40,
         MarketReduceOnly                 = 41,
+        UserDefinedBlock                 = 42,
         Unknown                          = 100,
     };
 
@@ -82,6 +83,8 @@ namespace ttsdk
             return "LimitReduceOnly";
         case OrderType::MarketReduceOnly:
             return "MarketReduceOnly";
+        case OrderType::UserDefinedBlock:
+            return "UserDefinedBlock";
         case OrderType::Unknown:
             return "Unknown";
         default:

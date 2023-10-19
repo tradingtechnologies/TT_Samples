@@ -106,7 +106,7 @@ namespace ttsdk {
         //!@{ Price snapshot properties
         PriceEventType event_type;  //!< the data type that triggered this event
         uint64_t seq_no;            //!< Price snap sequence number
-        uint64_t conflation_no;     //!< Price conflation count
+        uint64_t conflation_no;     //!< App level conflation value
         uint64_t exchange_time;     //!< Exchange timestamp
         uint64_t server_time;       //!< Price Server timestamp (mdrc_recv_time);
         uint64_t client_time;       //!< Client timestamp (client_recv_time);
@@ -146,6 +146,7 @@ namespace ttsdk {
             //!@{ Time and Sales trade properties
             uint64_t epoch_transact_time_nano;       //!< Transaction Time Since Epoch (ns)
             uint64_t exchange_transact_time_ns;
+            uint64_t exchange_seq_no;
             //!@}
         };
         Trade trades[MAX_EVENTS];

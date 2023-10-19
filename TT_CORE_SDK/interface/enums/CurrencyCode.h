@@ -241,6 +241,200 @@ namespace ttsdk
         USDTDFN = 230,
         LIBF    = 231,
         USDTLIB = 232,
+        NANO    = 1001,
+        ADA     = 1002,
+        DASH    = 1003,
+        GNO     = 1004,
+        XTZ     = 1005,
+        MLN     = 1006,
+        DOGE    = 1007,
+        TRX     = 1008,
+        XMR     = 1009,
+        ATOM    = 1010,
+        QTUM    = 1011,
+        BNT     = 1012,
+        KNC     = 1013,
+        LPT     = 1014,
+        LSK     = 1015,
+        NMR     = 1016,
+        OMG     = 1017,
+        SC      = 1018,
+        STORJ   = 1019,
+        ADX     = 1020,
+        BLZ     = 1021,
+        BTT     = 1022,
+        CELR    = 1023,
+        DENT    = 1024,
+        ENJ     = 1025,
+        FET     = 1026,
+        ICX     = 1027,
+        KEY     = 1028,
+        LINK    = 1029,
+        LRC     = 1030,
+        POWR    = 1031,
+        REN     = 1032,
+        REQ     = 1033,
+        RLC     = 1034,
+        WAVES   = 1035,
+        MATIC   = 1036,
+        ANT     = 1037,
+        UST     = 1038,
+        WBTC    = 1039,
+        ANKR    = 1040,
+        OCEAN   = 1041,
+        QNT     = 1042,
+        SNX     = 1043,
+        FTM     = 1044,
+        ALGO    = 1045,
+        CHZ     = 1046,
+        BAND    = 1047,
+        ARPA    = 1048,
+        KAVA    = 1049,
+        PAXG    = 1050,
+        OXT     = 1051,
+        OGN     = 1052,
+        COTI    = 1053,
+        CTSI    = 1054,
+        SOL     = 1055,
+        CHR     = 1056,
+        COMP    = 1057,
+        BAL     = 1058,
+        YFI     = 1059,
+        RUNE    = 1060,
+        UMA     = 1061,
+        REPV2   = 1062,
+        LUNA    = 1063,
+        SRM     = 1064,
+        DOT     = 1065,
+        SAND    = 1066,
+        CRV     = 1067,
+        IDEX    = 1068,
+        SUSHI   = 1069,
+        KSM     = 1070,
+        EGLD    = 1071,
+        UNI     = 1072,
+        AVAX    = 1073,
+        GHST    = 1074,
+        RARI    = 1075,
+        GST     = 1076,
+        POLS    = 1077,
+        SCRT    = 1078,
+        AAVE    = 1079,
+        ALPHA   = 1080,
+        NEARM   = 1081,
+        FIL     = 1082,
+        INJ     = 1083,
+        AUDIO   = 1084,
+        KP3R    = 1085,
+        AXS     = 1086,
+        UNFI    = 1087,
+        KEEP    = 1088,
+        TBTC    = 1089,
+        API3    = 1090,
+        BADGER  = 1091,
+        FARM    = 1092,
+        GRT     = 1093,
+        _1INCH  = 1094,
+        ROOK    = 1095,
+        FIDA    = 1096,
+        BOND    = 1097,
+        ETH2    = 1098,
+        TRU     = 1099,
+        FLOW    = 1100,
+        PERP    = 1101,
+        FXS     = 1102,
+        KIN     = 1103,
+        RAY     = 1104,
+        PHA     = 1105,
+        TVK     = 1106,
+        FIS     = 1107,
+        EWT     = 1108,
+        POND    = 1109,
+        ALICE   = 1110,
+        OXY     = 1111,
+        SUPER   = 1112,
+        ICP     = 1113,
+        ALCX    = 1114,
+        TLM     = 1115,
+        MIR     = 1116,
+        SHIB    = 1117,
+        FORTH   = 1118,
+        STEP    = 1119,
+        MASK    = 1120,
+        GTC     = 1121,
+        MINA    = 1122,
+        CQT     = 1123,
+        KAR     = 1124,
+        C98     = 1125,
+        ACH     = 1126,
+        TRIBE   = 1127,
+        MNGO    = 1128,
+        YGG     = 1129,
+        BIT     = 1130,
+        MOVR    = 1131,
+        RAD     = 1132,
+        ATLAS   = 1133,
+        POLIS   = 1134,
+        SDN     = 1135,
+        AGLD    = 1136,
+        DYDX    = 1137,
+        GALA    = 1138,
+        LDO     = 1139,
+        CFG     = 1140,
+        MXC     = 1141,
+        JASMY   = 1142,
+        RARE    = 1143,
+        SPELL   = 1144,
+        TOKE    = 1145,
+        WOO     = 1146,
+        MSOL    = 1147,
+        BNC     = 1148,
+        LCX     = 1149,
+        IMX     = 1150,
+        SAMO    = 1151,
+        ENS     = 1152,
+        CVX     = 1153,
+        PLAD    = 1154,
+        BOBA    = 1155,
+        MC      = 1156,
+        RNDR    = 1157,
+        KILT    = 1158,
+        BICO    = 1159,
+        SGB     = 1160,
+        KINT    = 1161,
+        GLMR    = 1162,
+        GARI    = 1163,
+        ASTR    = 1164,
+        ACA     = 1165,
+        ORCA    = 1166,
+        SBR     = 1167,
+        AKT     = 1168,
+        AIR     = 1169,
+        PSTAKE  = 1170,
+        XRT     = 1171,
+        T       = 1172,
+        MULTI   = 1173,
+        APE     = 1174,
+        SYN     = 1175,
+        GMT     = 1176,
+        STG     = 1177,
+        RBC     = 1178,
+        NYM     = 1179,
+        XCN     = 1180,
+        MV      = 1181,
+        LUNA2   = 1182,
+        RPL     = 1183,
+        TEER    = 1184,
+        INTR    = 1185,
+        CSM     = 1186,
+        JUNO    = 1187,
+        ETHW    = 1188,
+        BSX     = 1189,
+        NODL    = 1190,
+        PARA    = 1191,
+        GALX    = 1192,
+        APT     = 1193,
+        EST     = 1194,
     };
 
     inline const char* ToString(const CurrencyCode value)
@@ -675,6 +869,394 @@ namespace ttsdk
             return "LIBF";
         case CurrencyCode::USDTLIB:
             return "USDTLIB";
+        case CurrencyCode::NANO:
+            return "NANO";
+        case CurrencyCode::ADA:
+            return "ADA";
+        case CurrencyCode::DASH:
+            return "DASH";
+        case CurrencyCode::GNO:
+            return "GNO";
+        case CurrencyCode::XTZ:
+            return "XTZ";
+        case CurrencyCode::MLN:
+            return "MLN";
+        case CurrencyCode::DOGE:
+            return "DOGE";
+        case CurrencyCode::TRX:
+            return "TRX";
+        case CurrencyCode::XMR:
+            return "XMR";
+        case CurrencyCode::ATOM:
+            return "ATOM";
+        case CurrencyCode::QTUM:
+            return "QTUM";
+        case CurrencyCode::BNT:
+            return "BNT";
+        case CurrencyCode::KNC:
+            return "KNC";
+        case CurrencyCode::LPT:
+            return "LPT";
+        case CurrencyCode::LSK:
+            return "LSK";
+        case CurrencyCode::NMR:
+            return "NMR";
+        case CurrencyCode::OMG:
+            return "OMG";
+        case CurrencyCode::SC:
+            return "SC";
+        case CurrencyCode::STORJ:
+            return "STORJ";
+        case CurrencyCode::ADX:
+            return "ADX";
+        case CurrencyCode::BLZ:
+            return "BLZ";
+        case CurrencyCode::BTT:
+            return "BTT";
+        case CurrencyCode::CELR:
+            return "CELR";
+        case CurrencyCode::DENT:
+            return "DENT";
+        case CurrencyCode::ENJ:
+            return "ENJ";
+        case CurrencyCode::FET:
+            return "FET";
+        case CurrencyCode::ICX:
+            return "ICX";
+        case CurrencyCode::KEY:
+            return "KEY";
+        case CurrencyCode::LINK:
+            return "LINK";
+        case CurrencyCode::LRC:
+            return "LRC";
+        case CurrencyCode::POWR:
+            return "POWR";
+        case CurrencyCode::REN:
+            return "REN";
+        case CurrencyCode::REQ:
+            return "REQ";
+        case CurrencyCode::RLC:
+            return "RLC";
+        case CurrencyCode::WAVES:
+            return "WAVES";
+        case CurrencyCode::MATIC:
+            return "MATIC";
+        case CurrencyCode::ANT:
+            return "ANT";
+        case CurrencyCode::UST:
+            return "UST";
+        case CurrencyCode::WBTC:
+            return "WBTC";
+        case CurrencyCode::ANKR:
+            return "ANKR";
+        case CurrencyCode::OCEAN:
+            return "OCEAN";
+        case CurrencyCode::QNT:
+            return "QNT";
+        case CurrencyCode::SNX:
+            return "SNX";
+        case CurrencyCode::FTM:
+            return "FTM";
+        case CurrencyCode::ALGO:
+            return "ALGO";
+        case CurrencyCode::CHZ:
+            return "CHZ";
+        case CurrencyCode::BAND:
+            return "BAND";
+        case CurrencyCode::ARPA:
+            return "ARPA";
+        case CurrencyCode::KAVA:
+            return "KAVA";
+        case CurrencyCode::PAXG:
+            return "PAXG";
+        case CurrencyCode::OXT:
+            return "OXT";
+        case CurrencyCode::OGN:
+            return "OGN";
+        case CurrencyCode::COTI:
+            return "COTI";
+        case CurrencyCode::CTSI:
+            return "CTSI";
+        case CurrencyCode::SOL:
+            return "SOL";
+        case CurrencyCode::CHR:
+            return "CHR";
+        case CurrencyCode::COMP:
+            return "COMP";
+        case CurrencyCode::BAL:
+            return "BAL";
+        case CurrencyCode::YFI:
+            return "YFI";
+        case CurrencyCode::RUNE:
+            return "RUNE";
+        case CurrencyCode::UMA:
+            return "UMA";
+        case CurrencyCode::REPV2:
+            return "REPV2";
+        case CurrencyCode::LUNA:
+            return "LUNA";
+        case CurrencyCode::SRM:
+            return "SRM";
+        case CurrencyCode::DOT:
+            return "DOT";
+        case CurrencyCode::SAND:
+            return "SAND";
+        case CurrencyCode::CRV:
+            return "CRV";
+        case CurrencyCode::IDEX:
+            return "IDEX";
+        case CurrencyCode::SUSHI:
+            return "SUSHI";
+        case CurrencyCode::KSM:
+            return "KSM";
+        case CurrencyCode::EGLD:
+            return "EGLD";
+        case CurrencyCode::UNI:
+            return "UNI";
+        case CurrencyCode::AVAX:
+            return "AVAX";
+        case CurrencyCode::GHST:
+            return "GHST";
+        case CurrencyCode::RARI:
+            return "RARI";
+        case CurrencyCode::GST:
+            return "GST";
+        case CurrencyCode::POLS:
+            return "POLS";
+        case CurrencyCode::SCRT:
+            return "SCRT";
+        case CurrencyCode::AAVE:
+            return "AAVE";
+        case CurrencyCode::ALPHA:
+            return "ALPHA";
+        case CurrencyCode::NEARM:
+            return "NEARM";
+        case CurrencyCode::FIL:
+            return "FIL";
+        case CurrencyCode::INJ:
+            return "INJ";
+        case CurrencyCode::AUDIO:
+            return "AUDIO";
+        case CurrencyCode::KP3R:
+            return "KP3R";
+        case CurrencyCode::AXS:
+            return "AXS";
+        case CurrencyCode::UNFI:
+            return "UNFI";
+        case CurrencyCode::KEEP:
+            return "KEEP";
+        case CurrencyCode::TBTC:
+            return "TBTC";
+        case CurrencyCode::API3:
+            return "API3";
+        case CurrencyCode::BADGER:
+            return "BADGER";
+        case CurrencyCode::FARM:
+            return "FARM";
+        case CurrencyCode::GRT:
+            return "GRT";
+        case CurrencyCode::_1INCH:
+            return "_1INCH";
+        case CurrencyCode::ROOK:
+            return "ROOK";
+        case CurrencyCode::FIDA:
+            return "FIDA";
+        case CurrencyCode::BOND:
+            return "BOND";
+        case CurrencyCode::ETH2:
+            return "ETH2";
+        case CurrencyCode::TRU:
+            return "TRU";
+        case CurrencyCode::FLOW:
+            return "FLOW";
+        case CurrencyCode::PERP:
+            return "PERP";
+        case CurrencyCode::FXS:
+            return "FXS";
+        case CurrencyCode::KIN:
+            return "KIN";
+        case CurrencyCode::RAY:
+            return "RAY";
+        case CurrencyCode::PHA:
+            return "PHA";
+        case CurrencyCode::TVK:
+            return "TVK";
+        case CurrencyCode::FIS:
+            return "FIS";
+        case CurrencyCode::EWT:
+            return "EWT";
+        case CurrencyCode::POND:
+            return "POND";
+        case CurrencyCode::ALICE:
+            return "ALICE";
+        case CurrencyCode::OXY:
+            return "OXY";
+        case CurrencyCode::SUPER:
+            return "SUPER";
+        case CurrencyCode::ICP:
+            return "ICP";
+        case CurrencyCode::ALCX:
+            return "ALCX";
+        case CurrencyCode::TLM:
+            return "TLM";
+        case CurrencyCode::MIR:
+            return "MIR";
+        case CurrencyCode::SHIB:
+            return "SHIB";
+        case CurrencyCode::FORTH:
+            return "FORTH";
+        case CurrencyCode::STEP:
+            return "STEP";
+        case CurrencyCode::MASK:
+            return "MASK";
+        case CurrencyCode::GTC:
+            return "GTC";
+        case CurrencyCode::MINA:
+            return "MINA";
+        case CurrencyCode::CQT:
+            return "CQT";
+        case CurrencyCode::KAR:
+            return "KAR";
+        case CurrencyCode::C98:
+            return "C98";
+        case CurrencyCode::ACH:
+            return "ACH";
+        case CurrencyCode::TRIBE:
+            return "TRIBE";
+        case CurrencyCode::MNGO:
+            return "MNGO";
+        case CurrencyCode::YGG:
+            return "YGG";
+        case CurrencyCode::BIT:
+            return "BIT";
+        case CurrencyCode::MOVR:
+            return "MOVR";
+        case CurrencyCode::RAD:
+            return "RAD";
+        case CurrencyCode::ATLAS:
+            return "ATLAS";
+        case CurrencyCode::POLIS:
+            return "POLIS";
+        case CurrencyCode::SDN:
+            return "SDN";
+        case CurrencyCode::AGLD:
+            return "AGLD";
+        case CurrencyCode::DYDX:
+            return "DYDX";
+        case CurrencyCode::GALA:
+            return "GALA";
+        case CurrencyCode::LDO:
+            return "LDO";
+        case CurrencyCode::CFG:
+            return "CFG";
+        case CurrencyCode::MXC:
+            return "MXC";
+        case CurrencyCode::JASMY:
+            return "JASMY";
+        case CurrencyCode::RARE:
+            return "RARE";
+        case CurrencyCode::SPELL:
+            return "SPELL";
+        case CurrencyCode::TOKE:
+            return "TOKE";
+        case CurrencyCode::WOO:
+            return "WOO";
+        case CurrencyCode::MSOL:
+            return "MSOL";
+        case CurrencyCode::BNC:
+            return "BNC";
+        case CurrencyCode::LCX:
+            return "LCX";
+        case CurrencyCode::IMX:
+            return "IMX";
+        case CurrencyCode::SAMO:
+            return "SAMO";
+        case CurrencyCode::ENS:
+            return "ENS";
+        case CurrencyCode::CVX:
+            return "CVX";
+        case CurrencyCode::PLAD:
+            return "PLAD";
+        case CurrencyCode::BOBA:
+            return "BOBA";
+        case CurrencyCode::MC:
+            return "MC";
+        case CurrencyCode::RNDR:
+            return "RNDR";
+        case CurrencyCode::KILT:
+            return "KILT";
+        case CurrencyCode::BICO:
+            return "BICO";
+        case CurrencyCode::SGB:
+            return "SGB";
+        case CurrencyCode::KINT:
+            return "KINT";
+        case CurrencyCode::GLMR:
+            return "GLMR";
+        case CurrencyCode::GARI:
+            return "GARI";
+        case CurrencyCode::ASTR:
+            return "ASTR";
+        case CurrencyCode::ACA:
+            return "ACA";
+        case CurrencyCode::ORCA:
+            return "ORCA";
+        case CurrencyCode::SBR:
+            return "SBR";
+        case CurrencyCode::AKT:
+            return "AKT";
+        case CurrencyCode::AIR:
+            return "AIR";
+        case CurrencyCode::PSTAKE:
+            return "PSTAKE";
+        case CurrencyCode::XRT:
+            return "XRT";
+        case CurrencyCode::T:
+            return "T";
+        case CurrencyCode::MULTI:
+            return "MULTI";
+        case CurrencyCode::APE:
+            return "APE";
+        case CurrencyCode::SYN:
+            return "SYN";
+        case CurrencyCode::GMT:
+            return "GMT";
+        case CurrencyCode::STG:
+            return "STG";
+        case CurrencyCode::RBC:
+            return "RBC";
+        case CurrencyCode::NYM:
+            return "NYM";
+        case CurrencyCode::XCN:
+            return "XCN";
+        case CurrencyCode::MV:
+            return "MV";
+        case CurrencyCode::LUNA2:
+            return "LUNA2";
+        case CurrencyCode::RPL:
+            return "RPL";
+        case CurrencyCode::TEER:
+            return "TEER";
+        case CurrencyCode::INTR:
+            return "INTR";
+        case CurrencyCode::CSM:
+            return "CSM";
+        case CurrencyCode::JUNO:
+            return "JUNO";
+        case CurrencyCode::ETHW:
+            return "ETHW";
+        case CurrencyCode::BSX:
+            return "BSX";
+        case CurrencyCode::NODL:
+            return "NODL";
+        case CurrencyCode::PARA:
+            return "PARA";
+        case CurrencyCode::GALX:
+            return "GALX";
+        case CurrencyCode::APT:
+            return "APT";
+        case CurrencyCode::EST:
+            return "EST";
         default:
             return "Unknown";
         }

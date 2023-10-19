@@ -55,9 +55,12 @@ namespace ttsdk
         virtual const char* GetTextB() const noexcept = 0;
         virtual const char* GetTextC() const noexcept = 0;
         virtual const char* GetTextTT() const noexcept = 0;
+        virtual const char* GetSenderSubId() const noexcept = 0;
 
         virtual uint32_t GetUserParameterCount() const noexcept = 0;
         virtual UserParameter GetUserParameter(const uint32_t index) const noexcept = 0;
+
+        virtual bool IsForcedCancel() const noexcept = 0;
 
         //! \brief only valid when the request is sent on for recovery
         virtual uint32_t GetChildOrderCount() const noexcept = 0;

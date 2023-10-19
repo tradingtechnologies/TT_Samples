@@ -21,6 +21,7 @@
 #include "enums/MarketId.h"
 #include "enums/CurrencyCode.h"
 #include "enums/ProductType.h"
+#include "enums/PriceDisplayType.h"
 
 /*
 #ifdef _AFXDLL
@@ -156,6 +157,7 @@ namespace ttsdk {
         virtual uint64_t GetLastTradingDate() const noexcept = 0;
         virtual uint64_t GetFirstDeliveryDate() const noexcept = 0;
         virtual uint64_t GetMaturityDate() const noexcept = 0;
+        virtual PriceDisplayType GetPriceDisplayType() const noexcept = 0;
         
         virtual size_t GetNumberLegs() const noexcept = 0;
         virtual InstrumentLegPtr GetLeg(const uint32_t index) const noexcept = 0;

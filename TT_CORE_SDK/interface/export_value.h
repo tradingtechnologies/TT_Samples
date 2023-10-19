@@ -15,49 +15,53 @@
  *
  ***************************************************************************/
 #pragma once
-#include <string.h>
-#include "enums/UserDataType.h"
+#include <string>
 
 namespace ttsdk {
 
-    struct UserParameter
+    //! BETA FEATURE - This is part of the beta support of Algos in the CORE SDK and is subject to 
+    //! change based on user feedback. Please make note of this if you choose to use it.
+    struct ExportValues
     {
     public:
-        UserParameter();
-        UserParameter(const UserParameter& other);
-        ~UserParameter();
-        UserParameter& operator= (const UserParameter& other);
+        static constexpr size_t MAX_EVENTS = 10; //!< Max supported export values in one update
+        size_t count;
+        
+        struct ExportValue
+        {
+        public:
 
-        char name[75] = { 0 };
-        UserDataType type = UserDataType::UserDataTypeEmpty;
-        double v_double = NAN;
-        double v_price = NAN;
-        int32_t v_int = -2147483648LL;
-        uint32_t v_uint = 0;
-        uint64_t v_timestamp = 0;
-        bool v_bool = false;
-        // must be allocated on the heap. Object will take
-        // ownership of memory assigned to v_string variable
-        char* v_string = nullptr;
+            ExportValue();
+            ExportValue(const ExportValue& other);
+            ~ExportValue();
+            ExportValue& operator= (const ExportValue& other);
+
+            std::string id;
+            double v_double = NAN;
+            int32_t v_int = -2147483648LL;
+            uint64_t v_timestamp = 0;
+            bool v_bool = false;
+            char* v_string = nullptr;
+
+        };
+    
+        ExportValue exportValues[MAX_EVENTS];
     };
 
-
-    inline UserParameter::UserParameter()
+    inline ExportValues::ExportValue::ExportValue()
     {
     }
 
-    inline UserParameter::UserParameter(const ttsdk::UserParameter& other)
+    inline ExportValues::ExportValue::ExportValue(const ExportValue& other)
     {
         *this = other;
     }
 
-    inline UserParameter& ttsdk::UserParameter::operator=(const ttsdk::UserParameter& other)
+    inline ExportValues::ExportValue& ExportValues::ExportValue::operator= (const ExportValue& other)
     {
-        strncpy(name, other.name, sizeof(name));
-        type = other.type;
+        id = other.id;
         v_double = other.v_double;
         v_int = other.v_int;
-        v_uint = other.v_uint;
         v_timestamp = other.v_timestamp;
         v_bool = other.v_bool;
         v_string = nullptr;
@@ -70,10 +74,9 @@ namespace ttsdk {
         return *this;
     }
 
-    inline UserParameter::~UserParameter() {
+    inline ExportValues::ExportValue::~ExportValue()
+    {
         if (v_string)
             delete[] v_string;
     }
-
-
 }

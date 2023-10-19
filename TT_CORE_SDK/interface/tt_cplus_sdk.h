@@ -29,7 +29,9 @@
 #include "consts.h"
 #include "sdk_options.h"
 #include "account.h"
+#include "customer_profile.h"
 #include "instrument.h"
+#include "algo_definition.h"
 #include "instrument_search.h"
 #include "prices.h"
 #include "order.h"
@@ -57,9 +59,10 @@ namespace ttsdk {
             SDKALGO_CONNECTED,  // SDK Algo support is connected and ready
             EDGE_NOT_CONNECTED,  // SDK could not connect to the edge for synthetic and position data
             SDKALGO_NOT_CONNECTED,  // SDK could not connect to the edge for SDK Algo support
-            DOWN,                // SDK is down
+            DOWN,                   // SDK is down
             INVALID_PRICE_CONFIG,     // Invalid Price Config file was downloaded
             ORDER_THROTTLE_LIMIT_EXCEEDED,  // Number of orders sent in 1 second exceeded the limit
+            EDGE_DISCONNECTED,      // SDK lost connectivity to the edge - it will reconnect
         };
 
         IEventHandler() {};
@@ -68,6 +71,8 @@ namespace ttsdk {
         virtual void OnAccountStatus(const AccountConnectionStatus& connectionStatus) {};
         virtual void OnInstrumentUpdated(InstrumentPtr /*oldInstrument*/, InstrumentPtr /*newInstrument*/) {};
         virtual void OnInstrumentDeleted(InstrumentPtr /*deletedInstrument*/) {};
+        virtual void OnAlgoDefinitionUpdated(AlgoDefinitionPtr /*oldAlgo*/, AlgoDefinitionPtr /*newAlgo*/) {};
+        virtual void OnAlgoDefinitionDeleted(AlgoDefinitionPtr /*deletedAlgo*/) {};
     };
     using IEventHandlerPtr = IEventHandler*;
 
@@ -133,6 +138,10 @@ namespace ttsdk {
     //! \details Returns an object through which the user accounts can be iterated and searched
     AccountCollectionPtr GetAccounts();
 
+    //! \brief Returns the CustomerProfiles
+    //! \details Returns an object containing collection of the CustomerProfile
+    CustomerProfileCollectionPtr GetCustomerProfiles();
+
     //! \brief Gets the instrument definition (active only).
     //! \details Returns an instrument for the given id. Returns nullptr if not found.
     InstrumentPtr GetInstrument(const uint64_t instrumentId, Instrument::ResponseCode& code);
@@ -148,10 +157,22 @@ namespace ttsdk {
     //!          Max of 100 results are returned.
     InstrumentSearchResultsPtr SearchInstruments(const char* query, const char* markets, Instrument::ResponseCode& code);
 
+   //! \brief Gets the algo definition (active only).
+    //! \details Returns an algo definition. Returns nullptr if not found.
+    AlgoDefinitionPtr GetAlgoDefinition(const char* algoName, AlgoDefinition::ResponseCode& code);
 
+    //! \brief Create orders for exchange or synthetic (ASE/AGG) instruments
     OrderPtr CreateOrderFromPriceSub(uint64_t priceSubscriptionId);
     OrderPtr CreateOrder(InstrumentPtr instrument);
     OrderPtr CreateOrder(uint64_t instrumentId);
+
+    //! BETA FEATURE - This is part of the beta support of Algos in the CORE SDK and is subject to 
+    //! change based on user feedback. Please make note of this if you choose to use it.
+    //! \brief Create order for an ADL Algo (akin to launching an algo in the gui)
+    OrderPtr CreateAlgoOrder(AlgoDefinitionPtr algo, InstrumentPtr instrument);
+    OrderPtr CreateAlgoOrder(AlgoDefinitionPtr algo, uint64_t instrumentId = 0);
+    //! -------------------
+
     
     bool DownloadFills(IFillDownloadCallbackHandlerPtr obj,
                        const uint64_t accountId = 0,
@@ -195,6 +216,6 @@ namespace ttsdk {
     //! \brief Returns the current position reserve bucket for the instrument and account
     PositionReserveBucket GetRiskBucket(InstrumentPtr instrument, const uint64_t accountId) noexcept;
 
-
+    const char* const GetExchAssocId() noexcept;
 
 }

@@ -59,6 +59,7 @@ namespace ttsdk
         virtual void GetExtendedRejectInfo(ttsdk::ExtendedRejectionInformation& info) const noexcept = 0;
         virtual const char* GetText() const noexcept = 0;
         //!@}
+        virtual uint64_t GetTransactionTime() const noexcept = 0;
 
 
     private:

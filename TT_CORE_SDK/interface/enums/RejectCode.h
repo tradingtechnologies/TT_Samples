@@ -94,6 +94,7 @@ namespace ttsdk
         ReviewStatusInvalidTransition             = 63,
         StagedOrderCancelRejectedChildNosUnacked  = 64,
         ClearingAccountModifyForbidden            = 65,
+        OtdRequestTimedOut                        = 66,
     };
 
     inline const char* ToString(const RejectCode value)
@@ -234,6 +235,8 @@ namespace ttsdk
             return "StagedOrderCancelRejectedChildNosUnacked";
         case RejectCode::ClearingAccountModifyForbidden:
             return "ClearingAccountModifyForbidden";
+        case RejectCode::OtdRequestTimedOut:
+            return "OtdRequestTimedOut";
         default:
             return "Unknown";
         }

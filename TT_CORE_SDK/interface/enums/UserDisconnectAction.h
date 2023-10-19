@@ -25,59 +25,29 @@
 
 namespace ttsdk
 {
-    enum class AlgoType
+    enum class UserDisconnectAction
     {
-        NotSet               = -1,
-        Adl                  = 0,
-        Sse                  = 1,
-        CustomLibrary        = 2,
-        Vendor               = 3,
-        TtCoreSdk            = 4,
-        Liquidate            = 5,
-        AutoLiquidate        = 6,
-        Aggregator           = 7,
-        Autospreader         = 8,
-        OrderCrossPrevention = 9,
-        Sniper               = 10,
-        Unknown              = 11,
-        Sdk                  = 12,
-        TtPremiumOrder       = 13,
+        NotSet  = -2,
+        Unknown = -1,
+        Leave   = 0,
+        Pause   = 1,
+        Cancel  = 2,
     };
 
-    inline const char* ToString(const AlgoType value)
+    inline const char* ToString(const UserDisconnectAction value)
     {
         switch (value)
         {
-        case AlgoType::NotSet:
+        case UserDisconnectAction::NotSet:
             return "NotSet";
-        case AlgoType::Adl:
-            return "Adl";
-        case AlgoType::Sse:
-            return "Sse";
-        case AlgoType::CustomLibrary:
-            return "CustomLibrary";
-        case AlgoType::Vendor:
-            return "Vendor";
-        case AlgoType::TtCoreSdk:
-            return "TtCoreSdk";
-        case AlgoType::Liquidate:
-            return "Liquidate";
-        case AlgoType::AutoLiquidate:
-            return "AutoLiquidate";
-        case AlgoType::Aggregator:
-            return "Aggregator";
-        case AlgoType::Autospreader:
-            return "Autospreader";
-        case AlgoType::OrderCrossPrevention:
-            return "OrderCrossPrevention";
-        case AlgoType::Sniper:
-            return "Sniper";
-        case AlgoType::Unknown:
+        case UserDisconnectAction::Unknown:
             return "Unknown";
-        case AlgoType::Sdk:
-            return "Sdk";
-        case AlgoType::TtPremiumOrder:
-            return "TtPremiumOrder";
+        case UserDisconnectAction::Leave:
+            return "Leave";
+        case UserDisconnectAction::Pause:
+            return "Pause";
+        case UserDisconnectAction::Cancel:
+            return "Cancel";
         default:
             return "Unknown";
         }
