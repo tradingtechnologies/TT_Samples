@@ -132,6 +132,9 @@ namespace ttsdk
         PendingNew                                        = 106,
         ReviewStatusInvalidTransition                     = 107,
         OrderTimedOut                                     = 108,
+        InvalidSecurityId                                 = 109,
+        UnknownMarketSegmentId                            = 110,
+        FieldMissingOrIncorrect                           = 111,
         ApiNotReady                                       = 200,
     };
 
@@ -349,6 +352,12 @@ namespace ttsdk
             return "ReviewStatusInvalidTransition";
         case OrderRejectReason::OrderTimedOut:
             return "OrderTimedOut";
+        case OrderRejectReason::InvalidSecurityId:
+            return "InvalidSecurityId";
+        case OrderRejectReason::UnknownMarketSegmentId:
+            return "UnknownMarketSegmentId";
+        case OrderRejectReason::FieldMissingOrIncorrect:
+            return "FieldMissingOrIncorrect";
         case OrderRejectReason::ApiNotReady:
             return "ApiNotReady";
         default:

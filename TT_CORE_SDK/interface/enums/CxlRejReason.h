@@ -135,6 +135,10 @@ namespace ttsdk
         ServerOverload                                    = 104,
         PendingNew                                        = 105,
         OrderExceedsThrottleLimit                         = 106,
+        TtsmpChangeNotSupported                           = 107,
+        InvalidSecurityId                                 = 109,
+        UnknownMarketSegmentId                            = 110,
+        FieldMissingOrIncorrect                           = 111,
     };
 
     inline const char* ToString(const CxlRejReason value)
@@ -357,6 +361,14 @@ namespace ttsdk
             return "PendingNew";
         case CxlRejReason::OrderExceedsThrottleLimit:
             return "OrderExceedsThrottleLimit";
+        case CxlRejReason::TtsmpChangeNotSupported:
+            return "TtsmpChangeNotSupported";
+        case CxlRejReason::InvalidSecurityId:
+            return "InvalidSecurityId";
+        case CxlRejReason::UnknownMarketSegmentId:
+            return "UnknownMarketSegmentId";
+        case CxlRejReason::FieldMissingOrIncorrect:
+            return "FieldMissingOrIncorrect";
         default:
             return "Unknown";
         }

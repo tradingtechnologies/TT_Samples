@@ -44,6 +44,8 @@ namespace ttsdk
         LimitReduceOnly                  = 40,
         MarketReduceOnly                 = 41,
         UserDefinedBlock                 = 42,
+        Pegged                           = 43,
+        Stripblock                       = 44,
         Unknown                          = 100,
     };
 
@@ -85,6 +87,10 @@ namespace ttsdk
             return "MarketReduceOnly";
         case OrderType::UserDefinedBlock:
             return "UserDefinedBlock";
+        case OrderType::Pegged:
+            return "Pegged";
+        case OrderType::Stripblock:
+            return "Stripblock";
         case OrderType::Unknown:
             return "Unknown";
         default:

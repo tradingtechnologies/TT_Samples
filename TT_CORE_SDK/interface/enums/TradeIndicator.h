@@ -49,6 +49,7 @@ namespace ttsdk
         CapElection      = 17,
         AutoExecution    = 18,
         Regular          = 19,
+        None             = 20,
     };
 
     inline const char* ToString(const TradeIndicator value)
@@ -99,6 +100,8 @@ namespace ttsdk
             return "AutoExecution";
         case TradeIndicator::Regular:
             return "Regular";
+        case TradeIndicator::None:
+            return "None";
         default:
             return "Unknown";
         }

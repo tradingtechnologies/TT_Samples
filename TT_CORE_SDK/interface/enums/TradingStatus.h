@@ -93,6 +93,7 @@ namespace ttsdk
         Shocloserestriction     = 62,
         Pretrading              = 63,
         Posttrading             = 64,
+        None                    = 65,
     };
 
     inline const char* ToString(const TradingStatus value)
@@ -231,6 +232,8 @@ namespace ttsdk
             return "Pretrading";
         case TradingStatus::Posttrading:
             return "Posttrading";
+        case TradingStatus::None:
+            return "None";
         default:
             return "Unknown";
         }
