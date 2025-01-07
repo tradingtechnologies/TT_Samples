@@ -48,6 +48,9 @@ namespace TTAPI_Sample_Console_PriceDepthSubscription
                 // set any other SDK options you need configured
                 apiConfig.ProfitLossCalculationType = tt_net_sdk.ProfitLossCalculationType.RiskWaterfall;
 
+                // use the binary protocol for communicating with TT
+                apiConfig.BinaryProtocol = true;
+
                 // Start the TT API on the same thread
                 TTNetApiFunctions tf = new TTNetApiFunctions();
 
