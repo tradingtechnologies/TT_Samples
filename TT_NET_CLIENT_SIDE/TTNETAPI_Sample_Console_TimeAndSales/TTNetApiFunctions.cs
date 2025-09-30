@@ -33,9 +33,9 @@ namespace TTAPI_Sample_Console_TimeAndSales
 
         //Instrument Information 
         private readonly string m_market = "CME";
-        private readonly string m_product = "GE";
+        private readonly string m_product = "SR3";
         private readonly string m_prodType = "Future";
-        private readonly string m_alias = "GE Sep20";
+        private readonly string m_alias = "SR3 Sep25";
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -174,12 +174,42 @@ namespace TTAPI_Sample_Console_TimeAndSales
             if (e.Error == null)
             {
                 // More than one LTP/LTQ may be received in a single event
+                DateTime now = DateTime.Now;
                 foreach (TimeAndSalesData ts in e.Data)
                 {
                     Price ltp = ts.TradePrice;
                     Quantity ltq = ts.TradeQuantity;
-                    Console.WriteLine("\n[{0}] {1} isOTC={2} isImplied={3} isLegTrade={4} {5} {6} @ {7}", ts.TimeStamp, ts.Instrument.Name, ts.IsOverTheCounter, ts.IsImplied, ts.IsLegTrade, ts.Direction, ts.TradePrice, ts.TradeQuantity);
+                    DateTime tradeDate = ts.TimeStamp;
+                    TimeSpan timeSpan = now - tradeDate;
+                    Console.WriteLine("\n[{0}] {1} isOTC={2} isImplied={3} isLegTrade={4} {5} {6} @ {7} {8}", ts.TimeStamp, ts.Instrument.Name, ts.IsOverTheCounter, ts.IsImplied, ts.IsLegTrade, ts.Direction, ts.TradePrice, ts.TradeQuantity);
                 }
+                /*
+                // More than one LTP/LTQ may be received in a single event
+                decimal tickSize = e.Instrument.InstrumentDetails.TickSize;
+                decimal displayFactor = e.Instrument.InstrumentDetails.DisplayFactor;
+
+                for (int i = 0; i < e.Data.Count; i++ )
+                {
+                    TradeEventInfo trade = new TradeEventInfo();
+                    trade.Price = Decimal.Parse(e.Data.ElementAt(i).TradePrice.ToString());
+                    trade.Quantity = e.Data.ElementAt(i).TradeQuantity.Value;
+                    trade.Direction = e.Data.ElementAt(i).Direction;
+                    if (trade.Direction == TradeDirection.Hit)
+                    {
+                        trade.TopBid = e.Data.ElementAt(i).TradePrice.Value * displayFactor;
+                        trade.MinAsk = (e.Data.ElementAt(i).TradePrice.Value + tickSize) * displayFactor;
+                    }
+                    else
+                    {
+                        trade.TopBid = (e.Data.ElementAt(i).TradePrice.Value - tickSize) * displayFactor;
+                        trade.MinAsk = e.Data.ElementAt(i).TradePrice.Value * displayFactor;
+                    }
+                    trade.UTCTime = e.Data.ElementAt(i).TimeStamp.ToUniversalTime();
+                    trade.VectorArrivalTimeUTC = now.ToUniversalTime();
+                    
+                    Logger.Info("{0},{1},{2},{3},{4},{5},{6},{7},{8}", tradeCounter++, trade.Price, trade.Quantity, trade.Direction, trade.TopBid, trade.MinAsk, tradeDate.Ticks, now.Ticks, timeSpan.TotalMilliseconds);
+                }
+                */
 
             }
             else

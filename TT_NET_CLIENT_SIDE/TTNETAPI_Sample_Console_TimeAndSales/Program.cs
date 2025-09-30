@@ -21,10 +21,10 @@ namespace TTAPI_Sample_Console_TimeAndSales
             try
             {
                 // Add your app secret Key here. It looks like: 00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000
-                string appSecretKey = "Add your app secret Key here";
+                string appSecretKey = "f41b4199-996c-d9ec-bcec-6733da98de3a:d5b0b803-3820-730b-9539-58499ec02486";
 
                 // Set the environment the app needs to run in here
-                tt_net_sdk.ServiceEnvironment environment = tt_net_sdk.ServiceEnvironment.UatCert;
+                tt_net_sdk.ServiceEnvironment environment = tt_net_sdk.ServiceEnvironment.DevCert;
                 // Select the mode in which you wish to run -- Client (outside the TT datacenter)  
                 //                                          or Server (on a dedicated machine inside TT datacenter)
                 tt_net_sdk.TTAPIOptions.SDKMode sdkMode = tt_net_sdk.TTAPIOptions.SDKMode.Client;
