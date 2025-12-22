@@ -47,6 +47,7 @@ bool TTWrapper::Start(const std::string& appkey, const ttsdk::Environment env)
 
     ttsdk::TTSDKOptions options;
     options.environment = env;
+    options.enable_pnl = true;
     options.app_key_secret = appkey.c_str();
     // has to be unique and remain for the same for this application
     // instance across process runs

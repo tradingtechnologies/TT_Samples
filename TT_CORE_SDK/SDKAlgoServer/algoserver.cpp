@@ -66,7 +66,6 @@ int main(int argc, char* argv[])
                 sEnv = argv[i];
                 if (sEnv == "ProdLive") env = ttsdk::Environment::ProdLive;
                 else if (sEnv == "ProdSim") env = ttsdk::Environment::ProdSim;
-                else if (sEnv == "ProdDelayed") env = ttsdk::Environment::ProdDelayed;
                 else if (sEnv == "UatCert") env = ttsdk::Environment::UatCert;
                 else if (sEnv == "DevCert")env = ttsdk::Environment::DevCert;
                 else {
