@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29123.88
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36603.0 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTNETAPI_Sample_Console_OrderRouting", "TTNETAPI_Sample_Console_OrderRouting\TTNETAPI_Sample_Console_OrderRouting.csproj", "{7DCAAE8C-3F6F-447F-AB8C-4BC2CB134F76}"
 EndProject
@@ -22,6 +22,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTNETAPI_Sample_Console_PriceDetailedDepthSubscription_EPIQ", "TTNETAPI_Sample_Console_PriceDetailedDepthSubscription_EPIQ\TTNETAPI_Sample_Console_PriceDetailedDepthSubscription_EPIQ.csproj", "{FF3A52E7-BEE5-4AF7-BBD9-6351A39F2E5C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTNETAPI_Sample_WPF_VolumeRatio", "TTNETAPI_Sample_WPF_VolumeRatio\TTNETAPI_Sample_WPF_VolumeRatio.csproj", "{3A69FD09-6842-4655-99CE-6CD1FD5555CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTNETAPI_Sample_Console_OMA_ADL", "TTNETAPI_Sample_Console_OMA_ADL\TTNETAPI_Sample_Console_OMA_ADL.csproj", "{F8E9A1B2-3C4D-5E6F-7A8B-9C0D1E2F3A4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{3A69FD09-6842-4655-99CE-6CD1FD5555CE}.Debug|x64.Build.0 = Debug|x64
 		{3A69FD09-6842-4655-99CE-6CD1FD5555CE}.Release|x64.ActiveCfg = Release|x64
 		{3A69FD09-6842-4655-99CE-6CD1FD5555CE}.Release|x64.Build.0 = Release|x64
+		{F8E9A1B2-3C4D-5E6F-7A8B-9C0D1E2F3A4B}.Debug|x64.ActiveCfg = Debug|x64
+		{F8E9A1B2-3C4D-5E6F-7A8B-9C0D1E2F3A4B}.Debug|x64.Build.0 = Debug|x64
+		{F8E9A1B2-3C4D-5E6F-7A8B-9C0D1E2F3A4B}.Release|x64.ActiveCfg = Release|x64
+		{F8E9A1B2-3C4D-5E6F-7A8B-9C0D1E2F3A4B}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
