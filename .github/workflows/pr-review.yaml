@@ -1,0 +1,42 @@
+name: Claude PR Review
+
+# Automatic Claude code review for pull requests.
+#
+# When it runs: on every PR raised in this repo — whether opened directly or
+# created as a draft and later marked ready for review. Claude reads the diff
+# and posts inline review comments on it. Findings carry a confidence score;
+# anything below the threshold (default 76) is dropped rather than posted.
+#
+# On demand: add a top-level PR comment containing `@claude-review`.
+#
+# This file is only a thin caller. The workflow, the review prompt and the
+# coding standards all live in tradingtechnologies/tt-pipeline-github-actions:
+#   workflow   .github/workflows/claude_pr_review.yaml
+#   standards  standards/<language>-standards.md  (only those matching languages
+#              present in the diff are read)
+#   docs       .github/docs/workflows/claude_pr_workflows.md
+#
+# Both the prompt and the standards are overridable per repo, with no change to
+# this file:
+#   - CLAUDE.md in the repo root is read as authoritative project rules
+#   - .github/standards/<language>-standards.md replaces the bundled file of the
+#     same name; bundled files you don't override stay in effect, and a new
+#     filename adds a language
+#   - .github/prompt-override.md wins over conflicting parts of the shipped
+#     review prompt
+#   - behaviour knobs (confidence_threshold, trigger_phrase, model,
+#     timeout_minutes, ...) are `with:` inputs on the reusable workflow
+on:
+  pull_request:
+    types: [opened, ready_for_review]
+  pull_request_review_comment:
+    types: [created]
+  issue_comment:
+    types: [created]
+
+jobs:
+  review:
+    uses: tradingtechnologies/tt-pipeline-github-actions/.github/workflows/claude_pr_review.yaml@main
+    secrets:
+      GH_BEDROCK_IAM: ${{ secrets.GH_BEDROCK_IAM }}
+      STANDARDS_READ_TOKEN: ${{ secrets.STANDARDS_READ_TOKEN }}
